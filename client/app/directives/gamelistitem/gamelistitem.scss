@@ -1,0 +1,21 @@
+.gameItem
+{
+    cursor: pointer;
+    background-color: #fff;
+
+    &:hover
+    {
+        background-color: #eee;
+    }
+
+    .gameDetails
+    {
+        margin-bottom: 10px;
+        color: #999;
+
+        span
+        {
+            padding-right: 10px;
+        }
+    }
+}

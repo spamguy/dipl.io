@@ -1,0 +1,149 @@
+<div class="md-whiteframe-2dp">
+    <md-toolbar class="md-toolbar-tools" id="mapToolbar" ng-if="$ctrl.header">
+        <div layout="column" layout-align="center center">
+            <div class="md-title">{{$ctrl.service.phase.season}} {{$ctrl.service.phase.year}}</div>
+            <div ng-switch="$ctrl.service.game.status">
+                <div ng-switch-when="0" class="md-caption">(Game has not started)</div>
+                <!-- FIXME: Display more intelligent timer. Wrap seconds-only timer in humanizeDuration()? -->
+                <div ng-switch-when="1" class="md-caption">Deadline in <timer ng-attr-end-time="$ctrl.getFormattedDeadline($ctrl.service.phase)">{{days}} days, {{hours}} hours, {{minutes}} minute{{minutesS}}</timer></div>
+                <div ng-switch-when="2" class="md-caption">Game ended!</div>
+            </div>
+        </div>
+        <span flex></span>
+        <div ng-if="!$ctrl.readonly">
+            <md-button class="md-icon-button" aria-label="Change action" hide-gt-sm ng-click="$ctrl.showOrderSheet()">
+                <md-icon md-svg-icon="{{$ctrl.service.getCurrentAction()}}"></md-icon>
+                <md-tooltip>Change action</md-tooltip>
+            </md-button>
+            <md-button ng-if="$ctrl.service.userCanMove()" ng-click="$ctrl.service.setCurrentAction('hold')" class="md-icon-button" aria-label="Hold" hide-sm hide-xs>
+                <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('hold') }"></md-icon>
+                <md-tooltip>Hold</md-tooltip>
+            </md-button>
+            <md-button ng-if="$ctrl.service.userCanMove() || $ctrl.service.userCanRetreat()" ng-click="$ctrl.service.setCurrentAction('move')" class="md-icon-button" aria-label="Move" hide-sm hide-xs>
+                <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('move') }"></md-icon>
+                <md-tooltip>Move</md-tooltip>
+            </md-button>
+            <md-button ng-if="$ctrl.service.userCanMove()" ng-click="$ctrl.service.setCurrentAction('support')" class="md-icon-button" aria-label="Support" hide-sm hide-xs>
+                <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('support') }"></md-icon>
+                <md-tooltip>Support</md-tooltip>
+            </md-button>
+            <md-button ng-if="$ctrl.service.userCanMove()" ng-click="$ctrl.service.setCurrentAction('convoy')" class="md-icon-button" aria-label="Convoy" hide-sm hide-xs>
+                <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('convoy') }"></md-icon>
+                <md-tooltip>Convoy</md-tooltip>
+            </md-button>
+            <md-button ng-if="$ctrl.service.userCanAdjust()" ng-click="$ctrl.service.setCurrentAction('build')" class="md-icon-button" aria-label="Build" hide-sm hide-xs>
+                <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('build') }"></md-icon>
+                <md-tooltip>Build</md-tooltip>
+            </md-button>
+            <md-button ng-if="$ctrl.service.userCanAdjust()" ng-click="$ctrl.service.setCurrentAction('disband')" class="md-icon-button" aria-label="Disband" hide-sm hide-xs>
+                <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('disband') }"></md-icon>
+                <md-tooltip>Disband</md-tooltip>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <div class="mapContainer" ng-class="{'notStarted': !$ctrl.service.phase}" ng-style="{'background-image':'url({{$ctrl.imagePath}})'}">
+        <svg width="100%" ng-attr-view_box="{{$ctrl.viewBox}}">
+            <defs>
+                <marker id="move" viewBox="0 -5 10 10" markerWidth="5" markerHeight="5" orient="auto">
+                    <path d="M0,-5L10,0L0,5"></path>
+                </marker>
+                <marker id="failedmove" viewBox="0 -5 10 10" markerWidth="5" markerHeight="5" orient="auto">
+                    <path d="M0,-5L10,0L0,5"></path>
+                </marker>
+                <marker id="support" viewBox="-6 -6 12 12" markerWidth="5" markerHeight="5" orient="auto">
+                    <path d="M 0,0m -5,0a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0"></path>
+                </marker>
+                <marker id="failedsupport" viewBox="-6 -6 12 12" markerWidth="5" markerHeight="5" orient="auto">
+                    <path d="M 0,0m -5,0a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0"></path>
+                </marker>
+                <marker id="convoy" viewBox="-1 -5 2 10" markerWidth="5" markerHeight="5" orient="auto">
+                    <path d="M 0,0 m -1,-5 L 1,-5 L 1,5 L -1,5 Z"></path>
+                </marker>
+                <marker id="failedconvoy" viewBox="-1 -5 2 10" markerWidth="5" markerHeight="5" orient="auto">
+                    <path d="M 0,0 m -1,-5 L 1,-5 L 1,5 L -1,5 Z"></path>
+                </marker>
+
+                <!-- Supply centre template -->
+                <path d="m 15.64,213.212 117.92,105.865 -33.174,154.959 c -1.035,4.834 0.876,9.824 4.876,12.729 3.999,2.906 9.335,3.181 13.613,0.704 l 137.124,-79.434 137.124,79.434 c 1.944,1.126 4.107,1.684 6.265,1.684 2.588,0 5.167,-0.802 7.348,-2.387 4,-2.906 5.911,-7.896 4.876,-12.729 L 378.44,319.077 496.359,213.212 c 3.679,-3.302 5.065,-8.462 3.538,-13.164 -1.528,-4.702 -5.683,-8.061 -10.6,-8.571 L 331.671,175.143 267.425,30.279 c -2.004,-4.519 -6.483,-7.432 -11.427,-7.432 -4.944,0 -9.423,2.914 -11.427,7.433 L 180.329,175.143 22.702,191.477 c -4.917,0.51 -9.072,3.869 -10.6,8.571 -1.528,4.702 -0.141,9.862 3.538,13.164 z" id="sc"></path>
+            </defs>
+            <g class="scLayer">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                     ng-repeat="province in $ctrl.service.getProvinceArray() | provinceHasSC"
+                     xlink:href="" ng-href="{{$ctrl.service.getSCPath(province)}}"
+                     ng-attr-transform="{{$ctrl.service.getSCTransform(province)}}"
+                     ng-attr-fill="{{$ctrl.service.getSCFill(province)}}"
+                     class="sc">
+                </use>
+            </g>
+            <!-- TODO: Don't hard-code transform attribute -->
+            <!-- TODO: Break into separate component -->
+            <g class="mouseLayer">
+                <path ng-repeat="(p, d) in $ctrl.paths"
+                      id="{{p}}"
+                      ng-attr-d="{{d}}"
+                      ng-click="$ctrl.service.inputCommand(p, $ctrl.onOrderSave)"
+                      ng-class="{'clicked': $ctrl.service.isInPendingCommand(p)}">
+                </path>
+            </g>
+
+            <g class="unitLayer">
+                <g class="dislodgedUnitLayer">
+                    <circle ng-repeat="province in $ctrl.service.getProvinceArray() | provinceHasUnit:1:true"
+                            id="{{province.p}}-dislodged-army"
+                            r="8"
+                            stroke="#f00"
+                            stroke-width="3px"
+                            ng-attr-cx="{{province.unitLocation.x + 8}}"
+                            ng-attr-cy="{{province.unitLocation.y + 8}}"
+                            ng-attr-fill="{{province.dislodged.fill}}">
+                    </circle>
+
+                    <rect ng-repeat="province in $ctrl.service.getProvinceArray() | provinceHasUnit:2:true"
+                          id="{{province.p.replace('/', '-')}}-dislodged-fleet"
+                          height="8"
+                          width="16"
+                          stroke="#f00"
+                          stroke-width="3px"
+                          ng-attr-x="{{province.unitLocation.x + 8 - 16/2}}"
+                          ng-attr-y="{{province.unitLocation.y + 8 - 8/2}}"
+                          ng-attr-fill="{{province.dislodged.fill}}">
+                    </rect>
+                </g>
+
+                <circle ng-repeat="province in $ctrl.service.getProvinceArray() | provinceHasUnit:1:false"
+                        id="{{province.p}}-army"
+                        r="8"
+                        stroke="#000"
+                        stroke-width="1px"
+                        ng-attr-cx="{{province.unitLocation.x}}"
+                        ng-attr-cy="{{province.unitLocation.y}}"
+                        ng-attr-fill="{{province.unit.fill}}">
+                </circle>
+
+                <rect ng-repeat="province in $ctrl.service.getProvinceArray() | provinceHasUnit:2:false"
+                      id="{{province.p.replace('/', '-')}}-fleet"
+                      height="8"
+                      width="16"
+                      stroke="#000"
+                      stroke-width="1px"
+                      ng-attr-x="{{province.unitLocation.x - 16/2}}"
+                      ng-attr-y="{{province.unitLocation.y - 8/2}}"
+                      ng-attr-fill="{{province.unit.fill}}">
+                </rect>
+            </g>
+
+            <g class="moveLayer"></g>
+        </svg>
+    </div>
+
+    <md-toolbar class="md-toolbar-tools" id="mapNavToolbar" ng-if="$ctrl.header && $ctrl.service.phase">
+        <md-icon md-menu-origin md-svg-icon="first" ng-click="$ctrl.goToIndex(1)" class="svg48px"></md-icon>
+        <md-icon md-menu-origin md-svg-icon="previous" ng-click="$ctrl.goToIndex($ctrl.service.phase.phaseIndex - 1)" class="svg48px"></md-icon>
+        <span hide-sm hide-xs>Previous</span>
+        <span flex></span>
+        <span hide-sm hide-xs>Next</span>
+        <md-icon md-menu-origin md-svg-icon="next" ng-click="$ctrl.goToIndex($ctrl.service.phase.phaseIndex + 1)" class="svg48px"></md-icon>
+        <md-icon md-menu-origin md-svg-icon="last" ng-click="$ctrl.goToIndex(null)" class="svg48px"></md-icon>
+    </md-toolbar>
+</div>

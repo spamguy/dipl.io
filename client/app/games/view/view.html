@@ -1,0 +1,14 @@
+<div layout="column" layout-align="center center">
+    <h1 class="md-display-2 typewriter">{{service.game.name}}</h1>
+    <h1 class="md-headline typewriter" ng-if="currentUserInGame.power">Playing as {{currentUserInGame.power ? powers[currentUserInGame.power].name : 'Game Master'}}</h1>
+</div>
+
+<div layout-gt-xs="row" layout-xs="column" layout-margin>
+    <div flex="65" flex-xs="100">
+        <sg-map service="service" arrows="true" header="true" readonly="readonly" svg="svg" />
+    </div>
+
+    <div layout="row" class="md-whiteframe-2dp" flex>
+        <sg-game-tools layout="row" service="service" powers="powers" flex />
+    </div>
+</div>

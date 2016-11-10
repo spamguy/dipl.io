@@ -1,0 +1,26 @@
+{
+    "globals": {
+        "angular": true,
+        "inject": true,
+        "_": true,
+        "d3": true,
+        "io": true,
+        "expect": true,
+        "sinon": true,
+        "$": true
+    },
+    "extends": "semistandard",
+    "env": {
+        "mocha": true,
+        "browser": true,
+        "node": true,
+        "es6": false
+    },
+    "rules": {
+        "indent": [2, 4],
+        "space-before-function-paren": [2, "never"],
+        "one-var": [2, "always"],
+        "brace-style": [2, "stroustrup", { "allowSingleLine": true }],
+        "curly": [2, "multi-or-nest", "consistent"]
+    }
+}

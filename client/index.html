@@ -1,0 +1,147 @@
+<!doctype html>
+<html class="no-js" ng-app="diplomacy" ng-strict-di>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="dipl.io is a modern browser implementation of the board game Diplomacy. It's free, open source, fast, and powerful!" />
+    <meta name="viewport" content="width=device-width">
+    <base href="/">
+    <title>dipl.io</title>
+
+    <!-- build:css app.min.css -->
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css" />
+    <link href="../bower_components/v-accordion/dist/v-accordion.css" rel="stylesheet" type="text/css" />
+    <link href="../bower_components/angular-material/angular-material.css" rel="stylesheet" type="text/css" />
+    <link href="temp/app.css" rel="stylesheet" type="text/css" />
+    <!-- endbuild -->
+
+    <!-- @if NODE_ENV='development' -->
+    <script src="https://0.0.0.0:35729/livereload.js"></script>
+    <!-- @endif -->
+</head>
+<body ng-controller="AppController">
+    <md-toolbar style="background-color:transparent;" ng-if="$storage.theUser">
+        <div class="md-toolbar-tools">
+            <span class="md-primary logo"><a ui-sref="main.home">dipl<span class="stab">.</span>io</a></span>
+            <span flex></span>
+            <div class="info" layout="row">
+                <span class="email" hide-sm hide-xs>{{$storage.theUser.Email}}</span>
+
+                <md-menu md-position-mode="target-right target">
+                    <md-icon md-menu-origin md-svg-icon="account" ng-click="$mdOpenMenu($event)" class="svg48px"></md-icon>
+                    <md-menu-content>
+                        <md-menu-item>
+                            <md-button ui-sref="profile.games">
+                                <span md-menu-align-target>My games</span>
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ui-sref="games.list">
+                                <span md-menu-align-target>Join a game</span>
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ui-sref="games.new">
+                                <span md-menu-align-target>Start a new game</span>
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ui-sref="games.archive">
+                                <span md-menu-align-target>View old/active games</span>
+                            </md-button>
+                        </md-menu-item>
+                        <md-divider></md-divider>
+                        <md-menu-item>
+                            <md-button ng-click="logOut()">
+                                <div layout="row">
+                                    <md-icon md-menu-align-target md-svg-icon="eject"></md-icon>
+                                    <p flex>Log out</p>
+                                </div>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </div>
+        </div>
+    </md-toolbar>
+
+    <div layout="column">
+        <div><ui-view /></div>
+
+        <div>
+            <footer>
+                v{{VERSION}}-{{TIMESTAMP}} |
+                <a href="https://github.com/spamguy/diplomacy">dipl.io on GitHub</a> |
+                <a href="https://blog.dipl.io">dipl.io Blog</a>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-2582000-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+    <!-- build:js vendor.min.js -->
+    <!-- bower:js -->
+    <script src="../bower_components/pluralize/pluralize.js"></script>
+    <script src="../bower_components/d3/d3.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <!-- <script src="../bower_components/angular-typewrite/dist/angular-typewrite.js"></script> -->
+    <script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="../bower_components/restangular/dist/restangular.js"></script>
+    <script src="../bower_components/ngstorage/ngStorage.js"></script>
+    <script src="../bower_components/angular-messages/angular-messages.js"></script>
+    <script src="../bower_components/angular-animate/angular-animate.js"></script>
+    <script src="../bower_components/angular-aria/angular-aria.js"></script>
+    <script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="../bower_components/angular-timer/dist/angular-timer.js"></script>
+    <script src="../bower_components/angular-material/angular-material.js"></script>
+    <script src="../bower_components/lodash/lodash.js"></script>
+    <script src="../bower_components/humanize-duration/humanize-duration.js"></script>
+    <script src="../bower_components/moment/min/moment-with-locales.js"></script>
+    <script src="../bower_components/v-accordion/dist/v-accordion.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js app.min.js -->
+    <script src="temp/constants.js"></script>
+
+    <script src="app/services/login/login.service.js"></script>
+    <script src="app/services/user/user.service.js"></script>
+    <script src="app/services/game/game.service.js"></script>
+    <script src="app/services/map/map.service.js"></script>
+
+    <script src="app/app.module.js"></script>
+    <script src="app/games/games.module.js"></script>
+    <script src="app/main/main.module.js"></script>
+    <script src="app/profile/profile.module.js"></script>
+
+    <script src="app/app.controller.js"></script>
+    <script src="app/main/home/home.controller.js"></script>
+    <script src="app/main/login/login.controller.js"></script>
+    <script src="app/filters/provinceHasSC/provinceHasSC.filter.js"></script>
+    <script src="app/filters/provinceHasUnit/provinceHasUnit.filter.js"></script>
+    <script src="app/components/map/map.component.js"></script>
+    <script src="app/components/map/ordersheet/ordersheet.controller.js"></script>
+    <script src="app/components/map/map.controller.js"></script>
+    <script src="app/components/gametools/gametools.component.js"></script>
+    <script src="app/components/gametools/gametools.controller.js"></script>
+    <script src="app/directives/gametoolsprovincelistitem/gametoolsprovincelistitem.directive.js"></script>
+    <script src="app/directives/gamelistitem/gamelistitem.directive.js"></script>
+    <script src="app/games/view/filters/variant.filter.js"></script>
+    <script src="app/games/games.controller.js"></script>
+    <script src="app/games/archive/archive.controller.js"></script>
+    <script src="app/games/view/view.controller.js"></script>
+    <script src="app/profile/usergames/usergames.controller.js"></script>
+    <script src="app/directives/passwordconfirm/passwordconfirm.directive.js"></script>
+    <script src="app/profile/usergames/usergames.controller.js"></script>
+    <script src="app/games/new/newgame.controller.js"></script>
+    <!-- endbuild -->
+</body>
+</html>

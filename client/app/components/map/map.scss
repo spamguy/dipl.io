@@ -1,0 +1,100 @@
+#mapToolbar md-icon.active
+{
+    fill: yellow;
+}
+
+#mapNavToolbar svg
+{
+    fill: #fff;
+}
+
+.mapContainer
+{
+    background-repeat: no-repeat;
+    background-size: 100%;
+
+    &.notStarted
+    {
+        opacity: 0.3;
+    }
+}
+
+.sc
+{
+    stroke: #000;
+    stroke-width: 30px;
+}
+
+path.link
+{
+    fill: none;
+    stroke-width: 3px;
+}
+
+g.moveLayer .hold
+{
+    stroke-width: 3px;
+    fill: none;
+    stroke: #000;
+}
+
+.ok
+{
+    stroke: #000;
+}
+
+.failed
+{
+    stroke: #f00;
+    stroke-dasharray: 10, 5;
+}
+
+/* ARROWHEADS
+ *
+ * SVG 1.x lameness: CSS must be defined on a per-marker basis. See http://stackoverflow.com/a/16665510/260460.
+ * Supposedly made easier by SVG 2, but browser support is low to nil.
+ */
+marker#move, marker#support, marker#convoy
+{
+    fill: #000;
+}
+
+marker#failedmove, marker#failedsupport, marker#failedconvoy
+{
+    fill: #f00;
+}
+
+/* HOVER */
+g.mouseLayer path
+{
+    fill: #000;
+    fill-opacity: 0.0;
+    outline: none;
+
+    &:hover
+    {
+        fill-opacity: 0.1;
+        cursor: pointer;
+    }
+
+    &.clicked
+    {
+        transition-property: fill, fill-opacity;
+        transition-duration: 0.2s;
+        transition-timing-function: linear;
+        fill: #a00;
+        fill-opacity: 0.5;
+    }
+}
+
+h1.notStarted
+{
+    position: absolute;
+    z-index: 10;
+    padding: 100px;
+}
+
+h1.started
+{
+    display: none;
+}

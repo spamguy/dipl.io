@@ -1,0 +1,6 @@
+// Get rid of little strips of whitespace above/below lists inside tabs.
+md-tab-content md-list, div md-list
+{
+    padding-top: 0;
+    padding-bottom: 0;
+}

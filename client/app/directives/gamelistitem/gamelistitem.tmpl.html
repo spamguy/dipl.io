@@ -1,0 +1,24 @@
+<div layout="column" layout-fill>
+    <div layout="row">
+        <div flex="85" flex-xs="75">
+            <div>
+                <h1 class="md-title typewriter" ui-sref="games.view({ id: '{{game.id}}' })">{{game.name}}</h1>
+                <!-- <h2 class="md-subhead" ng-if="joinable">{{game.description ? game.description : '(no description)'}}</h2> -->
+            </div>
+            <div class="gameDetails">
+                <!-- <md-icon md-svg-icon="calendar"></md-icon>
+                <span id="phaseDescription" aria-label="Current phase">{{phaseDescription}}</span>
+                <md-icon md-svg-icon="clock"></md-icon> -->
+                <span>{{readableTimer}}</span>
+                <!-- <md-icon md-svg-icon="map" ng-click="showMapDialog($event)"></md-icon> -->
+            </div>
+        </div>
+        <div flex layout="column" layout-align="center center">
+            <!-- HACK: Tooltip does not work on disabled buttons. -->
+            <md-tooltip ng-if="joinable && reasonForNoJoin()">{{reasonForNoJoin()}}</md-tooltip>
+            <md-button class="md-raised md-primary" ng-if="joinable" ng-disabled="reasonForNoJoin()" ng-click="showJoinDialog()">Join</md-button>
+        </div>
+    </div>
+
+    <md-divider flex></md-divider>
+</div>

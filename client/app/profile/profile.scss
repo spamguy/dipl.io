@@ -1,0 +1,52 @@
+@import 'usergames/usergames.scss';
+
+.listingContainer
+{
+    width: 700px;
+    margin: 0 auto;
+}
+
+.gameListing
+{
+    $game-corner-radius: 5px;
+
+    width: 100%;
+    cursor: pointer;
+    -webkit-border-radius: $game-corner-radius;
+    -moz-border-radius: $game-corner-radius;
+    border-radius: $game-corner-radius;
+
+    td
+    {
+        padding: 10px;
+    }
+
+    &:hover
+    {
+        background-color: #878b84;
+
+        hr
+        {
+            border-top: 1px solid grey;
+        }
+    }
+
+    hr
+    {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    td.map
+    {
+        width: 100px;
+        padding-right: 10px;
+    }
+}
+
+.gameName
+{
+    font-family: 'Josefin Sans';
+    font-size: 18pt;
+    font-weight: 700;
+}
