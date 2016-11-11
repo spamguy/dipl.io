@@ -71,9 +71,8 @@ angular.module('games', [
             game: ['gameService', '$stateParams', function(gameService, $stateParams) {
                 return gameService.getGame($stateParams.id);
             }],
-            phase: ['gameService', '$stateParams', function(gameService, $stateParams) {
-                var phaseIndex = $stateParams.phaseIndex;
-                return gameService.getPhase($stateParams.id, phaseIndex);
+            phases: ['gameService', '$stateParams', function(gameService, $stateParams) {
+                return gameService.getPhases($stateParams.id);
             }],
             svg: ['gameService', 'game', function(gameService, game) {
                 return gameService.getVariantSVG(game.variant);

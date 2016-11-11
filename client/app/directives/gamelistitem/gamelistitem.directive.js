@@ -12,18 +12,16 @@ angular.module('gamelistitem.directive', ['ngMaterial'])
             joinable: '=joinable'
         },
         link: function(scope, element, attrs) {
-            var timeUntilDeadline;
-            gameService.getPhase(scope.game.id, null)
-            .then(function(phase) {
-                scope.phase = phase;
+            var timeUntilDeadline,
+                currentPhase;
+            gameService.getPhases(scope.game.ID)
+            .then(function(phases) {
+                scope.phases = phases.Properties;
+                currentPhase = _.last(scope.phases);
             });
 
             scope.reasonForNoJoin = function() {
                 // Breaking this down into individual rules to avoid one monstrous if() statement.
-
-                // User doesn't have enough points.
-                if (scope.game.minimumDedication > scope.$root.$storage.theUser.actionCount)
-                    return 'You need a minimum reliability of ' + scope.game.minimumDedication + ' to join.';
 
                 // User belongs to game already, whether as GM or user.
                 if (gameService.isPlayer(scope.game))
@@ -79,25 +77,19 @@ angular.module('gamelistitem.directive', ['ngMaterial'])
                 });
             };
 
-            // gameService.getMoveData(scope.game.id).then(function(phase) {
-            switch (scope.game.status) {
-            case 0:
-                scope.phaseDescription = '(waiting on ' + (scope.game.maxPlayers - scope.game.players.length) + ' more players)';
-                scope.readableTimer = humanizeDuration(scope.game.moveClock * 60 * 60 * 1000) + ' deadline';
-                break;
-            case 1:
-                if (scope.phase) {
-                    timeUntilDeadline = new Date(scope.phase.deadline).getTime() - new Date().getTime();
-                    scope.phaseDescription = scope.phase.season + ' ' + scope.phase.year;
-                    scope.readableTimer = humanizeDuration(timeUntilDeadline, { largest: 2, round: true });
-                }
-                break;
-            case 2:
+            if (!scope.game.Started) {
+                // TODO: Replace 0 with variant player count.
+                scope.phaseDescription = '(waiting on ' + (0 - scope.game.Members.length) + ' more players)';
+            }
+            else if (scope.game.Started && currentPhase) {
+                timeUntilDeadline = new Date(currentPhase.DeadlineAt).getTime() - new Date().getTime();
+                scope.phaseDescription = currentPhase.Season + ' ' + currentPhase.Year;
+                scope.readableTimer = humanizeDuration(timeUntilDeadline, { largest: 2, round: true });
+            }
+            else if (scope.game.Finished) {
                 scope.phaseDescription = 'Complete';
                 scope.readableTimer = 'Complete';
-                break;
             }
-            // });
         }
     };
 }])

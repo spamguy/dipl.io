@@ -2,15 +2,11 @@
     <div layout="row">
         <div flex="85" flex-xs="75">
             <div>
-                <h1 class="md-title typewriter" ui-sref="games.view({ id: '{{game.id}}' })">{{game.name}}</h1>
-                <!-- <h2 class="md-subhead" ng-if="joinable">{{game.description ? game.description : '(no description)'}}</h2> -->
+                <h1 class="md-title typewriter" ui-sref="games.view({ id: '{{game.ID}}' })">{{game.Desc}}</h1>
             </div>
             <div class="gameDetails">
-                <!-- <md-icon md-svg-icon="calendar"></md-icon>
-                <span id="phaseDescription" aria-label="Current phase">{{phaseDescription}}</span>
-                <md-icon md-svg-icon="clock"></md-icon> -->
+                <span>{{phaseDescription}}</span>
                 <span>{{readableTimer}}</span>
-                <!-- <md-icon md-svg-icon="map" ng-click="showMapDialog($event)"></md-icon> -->
             </div>
         </div>
         <div flex layout="column" layout-align="center center">

@@ -3,7 +3,6 @@ describe('gameService', function() {
 
     var gameService,
         mockUserService,
-        socketFactory,
         socket,
         game;
 

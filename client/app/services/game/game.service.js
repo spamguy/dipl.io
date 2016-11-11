@@ -5,12 +5,12 @@
  * @description Interacts with game, variant, and move data.
  */
 angular.module('gameService', ['userService'])
-.factory('gameService', ['$http', 'userService', 'Restangular', '$q', function($http, userService, Restangular, $q) {
+.factory('gameService', ['$http', '$localStorage', 'userService', 'Restangular', '$q', function($http, $localStorage, userService, Restangular, $q) {
     'use strict';
 
     return {
         /**
-         * Gets all games the logged-in user has played in.
+         * Gets all active games the logged-in user is playing in.
          * @memberof GameService
          * @returns {Promise} Diplicity data containing a list of games.
          */
@@ -19,11 +19,11 @@ angular.module('gameService', ['userService'])
         },
 
         /**
-         * Gets all games owned by the logged-in user.
+         * Gets all waiting games the logged-in user has joined.
          * @memberof GameService
          * @returns {Promise} Diplicity data containing a list of games.
          */
-        getAllActiveGamesOwnedByCurrentUser: function() {
+        getAllInactiveGamesForCurrentUser: function() {
             return Restangular.all('Games').all('My').customGET('Staging');
         },
 
@@ -69,17 +69,8 @@ angular.module('gameService', ['userService'])
             // });
         },
 
-        getPhase: function(gameID, phaseIndex) {
-            // return $q(function(resolve) {
-            //     if (userService.isAuthenticated()) {
-            //         socketService.socket.emit('phase:get', { gameID: gameID, index: phaseIndex }, function(phase) {
-            //             resolve(phase);
-            //         });
-            //     }
-            //     else {
-            //         resolve({ });
-            //     }
-            // });
+        getPhases: function(gameID) {
+            return Restangular.one('Game', gameID).customGET('Phases');
         },
 
         getAllOpenGames: function() {
@@ -219,7 +210,7 @@ angular.module('gameService', ['userService'])
         },
 
         isPlayer: function(game) {
-            return this.getCurrentUserInGame(game).power !== null;
+            return _.find(game.Members, { ID: $localStorage.theUser.ID }) !== null;
         },
 
         isParticipant: function(game) {

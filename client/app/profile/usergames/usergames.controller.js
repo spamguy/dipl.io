@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('profile')
-.controller('UserGamesController', ['$http', '$localStorage', '$scope', '$state', '$stateParams', 'CONST', 'gameService', 'games', 'gmGames', 'Restangular',
-function($http, $localStorage, $scope, $state, $stateParams, CONST, gameService, games, gmGames, Restangular) {
+.controller('UserGamesController', ['$http', '$localStorage', '$scope', '$state', '$stateParams', 'CONST', 'gameService', 'games', 'waiting', 'Restangular',
+function($http, $localStorage, $scope, $state, $stateParams, CONST, gameService, games, waiting, Restangular) {
     var i,
         theGame,
         variantName,
@@ -14,7 +14,7 @@ function($http, $localStorage, $scope, $state, $stateParams, CONST, gameService,
     $scope.moves = { };
 
     $scope.playing = games.Properties;
-    $scope.GMing = gmGames.Properties;
+    $scope.waiting = waiting.Properties;
 
     for (i = 0; i < games.length; i++) {
         theGame = games[i];
@@ -29,12 +29,7 @@ function($http, $localStorage, $scope, $state, $stateParams, CONST, gameService,
          *     1) Old phases are fully exposed: old positions, moves, resolution.
          *     2) Current phases expose old positions.
          *     3) Players see their own orders in current phases.
-         *     4) GMs see everything in current phases.
-        if (theGame.isAdmin)
-            $scope.moves[theGame.id] = gameService.getMoveData(theGame.id);//.then(movesToScopeCallback);
-        else
-            $scope.moves[theGame.id] = gameService.getMoveDataForCurrentUser(theGame.id, theGame.year, theGame.phase);//.then(movesToScopeCallback);
-            */
+         */
     }
 
     // Populate keys.

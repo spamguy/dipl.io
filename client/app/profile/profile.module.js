@@ -21,20 +21,10 @@ angular.module('profile', [
             games: ['gameService', function(gameService) {
                 return gameService.getAllActiveGamesForCurrentUser();
             }],
-            gmGames: ['gameService', function(gameService) {
-                return gameService.getAllActiveGamesOwnedByCurrentUser();
+            waiting: ['gameService', function(gameService) {
+                return gameService.getAllInactiveGamesForCurrentUser();
             }]
         }
-    })
-    .state('profile.verify', {
-        url: '/verify/{token}',
-        controller: 'VerifyController',
-        templateUrl: 'app/profile/verify/verify.html',
-        onEnter: ['userService', '$state', function(userService, $state) {
-            if (!userService.isAuthenticated())
-                $state.go('main.home');
-        }]
-
     })
     // .state('profile.view', {
     //     url: '/:id',
