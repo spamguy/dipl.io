@@ -19,7 +19,7 @@
     <script src="https://0.0.0.0:35729/livereload.js"></script>
     <!-- @endif -->
 </head>
-<body ng-controller="AppController">
+<body ng-controller="AppController as vm">
     <md-toolbar style="background-color:transparent;" ng-if="$storage.theUser">
         <div class="md-toolbar-tools">
             <span class="md-primary logo"><a ui-sref="main.home">dipl<span class="stab">.</span>io</a></span>
@@ -52,7 +52,7 @@
                         </md-menu-item>
                         <md-divider></md-divider>
                         <md-menu-item>
-                            <md-button ng-click="logOut()">
+                            <md-button ng-click="logOff()">
                                 <div layout="row">
                                     <md-icon md-menu-align-target md-svg-icon="eject"></md-icon>
                                     <p flex>Log out</p>

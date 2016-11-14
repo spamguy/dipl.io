@@ -38,8 +38,7 @@ angular.module('games', [
             }]
         },
         onEnter: ['userService', '$state', function(userService, $state) {
-            if (!userService.isAuthenticated())
-                $state.go('main.home');
+            userService.blockUnauthenticated();
         }]
     })
     .state('games.new', {
@@ -52,8 +51,7 @@ angular.module('games', [
             }]
         },
         onEnter: ['userService', '$state', function(userService, $state) {
-            if (!userService.isAuthenticated())
-                $state.go('main.home');
+            userService.blockUnauthenticated();
         }]
     })
     .state('games.view', {
@@ -82,8 +80,7 @@ angular.module('games', [
             }]
         },
         onEnter: ['userService', '$state', function(userService, $state) {
-            if (!userService.isAuthenticated())
-                $state.go('main.home');
+            userService.blockUnauthenticated();
         }]
     });
 }]);

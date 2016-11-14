@@ -40,8 +40,7 @@ angular.module('profile', [
         templateUrl: 'app/profile/edit/edit.html',
         controller: 'ProfileEditController',
         onEnter: ['userService', '$state', function(userService, $state) {
-            if (!userService.isAuthenticated())
-                $state.go('main.home');
+            userService.blockUnauthenticated();
         }]
     });
 }]);
