@@ -74,16 +74,7 @@ angular.module('gameService', ['userService'])
         },
 
         getAllOpenGames: function() {
-            // return $q(function(resolve) {
-            //     if (userService.isAuthenticated()) {
-            //         socketService.socket.emit('game:listopen', function(games) {
-            //             resolve(games);
-            //         });
-            //     }
-            //     else {
-            //         return resolve({ });
-            //     }
-            // });
+            return Restangular.all('Games').customGET('Open');
         },
 
         getAllArchivedGames: function() {

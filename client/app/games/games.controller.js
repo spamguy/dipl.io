@@ -7,7 +7,7 @@ angular.module('games')
         variantName,
         key;
     $scope.variants = { };
-    $scope.games = games;
+    $scope.games = games.Properties;
 
     for (i = 0; i < $scope.games.length; i++) {
         theGame = $scope.games[i];
