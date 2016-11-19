@@ -12,7 +12,8 @@ angular.module('diplomacy', [
     'gamelistitem.directive',
     'ngMaterial',
     'ngStorage',
-    'restangular'
+    'restangular',
+    'firebase'
 ])
 .config(['CONST', '$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$localStorageProvider', '$mdThemingProvider', '$mdIconProvider', 'RestangularProvider',
 function(CONST, $stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorageProvider, $mdThemingProvider, $mdIconProvider, RestangularProvider) {
@@ -57,6 +58,32 @@ function(CONST, $stateProvider, $urlRouterProvider, $locationProvider, $httpProv
     RestangularProvider.setBaseUrl(CONST.diplicityEndpoint);
     RestangularProvider.setDefaultHeaders({ Accept: 'application/json' });
 }])
-.run(['loginService', function(loginService) {
+.run(['loginService', 'firebase', function(loginService, firebase) {
+    firebase.initializeApp({
+       apiKey: "AIzaSyB0rX7dts3Rk0UnDRR9A4vghO01mwCvLxY",
+	   authDomain: "diplicity-engine.firebaseapp.com",
+	   databaseURL: "https://diplicity-engine.firebaseio.com",
+	   storageBucket: "diplicity-engine.appspot.com",
+	   messagingSenderId: "635122585664"
+    });
+
+    // Retrieve an instance of Firebase Messaging so that it can handle background
+    // messages.
+    const messaging = firebase.messaging();
+    messaging.requestPermission()
+    .then(function() {
+        console.log('Notification permission granted.');
+        return messaging.getToken();
+    })
+    .then(function(token) {
+        console.log('FCM token = ' + token);
+    })
+    .catch(function(ex) {
+        console.error(ex);
+    });
+
+    messaging.onMessage(function(payload) {
+        console.log('Message received: ' + payload.toString());
+    });
     loginService.applyToken();
 }]);
