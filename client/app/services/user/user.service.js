@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('userService', [])
-.factory('userService', ['$localStorage', '$q', '$state', function($localStorage, $q, $state) {
+.factory('userService', ['$localStorage', '$q', '$state', 'Restangular', function($localStorage, $q, $state, Restangular) {
     return {
         /**
          * Whether the user is authenticated with a valid and active token.
@@ -34,6 +34,15 @@ angular.module('userService', [])
 
         getUser: function(userID, callback) {
             // socketService.socket.emit('user:get', { ID: userID }, callback);
+        },
+
+        /**
+         * Gets this user's preferences.
+         * @return {Promise} Object containing all user preferences.
+         */
+        getUserConfig: function() {
+            var userID = $localStorage.theUser.ID;
+            return Restangular.one('User', userID).getList('UserConfig');
         }
     };
 }]);

@@ -11,7 +11,7 @@ angular.module('diplomacy.main')
                 $localStorage.token = $stateParams.token;
                 $localStorage.theUser = payload.data.Properties.User;
 
-                loginService.applyToken();
+                loginService.applyTokens();
                 $state.go('profile.games');
             }
             else {

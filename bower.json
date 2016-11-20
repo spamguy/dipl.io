@@ -29,7 +29,6 @@
     "ngstorage": "^0.3.11",
     "restangular": "1.5.2",
     "pluralize": "3.0.0",
-    "angularfire": "2.1.0",
     "firebase": "3.6.0"
   },
   "devDependencies": {

@@ -48,12 +48,12 @@ angular.module('gameService', ['userService'])
             }
         },
 
-        getAllVariantNames: function() {
-            // return $q(function(resolve) {
-            //     socketService.socket.emit('variant:list', { }, function(variants) {
-            //         resolve(variants);
-            //     });
-            // });
+        /**
+         * Gets diplicity variant data for all supported variants.
+         * @return {[type]} [description]
+         */
+        getAllVariants: function() {
+            return Restangular.all('Variants').customGET();
         },
 
         getGame: function(gameID) {
@@ -108,8 +108,13 @@ angular.module('gameService', ['userService'])
             // });
         },
 
+        /**
+         * Creates new game and automatically joins it.
+         * @param  {Object} game The game to save.
+         * @return {Promise}     The saved game's promise.
+         */
         createNewGame: function(game) {
-            // socketService.socket.emit('game:create', { game: game });
+            return Restangular.all('Game').post(game);
         },
 
         /**

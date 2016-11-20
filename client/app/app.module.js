@@ -1,3 +1,4 @@
+/* global firebase */
 'use strict';
 
 angular.module('diplomacy', [
@@ -12,8 +13,7 @@ angular.module('diplomacy', [
     'gamelistitem.directive',
     'ngMaterial',
     'ngStorage',
-    'restangular',
-    'firebase'
+    'restangular'
 ])
 .config(['CONST', '$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$localStorageProvider', '$mdThemingProvider', '$mdIconProvider', 'RestangularProvider',
 function(CONST, $stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorageProvider, $mdThemingProvider, $mdIconProvider, RestangularProvider) {
@@ -58,13 +58,13 @@ function(CONST, $stateProvider, $urlRouterProvider, $locationProvider, $httpProv
     RestangularProvider.setBaseUrl(CONST.diplicityEndpoint);
     RestangularProvider.setDefaultHeaders({ Accept: 'application/json' });
 }])
-.run(['loginService', 'firebase', function(loginService, firebase) {
+.run(['loginService', 'userService', function(loginService, userService) {
     firebase.initializeApp({
-       apiKey: "AIzaSyB0rX7dts3Rk0UnDRR9A4vghO01mwCvLxY",
-	   authDomain: "diplicity-engine.firebaseapp.com",
-	   databaseURL: "https://diplicity-engine.firebaseio.com",
-	   storageBucket: "diplicity-engine.appspot.com",
-	   messagingSenderId: "635122585664"
+        apiKey: 'AIzaSyB0rX7dts3Rk0UnDRR9A4vghO01mwCvLxY',
+        authDomain: 'diplicity-engine.firebaseapp.com',
+        databaseURL: 'https://diplicity-engine.firebaseio.com',
+        storageBucket: 'diplicity-engine.appspot.com',
+        messagingSenderId: '635122585664'
     });
 
     // Retrieve an instance of Firebase Messaging so that it can handle background
@@ -77,13 +77,16 @@ function(CONST, $stateProvider, $urlRouterProvider, $locationProvider, $httpProv
     })
     .then(function(token) {
         console.log('FCM token = ' + token);
+        loginService.applyTokens(token);
     })
     .catch(function(ex) {
         console.error(ex);
     });
 
     messaging.onMessage(function(payload) {
-        console.log('Message received: ' + payload.toString());
+        userService.getMessageConfig()
+        .then(function(config) {
+            console.log('Message received: ' + payload.toString());
+        });
     });
-    loginService.applyToken();
 }]);

@@ -1,23 +1,15 @@
-<form name="newGameForm" ng-submit="game.save()">
-    <div layout="column" ng-if="hasDecentScore()" layout-padding layout-margin flex>
+<form name="newGameForm" ng-submit="vm.game.save()">
+    <div layout="column" layout-padding layout-margin flex>
         <div class="md-whiteframe-2dp" layout="column">
-            <md-input-container flex>
-                <label>Game Name</label>
-                <input type="text" name="gamename" ng-model="game.name" aria-label="Game Name" required />
-            </md-input-container>
-
             <md-input-container class="md-block">
                 <label>Description</label>
-                <textarea ng-model="game.description" columns="1" md-maxlength="150" rows="2"></textarea>
+                <textarea ng-model="vm.game.Desc" columns="1" md-maxlength="150" rows="1"></textarea>
             </md-input-container>
 
             <div layout="row" layout-sm="column" flex>
-                <md-select flex placeholder="Variant" ng-model="game.variant" md-on-open="loadVariants()">
-                    <md-option ng-value="variant" ng-repeat="variant in variants">{{variant}}</md-option>
+                <md-select flex placeholder="Variant" ng-model="vm.game.Variant">
+                    <md-option ng-value="variant" ng-repeat="variant in vm.variants">{{variant}}</md-option>
                 </md-select>
-                <div style="padding-left:10px" flex>
-                    <h1 class="md-subhead">Learn more about variants here.</h1>
-                </div>
             </div>
         </div>
 
@@ -31,15 +23,15 @@
                             <div layout="row">
                                 <md-input-container class="md-block" flex>
                                     <label>Days</label>
-                                    <input type="number" ng-model="game.move.days" min="0">
+                                    <input type="number" ng-model="vm.game.move.days" min="0">
                                 </md-input-container>
                                 <md-input-container class="md-block" flex>
                                     <label>Hours</label>
-                                    <input type="number" ng-model="game.move.hours" min="0">
+                                    <input type="number" ng-model="vm.game.move.hours" min="0">
                                 </md-input-container>
                                 <md-input-container class="md-block" flex>
                                     <label>Minutes</label>
-                                    <input type="number" ng-model="game.move.minutes" min="0">
+                                    <input type="number" ng-model="vm.game.move.minutes" min="0">
                                 </md-input-container>
                             </div>
                         </div>
@@ -50,15 +42,15 @@
                             <div layout="row">
                                 <md-input-container class="md-block" flex>
                                     <label>Days</label>
-                                    <input type="number" ng-model="game.retreat.days" min="0">
+                                    <input type="number" ng-model="vm.game.retreat.days" min="0">
                                 </md-input-container>
                                 <md-input-container class="md-block" flex>
                                     <label>Hours</label>
-                                    <input type="number" ng-model="game.retreat.hours" min="0">
+                                    <input type="number" ng-model="vm.game.retreat.hours" min="0">
                                 </md-input-container>
                                 <md-input-container class="md-block" flex>
                                     <label>Minutes</label>
-                                    <input type="number" ng-model="game.retreat.minutes" min="0">
+                                    <input type="number" ng-model="vm.game.retreat.minutes" min="0">
                                 </md-input-container>
                             </div>
                         </div>
@@ -69,15 +61,15 @@
                             <div layout="row">
                                 <md-input-container class="md-block" flex>
                                     <label>Days</label>
-                                    <input type="number" ng-model="game.adjust.days" min="0">
+                                    <input type="number" ng-model="vm.game.adjust.days" min="0">
                                 </md-input-container>
                                 <md-input-container class="md-block" flex>
                                     <label>Hours</label>
-                                    <input type="number" ng-model="game.adjust.hours" min="0">
+                                    <input type="number" ng-model="vm.game.adjust.hours" min="0">
                                 </md-input-container>
                                 <md-input-container class="md-block" flex>
                                     <label>Minutes</label>
-                                    <input type="number" ng-model="game.adjust.minutes" min="0">
+                                    <input type="number" ng-model="vm.game.adjust.minutes" min="0">
                                 </md-input-container>
                             </div>
                         </div>
@@ -110,11 +102,3 @@
         </v-accordion>
     </div>
 </form>
-
-<div layout="row" layout-align="center center" layout-padding ng-if="!hasDecentScore()">
-    <div class="md-whiteframe-2dp" layout="column" layout-margin flex="60" flex-xs="100">
-        <h1>Sorry!</h1>
-
-        <p>You haven't earned enough good standing to create and oversee games. {{minimumPointsToGM}} points are required; you have {{currentPoints}}. Keep at it!</p>
-    </div>
-</div>

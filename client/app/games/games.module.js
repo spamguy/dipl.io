@@ -43,11 +43,11 @@ angular.module('games', [
     })
     .state('games.new', {
         url: '/new',
-        controller: 'NewGameController',
+        controller: 'NewGameController as vm',
         templateUrl: 'app/games/new/new.html',
         resolve: {
             variants: ['gameService', function(gameService) {
-                return gameService.getAllVariantNames();
+                return gameService.getAllVariants();
             }]
         },
         onEnter: ['userService', '$state', function(userService, $state) {
