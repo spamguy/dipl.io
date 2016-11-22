@@ -1,51 +1,12 @@
-<div layout="column" layout-align="center none">
+<div layout="column" layout-align="center stretch" layout-margin flex>
     <h1 id="frontLogo" typewrite type-delay="250" text="typewrite.text" cursor="  ">dipl<span class="stab">.</span>io</h1>
-    <!-- <div id="frontDescription" flex>
+    <div id="frontDescription" flex>
         dipl.io is the next online generation of the board game Diplomacy.<br />
         It's free, fun, and open source!
-    </div> -->
-    <div layout="row" layout-xs="column" layout-margin flex>
-        <div class="md-whiteframe-2dp" flex>
-            <div layout="column" layout-margin>
-                <div>
-                    dipl.io is the next online generation of the board game Diplomacy.<br />
-                    It's free, fun, and open source!
-                </div>
-
-                <md-divider></md-divider>
-
-                <div id="newsProgressIndicator" ng-if="!blogEntries"><md-progress-circular md-mode="indeterminate"></md-progress-circular></div>
-
-                <div ng-repeat="entry in blogEntries | limitTo:5">
-                    <a href="{{entry.link.href}}">{{entry.title}}</a> - {{entry.date | date:'shortDate'}}
-                </div>
-            </div>
-        </div>
-        <div class="md-whiteframe-2dp" flex>
-            <!-- <md-toolbar>
-                <h1>LOG IN</h1>
-            </md-toolbar> -->
-
-            <form name="loginForm" ng-submit="user.login()">
-                <div layout="column" layout-margin>
-                    <!-- <div ng-messages="loginForm.password.$error">
-                        <div id="validLoginMessage" ng-message="validLogin">Your username or password is incorrect.</div>
-                    </div>
-                    <md-input-container flex>
-                        <label>Email</label>
-                        <input type="email" name="email" ng-model="user.email" required />
-                    </md-input-container flex>
-                    <md-input-container>
-                        <label>Password</label>
-                        <input type="password" name="password" ng-model="user.password" required />
-                    </md-input-container> -->
-
-                    <md-button type="submit" id="loginButton" class="md-raised md-primary" flex>Log In</md-button>
-
-                    <p><a ui-sref="main.signup">Need an account?</a></p>
-                    <p><a ui-sref="main.forgotpassword">Forgot your password?</a></p>
-                </div>
-            </form>
-        </div>
+    </div>
+    <div layout="row" layout-align="center center" layout-margin>
+        <form name="loginForm" ng-submit="user.login()">
+            <md-button type="submit" id="loginButton" class="md-raised md-primary" flex><h3>Log In</h3></md-button>
+        </form>
     </div>
 </div>

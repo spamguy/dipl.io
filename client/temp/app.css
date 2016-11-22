@@ -121,10 +121,7 @@ h1.started {
   .gameItem:hover {
     background-color: #eee; }
   .gameItem .gameDetails {
-    margin-bottom: 10px;
     color: #999; }
-    .gameItem .gameDetails span {
-      padding-right: 10px; }
 
 sg-province-list-item span.failed {
   color: #f00;

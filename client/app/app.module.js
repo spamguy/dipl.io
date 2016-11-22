@@ -46,7 +46,8 @@ function(CONST, $stateProvider, $urlRouterProvider, $locationProvider, $httpProv
         .icon('first', '/assets/icons/ic_first_page_black_48px.svg', 48)
         .icon('previous', '/assets/icons/ic_chevron_left_black_48px.svg', 48)
         .icon('next', '/assets/icons/ic_chevron_right_black_48px.svg', 48)
-        .icon('last', '/assets/icons/ic_last_page_black_48px.svg', 48);
+        .icon('last', '/assets/icons/ic_last_page_black_48px.svg', 48)
+        .icon('info', '/assets/icons/ic_help_black_48px.svg', 48);
 
     // Local storage setup.
     $localStorageProvider.setKeyPrefix('diplomacy');
@@ -69,7 +70,7 @@ function(CONST, $stateProvider, $urlRouterProvider, $locationProvider, $httpProv
 
     // Retrieve an instance of Firebase Messaging so that it can handle background
     // messages.
-    const messaging = firebase.messaging();
+    var messaging = firebase.messaging();
     messaging.requestPermission()
     .then(function() {
         console.log('Notification permission granted.');

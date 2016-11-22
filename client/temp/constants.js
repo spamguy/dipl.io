@@ -1,5 +1,5 @@
 angular.module('diplomacy.constants', [])
 
-.constant('CONST', {apiEndpoint:'https://localhost/api',socketEndpoint:'https://localhost',diplicityEndpoint:'https://diplicity-engine.appspot.com'})
+.constant('CONST', {apiEndpoint:'http://private-182900-diplio.apiary-mock.com',socketEndpoint:'https://localhost',diplicityEndpoint:'https://diplicity-engine.appspot.com'})
 
 ;
