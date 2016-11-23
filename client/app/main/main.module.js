@@ -3,7 +3,6 @@
 angular.module('diplomacy.main', [
     'ui.router',
     'ngMessages',
-    'signupform.directives',
     'ngAnimate',
     'userService',
     'loginService',

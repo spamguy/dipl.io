@@ -10,7 +10,7 @@ angular.module('diplomacy', [
     'diplomacy.main',
     'profile',
     'map.component',
-    'gamelistitem.directive',
+    'gamelistitem.component',
     'ngMaterial',
     'ngStorage',
     'restangular'
@@ -70,7 +70,8 @@ function(CONST, $stateProvider, $urlRouterProvider, $locationProvider, $httpProv
 
     // Retrieve an instance of Firebase Messaging so that it can handle background
     // messages.
-    var messaging = firebase.messaging();
+    var messaging = firebase.messaging(),
+        fcmToken;
     messaging.requestPermission()
     .then(function() {
         console.log('Notification permission granted.');
@@ -78,11 +79,13 @@ function(CONST, $stateProvider, $urlRouterProvider, $locationProvider, $httpProv
     })
     .then(function(token) {
         console.log('FCM token = ' + token);
-        loginService.applyTokens(token);
+        fcmToken = token;
     })
     .catch(function(ex) {
         console.error(ex);
     });
+
+    loginService.applyTokens(fcmToken);
 
     messaging.onMessage(function(payload) {
         userService.getMessageConfig()

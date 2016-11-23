@@ -1,12 +1,20 @@
-/* global humanizeDuration */
-angular.module('gamelistitem.directive', ['ngMaterial'])
-.directive('sgGameListItem', ['userService', 'gameService', '$mdDialog', '$mdPanel', '$state', function(userService, gameService, $mdDialog, $mdPanel, $state) {
+angular.module('gamelistitem.component', ['ngMaterial'])
+.component('sgGameListItem', {
+    bindings: {
+        game: '<',
+        joinable: '<'
+    },
+    controller: 'GameListItemController',
+    templateUrl: 'app/components/gamelistitem/gamelistitem.tmpl.html'
+});
+/* ['userService', 'gameService', '$mdDialog', '$mdPanel', '$state', function(userService, gameService, $mdDialog, $mdPanel, $state) {
     'use strict';
 
     return {
         replace: true,
         restrict: 'E',
         templateUrl: 'app/directives/gamelistitem/gamelistitem.tmpl.html',
+        controllerAs: 'vm',
         scope: {
             game: '=game',
             joinable: '=joinable'
@@ -95,3 +103,4 @@ angular.module('gamelistitem.directive', ['ngMaterial'])
 function GameListItemDetailsController() {
 
 }
+*/
