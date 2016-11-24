@@ -1,10 +1,16 @@
 <md-dialog aria-label="Game details">
     <md-toolbar>
-        <h1>More about {{dg.game.Desc}}</h1>
+        <div class="md-toolbar-tools">
+            <h1><span>More about <strong>{{dg.game.Desc}}</strong></span></h1>
+        </div>
     </md-toolbar>
 
     <md-dialog-content>
-
+        <div class="md-dialog-content" layout="row">
+            <div>
+                <sg-map service="service" readonly="true" header="false" />
+            </div>
+        </div>
     </md-dialog-content>
 
     <md-dialog-actions layout="row">

@@ -66,13 +66,16 @@ function(userService, gameService, $mdDialog, $mdPanel, $state) {
 
     function showDetailsDialog(event) {
         $mdDialog.show({
-            controller: 'GameListItemDetailsController as dg',
-            scope: vm,
+            controller: 'GameListItemDetailsController',
+            controllerAs: 'dg',
             templateUrl: 'app/components/gamelistitem/gamelistitemdetails.tmpl.html',
             parent: angular.element(document.body),
             targetEvent: event,
             clickOutsideToClose: true,
-            fullscreen: false
+            fullscreen: false,
+            locals: {
+                game: this.game
+            }
         });
     }
 }]);
