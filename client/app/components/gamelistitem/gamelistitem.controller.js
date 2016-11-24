@@ -26,8 +26,8 @@ function(userService, gameService, $mdDialog, $mdPanel, $state) {
         vm.readableTimer = humanizeDuration(timeUntilDeadline, { largest: 2, round: true });
     }
     else if (vm.game.Finished) {
-        vm.phaseDescription = 'Complete';
-        vm.readableTimer = 'Complete';
+        vm.phaseDescription = 'Finished';
+        vm.readableTimer = 'Finished';
     }
 
     // PRIVATE FUNCTIONS

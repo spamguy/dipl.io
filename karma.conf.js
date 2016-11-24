@@ -52,7 +52,7 @@ module.exports = function(config) {
         reporters: ['dots', 'coverage'],
         autoWatch: false,
         singleRun: true,
-        browsers: ['PhantomJS'],
+        browsers: ['Chrome'],
         ngHtml2JsPreprocessor: {
             stripPrefix: 'client/',
             moduleName: 'templates'
@@ -60,6 +60,11 @@ module.exports = function(config) {
         coverageReporter: {
             type: 'html',
             dir: 'coverage/'
-        }
+        },
+        httpsServerOptions: {
+            key: require('fs').readFileSync('dev_certs/server/my-server.key.pem', 'utf8'),
+            cert: require('fs').readFileSync('dev_certs/server/my-server.crt.pem', 'utf8')
+        },
+        protocol: 'https:'
     });
 };

@@ -5,6 +5,5 @@ angular.module('gamelistitem.component')
     vm.closeDialog = closeDialog;
 
     function closeDialog() {
-        
     }
 }]);
