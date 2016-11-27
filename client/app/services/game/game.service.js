@@ -201,16 +201,8 @@ angular.module('gameService', ['userService'])
             return _.find(game.players, ['power', code]);
         },
 
-        isGM: function(game) {
-            return game.gmID === userService.getCurrentUserID();
-        },
-
         isPlayer: function(game) {
             return _.find(game.Members, { ID: $localStorage.theUser.ID }) !== null;
-        },
-
-        isParticipant: function(game) {
-            return this.isGM(game) || this.isPlayer(game);
         },
 
         getFormattedDeadline: function(phase) {

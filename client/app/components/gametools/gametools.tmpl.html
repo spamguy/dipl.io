@@ -21,10 +21,10 @@
             </md-tab-body>
         </md-tab>
 
-        <md-tab ng-disabled="$ctrl.service.game.status > 1 || !$ctrl.gameService.isParticipant($ctrl.service.game)">
+        <md-tab ng-disabled="$ctrl.service.game.Finished || !$ctrl.service.game.Started. || !$ctrl.service.isPlayer($ctrl.service.game)">
             <md-tab-label>Actions</md-tab-label>
             <md-tab-body>
-                <md-list>
+                <!-- <md-list>
                     <md-list-item ng-if="$ctrl.gameService.isGM($ctrl.service.game) && $ctrl.service.game.status === 1" ng-click="$ctrl.actions.adjudicateNow()">
                         <div><span>Adjudicate now</span></div>
                         <md-divider></md-divider>
@@ -49,7 +49,7 @@
                         <div><span>Quit game</span></div>
                         <md-divider></md-divider>
                     </md-list-item>
-                </md-list>
+                </md-list> -->
             </md-tab-body>
         </md-tab>
     </md-tabs>

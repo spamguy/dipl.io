@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('profile')
-.controller('UserGamesController', ['$http', '$localStorage', '$scope', '$state', '$stateParams', 'CONST', 'gameService', 'games', 'waiting', 'Restangular',
-function($http, $localStorage, $scope, $state, $stateParams, CONST, gameService, games, waiting, Restangular) {
+.controller('UserGamesController', ['$http', '$localStorage', '$scope', '$state', '$stateParams', 'CONST', 'gameService', 'games', 'waiting',
+function($http, $localStorage, $scope, $state, $stateParams, CONST, gameService, games, waiting) {
     var i,
         theGame,
         variantName,

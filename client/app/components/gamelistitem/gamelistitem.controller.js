@@ -1,7 +1,7 @@
 /* global humanizeDuration */
 angular.module('gamelistitem.component')
-.controller('GameListItemController', ['userService', 'gameService', '$mdDialog', '$mdPanel', '$state',
-function(userService, gameService, $mdDialog, $mdPanel, $state) {
+.controller('GameListItemController', ['gameService', '$mdDialog', '$mdPanel', '$state',
+function(gameService, $mdDialog, $mdPanel, $state) {
     var vm = this,
         timeUntilDeadline,
         currentPhase;
@@ -16,16 +16,18 @@ function(userService, gameService, $mdDialog, $mdPanel, $state) {
     vm.goToGame = goToGame;
     vm.showDetailsDialog = showDetailsDialog;
 
-    if (!vm.game.Started) {
-        // TODO: Replace 0 with variant player count.
-        vm.phaseDescription = '(Not started: waiting on ' + (0 - vm.game.Members.length) + ' more players)';
+    if (!vm.game.Finished) {
+        if (!vm.game.Started) {
+            // TODO: Replace 0 with variant player count.
+            vm.phaseDescription = '(Not started: waiting on ' + (0 - vm.game.Members.length) + ' more players)';
+        }
+        else if (vm.game.Started && currentPhase) {
+            timeUntilDeadline = new Date(currentPhase.DeadlineAt).getTime() - new Date().getTime();
+            vm.phaseDescription = currentPhase.Season + ' ' + currentPhase.Year;
+            vm.readableTimer = humanizeDuration(timeUntilDeadline, { largest: 2, round: true });
+        }
     }
-    else if (vm.game.Started && currentPhase) {
-        timeUntilDeadline = new Date(currentPhase.DeadlineAt).getTime() - new Date().getTime();
-        vm.phaseDescription = currentPhase.Season + ' ' + currentPhase.Year;
-        vm.readableTimer = humanizeDuration(timeUntilDeadline, { largest: 2, round: true });
-    }
-    else if (vm.game.Finished) {
+    else {
         vm.phaseDescription = 'Finished';
         vm.readableTimer = 'Finished';
     }
@@ -38,8 +40,6 @@ function(userService, gameService, $mdDialog, $mdPanel, $state) {
         // User belongs to game already, whether as GM or user.
         if (gameService.isPlayer(vm.game))
             return 'You already are a player in this game.';
-        if (gameService.isGM(vm.game))
-            return 'You GM this game.';
 
         return null;
     }

@@ -6,13 +6,13 @@ describe('User games controller', function() {
         mockGameService,
         games,
         currentUser,
-        gmGames;
+        waiting;
 
     beforeEach(function() {
         mockGameService = {
             getVariant: sinon.spy()
         };
-        games = [{
+        games = { Properties: [{
             name: 'Game 1',
             variant: 'Standard'
         }, {
@@ -24,11 +24,11 @@ describe('User games controller', function() {
         }, {
             name: 'Chromatic Game',
             variant: 'Chromatic'
-        }];
-        gmGames = [ ];
+        }] };
         currentUser = {
             _id: '123'
         };
+        waiting = { Properties: [] };
 
         angular.mock.module('profile');
         angular.mock.module('gameService', function($provide) {
@@ -37,11 +37,11 @@ describe('User games controller', function() {
 
         inject(function($controller, $rootScope) {
             scope = $rootScope.$new();
-            createController = function(theGames, theGmGames, theCurrentUser) {
+            createController = function(theGames, theWaitingGames, theCurrentUser) {
                 return $controller('UserGamesController', {
                     $scope: scope,
                     games: theGames,
-                    gmGames: theGmGames,
+                    waiting: theWaitingGames,
                     currentUser: theCurrentUser
                 });
             };
@@ -49,13 +49,13 @@ describe('User games controller', function() {
     });
 
     it('lists the correct number of games being played', function() {
-        createController(games, gmGames, currentUser);
+        createController(games, waiting, currentUser);
         scope.$digest();
         expect(scope.playing).to.have.lengthOf(4);
     });
 
     it('fetches each distinct variant only once', function() {
-        createController(games, gmGames, currentUser);
+        createController(games, waiting, currentUser);
         scope.$digest();
         expect(scope.variants).to.have.all.keys(['Standard', 'Chromatic']);
         expect(mockGameService.getVariant.calledTwice).to.be.true;

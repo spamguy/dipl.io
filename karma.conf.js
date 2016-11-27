@@ -9,7 +9,7 @@ module.exports = function(config) {
             'client/app/**/*.tmpl.html': ['ng-html2js'],
             'client/app/**/!(*.spec).js': ['coverage']
         },
-        frameworks: ['browserify', 'mocha', 'chai-jquery', 'jquery-2.1.0', 'chai-as-promised', 'chai'],
+        frameworks: ['browserify', 'mocha', 'chai-jquery', 'jquery-2.1.0', 'sinon-chai', 'chai-as-promised', 'chai'],
         files: [
             'karma-setup.js',
             'bower_components/jquery/dist/jquery.js',
@@ -21,6 +21,7 @@ module.exports = function(config) {
             'bower_components/angular-messages/angular-messages.js',
             'bower_components/angular-sanitize/angular-sanitize.js',
             'bower_components/angular-mocks/angular-mocks.js',
+            'bower_components/restangular/dist/restangular.js',
             'bower_components/angular-ui-router/release/angular-ui-router.js',
             'bower_components/angular-animate/angular-animate.js',
             'bower_components/ngstorage/ngStorage.js',
@@ -52,7 +53,7 @@ module.exports = function(config) {
         reporters: ['dots', 'coverage'],
         autoWatch: false,
         singleRun: true,
-        browsers: ['Chrome'],
+        browsers: ['PhantomJS'],
         ngHtml2JsPreprocessor: {
             stripPrefix: 'client/',
             moduleName: 'templates'
@@ -60,11 +61,13 @@ module.exports = function(config) {
         coverageReporter: {
             type: 'html',
             dir: 'coverage/'
-        },
-        httpsServerOptions: {
-            key: require('fs').readFileSync('dev_certs/server/my-server.key.pem', 'utf8'),
-            cert: require('fs').readFileSync('dev_certs/server/my-server.crt.pem', 'utf8')
-        },
-        protocol: 'https:'
+        }//,
+        // httpsServerOptions: {
+        //     key: require('fs').readFileSync('dev_certs/server/my-server.key.pem', 'utf8'),
+        //     cert: require('fs').readFileSync('dev_certs/server/my-server.crt.pem', 'utf8')
+        // },
+        // protocol: 'https:',
+        // usePolling: true,
+        // transports: ['xhr-polling', 'jsonp-polling']
     });
 };

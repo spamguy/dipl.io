@@ -1,38 +1,27 @@
-describe.only('Game list item directive', function() {
+describe('Game list item directive', function() {
     'use strict';
 
     var moment = require('moment'),
         el,
         compile,
         scope,
-        mockUserService,
         mockGameService,
-        mockUser,
-        httpBackend;
+        httpBackend,
+        provide;
 
     beforeEach(function() {
         angular.mock.module('templates');
         angular.mock.module('ui.router');
         angular.mock.module('gamelistitem.component');
 
-        mockUser = {
-            ID: 123
-        };
-
-        mockUserService = {
-            getCurrentUser: function() {
-                return mockUser;
-            }
-        };
         mockGameService = {
-            getPhases: sinon.stub().returnsPromise().resolves({ Properties: [] })
+            getPhases: sinon.stub().returnsPromise().resolves({ Properties: [] }),
+            isPlayer: function() { return false; }
         };
 
-        angular.mock.module('userService', function($provide) {
-            $provide.value('userService', mockUserService);
-        });
         angular.mock.module('gameService', function($provide) {
-            $provide.value('gameService', mockGameService);
+            provide = $provide;
+            provide.value('gameService', mockGameService);
         });
     });
 
@@ -99,29 +88,18 @@ describe.only('Game list item directive', function() {
             // PART I: joinable = true.
             el = compile('<sg-game-list-item game="game" variant="variant" joinable="true"></sg-game-list-item>')(scope);
             scope.$digest();
-            expect($('button', el)).to.have.lengthOf(1);
+            expect($('#joinButton', el)).to.have.lengthOf(1);
 
             // PART II: joinable = false.
             el = compile('<sg-game-list-item game="game" variant="variant" joinable="false"></sg-game-list-item>')(scope);
             scope.$digest();
-            expect($('button', el)).to.have.lengthOf(0);
-        });
-
-        it('is disabled if player\'s score is too low', function() {
-            // Part I: 100 points.
-            el = compile('<sg-game-list-item game="game" variant="variant" joinable="true"></sg-game-list-item>')(scope);
-            scope.$digest();
-            expect($('button', el)).not.to.be.disabled;
-
-            // PART II: 0 points.
-            mockUser.actionCount = 0;
-            el = compile('<sg-game-list-item game="game" phase="phase" variant="variant" joinable="true"></sg-game-list-item>')(scope);
-            scope.$digest();
-            expect($('button', el)).to.be.disabled;
+            expect($('#joinButton', el)).to.have.lengthOf(0);
         });
 
         it('is disabled if player is in game already', function() {
-            scope.game.Members.push(mockUser);
+            mockGameService.isPlayer = function() { return true; };
+            provide.value('gameService', mockGameService);
+
             el = compile('<sg-game-list-item game="game" variant="variant" joinable="true"></sg-game-list-item>')(scope);
             scope.$digest();
             expect($('button', el)).to.be.disabled;

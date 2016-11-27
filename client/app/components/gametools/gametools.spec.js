@@ -74,28 +74,10 @@ describe('Game tools component', function() {
         });
     });
 
-    it('lists all powers when viewing as a GM', function() {
-        scope.game.gmID = '12345';
-        el = compile('<sg-game-tools powers="powers" game="game" phase-index="0" />')(scope);
-        scope.$digest();
-        expect($('div.md-subheader', el)).to.have.lengthOf(4);
-    });
-
-    it('lists no powers when the game is inactive', function() {
-        scope.game.status = 2;
+    it('lists no powers when the game hasn\'t started', function() {
+        scope.game.Started = false;
         el = compile('<sg-game-tools powers="powers" game="game" phase-index="0" />')(scope);
         scope.$digest();
         expect($('div.md-subheader', el)).to.have.lengthOf(0);
-    });
-
-    it('only lists assigned power when viewing as a player', function() {
-        scope.game.players.push({
-            player_id: '12345',
-            power: 'F'
-        });
-        el = compile('<sg-game-tools powers="powers" game="game" phase-index="0" />')(scope);
-        scope.$digest();
-        expect($('div.md-subheader', el)).to.have.lengthOf(1);
-        expect($('div.md-subheader', el).html()).to.contain('France');
     });
 });
