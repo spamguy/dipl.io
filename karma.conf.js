@@ -12,7 +12,7 @@ module.exports = function(config) {
         frameworks: ['browserify', 'mocha', 'chai-jquery', 'jquery-2.1.0', 'sinon-chai', 'chai-as-promised', 'chai'],
         files: [
             'karma-setup.js',
-            'node_modules/es6-promise/dist/es6-promise.js',
+            'bower_components/es6-promise/es6-promise.js',
             'bower_components/jquery/dist/jquery.js',
             'bower_components/moment/moment.js',
             'bower_components/d3/d3.js',

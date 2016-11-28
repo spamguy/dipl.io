@@ -8,6 +8,7 @@
     "chai": "3.5.0",
     "chai-as-promised": "5.2.0",
     "chai-jquery": "2.0.0",
+    "es6-promise": "4.0.5",
     "eslint": "3.5.0",
     "eslint-config-semistandard": "7.0.0",
     "eslint-config-standard": "6.0.0",
