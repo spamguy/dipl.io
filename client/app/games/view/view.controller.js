@@ -4,9 +4,7 @@ angular.module('games')
 .controller('ViewController', ['$scope', '$state', 'userService', 'gameService', 'mapService', 'game', 'phase', 'svg', 'powers', '$mdDialog', '$stateParams', function($scope, $state, userService, gameService, MapService, game, phase, svg, powers, $mdDialog, $stateParams) {
     $scope.updateProvinceData = updateProvinceData;
 
-    powers.GM = { name: 'Game Master' };
     $scope.powers = powers;
-    $scope.readonly = userService.getCurrentUserID() === game.gm_id;
     $scope.currentUserInGame = gameService.getCurrentUserInGame(game);
     $scope.svg = new DOMParser().parseFromString(svg.data, 'image/svg+xml');
     $scope.service = new MapService(game, phase, $stateParams.phaseIndex);
@@ -20,12 +18,6 @@ angular.module('games')
             $scope.$broadcast('renderphase');
         });
     };
-
-    $scope.$on('socket/phase:adjudicate:update', function(event, newPhase) {
-        // A game just adjudicated, but is it this one?
-        if ($scope.service.game.id === newPhase.gameID)
-            $scope.service.phase = newPhase;
-    });
 
     // Point out games that haven't started yet.
     if (game.status === 0) {

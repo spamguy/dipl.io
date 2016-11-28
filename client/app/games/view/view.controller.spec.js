@@ -4,6 +4,7 @@ describe('Game view controller', function() {
     var scope,
         mockUserService,
         mockGameService,
+        mockMapService,
         game,
         powers,
         svg,
@@ -29,11 +30,17 @@ describe('Game view controller', function() {
                 };
             }
         };
+        mockMapService = {
+
+        };
         angular.mock.module('userService', function($provide) {
             $provide.value('userService', mockUserService);
         });
         angular.mock.module('gameService', function($provide) {
             $provide.value('gameService', mockGameService);
+        });
+        angular.mock.module('mapService', function($provide) {
+            $provide.value('mapService', mockMapService);
         });
         angular.mock.module('games');
 
@@ -47,21 +54,6 @@ describe('Game view controller', function() {
                     svg: theSVG
                 });
             };
-        });
-    });
-
-    describe('Read-only status', function() {
-        it('is read-only for GMs', function() {
-            createController(powers, game, svg);
-            scope.$digest();
-            expect(scope.readonly).to.be.true;
-        });
-
-        it('is not read-only for players', function() {
-            game.gm_id = '666';
-            createController(powers, game, svg);
-            scope.$digest();
-            expect(scope.readonly).to.be.false;
         });
     });
 });

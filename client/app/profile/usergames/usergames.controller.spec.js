@@ -30,6 +30,8 @@ describe('User games controller', function() {
         };
         waiting = { Properties: [] };
 
+        angular.mock.module('diplomacy.constants');
+        angular.mock.module('ngStorage');
         angular.mock.module('profile');
         angular.mock.module('gameService', function($provide) {
             $provide.value('gameService', mockGameService);
@@ -52,12 +54,5 @@ describe('User games controller', function() {
         createController(games, waiting, currentUser);
         scope.$digest();
         expect(scope.playing).to.have.lengthOf(4);
-    });
-
-    it('fetches each distinct variant only once', function() {
-        createController(games, waiting, currentUser);
-        scope.$digest();
-        expect(scope.variants).to.have.all.keys(['Standard', 'Chromatic']);
-        expect(mockGameService.getVariant.calledTwice).to.be.true;
     });
 });

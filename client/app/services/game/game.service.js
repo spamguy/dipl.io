@@ -90,24 +90,6 @@ angular.module('gameService', ['userService'])
             // });
         },
 
-        getMoveData: function(gameID, year, phase) {
-            console.warn('This method is deprecated. Moves should already be present in the game data.');
-
-            var options = { gameID: gameID };
-
-            // Year and phase must both be provided to be valid.
-            if (year && phase) {
-                options.year = year;
-                options.phase = phase;
-            }
-
-            // return $q(function(resolve) {
-            //     socketService.socket.emit('phase:get', options, function(phases) {
-            //         resolve(phases);
-            //     });
-            // });
-        },
-
         /**
          * Creates new game and automatically joins it.
          * @param  {Object} game The game to save.

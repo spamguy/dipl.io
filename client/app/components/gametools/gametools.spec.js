@@ -7,6 +7,9 @@ describe('Game tools component', function() {
         mockUserService;
 
     beforeEach(function() {
+        angular.mock.module('ngStorage');
+        angular.mock.module('restangular');
+        angular.mock.module('ngMaterial');
         angular.mock.module('ui.router');
         angular.mock.module('diplomacy.constants');
         angular.mock.module('templates');

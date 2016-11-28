@@ -1,60 +1,71 @@
-describe('gameService', function() {
+describe('Game service', function() {
     'use strict';
 
     var gameService,
         mockUserService,
-        mockLocalStorage,
-        socket,
-        game;
+        user,
+        localStorage,
+        httpBackend;
 
     beforeEach(function() {
         mockUserService = {
             getCurrentUserID: function() { return '789'; }
         };
-        mockLocalStorage = {
-            theUser: { ID: '123abc' }
-        };
         angular.mock.module('userService', function($provide) {
             $provide.value('userService', mockUserService);
-            $provide.value('$localStorage', mockLocalStorage);
         });
+        angular.mock.module('ngStorage');
+        angular.mock.module('restangular');
         angular.mock.module('diplomacy.constants');
         angular.mock.module('gameService');
 
-        game = {
-            Members: [
-                { ID: 123 }
-            ]
+        user = {
+            ID: 123
         };
 
-        inject(function($rootScope, _gameService_) {
+        inject(function($rootScope, _gameService_, _$localStorage_, _$httpBackend_) {
             gameService = _gameService_;
+            localStorage = _$localStorage_;
+            localStorage.theUser = user;
+            httpBackend = _$httpBackend_;
         });
     });
 
-    xit('gets all games for the current user', function() {
-        // var gameListPromise = sinon.stub().returnsPromise();
-        // gameListPromise.resolves([{ name: 'Game 1' }, { name: 'Game 2' }]);
-        // socket.setEmit('game:userlist', [1,2,3]);
-        // // socket.receive('game:userlist', { playerID: 123 }, gameListPromise);
-        // expect(gameService.getAllGamesForCurrentUser()).to.eventually.have.length(3);
+    afterEach(function() {
+        httpBackend.verifyNoOutstandingRequest();
+        httpBackend.verifyNoOutstandingExpectation();
     });
 
-    it('normalises variant names as lowercase and without spaces', function() {
-        expect(gameService.getNormalisedVariantName('Very lONG variant NAME')).to.equal('verylongvariantname');
+    it('requests a list of variants', function() {
+        httpBackend.expectGET('/Variants').respond('{ "Properties": [{ "Name": "Classical" }, { "Name": "Fleet Rome" }] }');
+
+        var variants;
+        gameService.getAllVariants()
+        .then(function(vr) {
+            variants = vr;
+        });
+        httpBackend.flush();
+        expect(variants.Properties).to.have.lengthOf(2);
     });
 
-    it('creates new games', function() {
-        gameService.createNewGame({ });
+    it('requests a list of open games', function() {
+        httpBackend.expectGET('/Games/Open').respond('{ "Properties": [{ "Desc": "Game 1" }, { "Desc": "Game 2" }] }');
 
-        expect(socket.emits).to.contain.keys('game:create');
+        var openGames;
+        gameService.getAllOpenGames()
+        .then(function(o) {
+            openGames = o;
+        });
+        httpBackend.flush();
+        expect(openGames.Properties).to.have.lengthOf(2);
     });
 
-    it('gets the current user\'s player in a game', function() {
-        expect(gameService.getCurrentUserInGame(game).power).to.equal('N');
-    });
+    it('creates a game', function() {
+        httpBackend.expectPOST('/Game').respond(200);
 
-    it('identifies whether the user is a player in a game', function() {
-        expect(gameService.isPlayer(game)).to.be.true;
+        gameService.createNewGame({ Desc: 'My Game' })
+        .then(function(o) {
+        });
+        httpBackend.flush();
     });
 });

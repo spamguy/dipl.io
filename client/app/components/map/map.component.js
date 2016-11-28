@@ -3,7 +3,6 @@ angular.module('map.component', ['mapService', 'timer'])
     bindings: {
         svg: '=',
         service: '=',
-        readonly: '<',
         header: '<'
     },
     controller: 'MapController',

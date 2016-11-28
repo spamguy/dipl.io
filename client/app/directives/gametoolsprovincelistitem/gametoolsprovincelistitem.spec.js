@@ -9,9 +9,10 @@ describe('Province list item directive', function() {
         angular.mock.module('diplomacy.constants');
         angular.mock.module('templates');
         angular.mock.module('ui.router');
+        angular.mock.module('ngStorage');
+        angular.mock.module('restangular');
         angular.mock.module('gametoolsprovincelistitem.directive');
         angular.mock.module('gameService');
-
         inject(function($injector, $compile, $rootScope) {
             scope = $rootScope;
             compile = $compile;
