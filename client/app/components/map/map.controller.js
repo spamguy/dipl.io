@@ -1,7 +1,7 @@
 angular.module('map.component')
-.controller('MapController', ['$scope', '$state', 'gameService', 'mapService', '$mdBottomSheet', function($scope, $state, gameService, MapService, $mdBottomSheet) {
+.controller('MapController', ['$scope', '$state', 'gameService', '$mdBottomSheet', function($scope, $state, gameService, $mdBottomSheet) {
     var vm = this,
-        normalisedVariantName = gameService.getNormalisedVariantName(vm.service.game.variant),
+        normalisedVariantName = gameService.getNormalisedVariantName(vm.service.game.Variant),
         paths = vm.svg.getElementsByTagName('path'),
         p,
         i,

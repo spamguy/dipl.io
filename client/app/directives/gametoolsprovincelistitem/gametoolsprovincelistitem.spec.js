@@ -1,4 +1,4 @@
-describe('Province list item directive', function() {
+xdescribe('Province list item directive', function() {
     'use strict';
 
     var scope,

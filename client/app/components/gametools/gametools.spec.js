@@ -1,4 +1,4 @@
-describe('Game tools component', function() {
+xdescribe('Game tools component', function() {
     'use strict';
 
     var scope,
@@ -43,36 +43,6 @@ describe('Game tools component', function() {
                 }
             };
             scope.game = {
-                status: 1,
-                players: [],
-                phases: [{
-                    provinces: {
-                        'BUD': {
-                            unit: {
-                                power: 'A',
-                                type: 1
-                            }
-                        },
-                        'HUN': {
-                            unit: {
-                                power: 'A',
-                                type: 1
-                            }
-                        },
-                        'ROM': {
-                            unit: {
-                                power: 'I',
-                                type: 1
-                            }
-                        },
-                        'BUL': {
-                            unit: {
-                                power: 'A',
-                                type: 1
-                            }
-                        }
-                    }
-                }]
             };
         });
     });
