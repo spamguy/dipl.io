@@ -5,9 +5,12 @@ angular.module('loginService', [ ])
     return {
         applyTokens: function(fcmToken) {
             $localStorage.fcmToken = fcmToken;
-            var token = $localStorage.token;
+            var token = $localStorage.token,
+                fakeID = $localStorage['fake-id'];
             if (token)
                 Restangular.setDefaultRequestParams({ token: $localStorage.token });
+            else if (fakeID)
+                Restangular.setDefaultRequestParams({ 'fake-id': $localStorage['fake-id'] });
         }
     };
 }]);

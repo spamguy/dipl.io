@@ -12,14 +12,14 @@ angular.module('diplomacy.main', [
 .config(['$stateProvider', function($stateProvider) {
     $stateProvider
     .state('main', {
-        url: '/main',
+        url: '/main?fake-id',
         template: '<ui-view />',
         abstract: true
     })
     .state('main.home', {
         url: '/home',
         templateUrl: 'app/main/home/home.html',
-        controller: 'HomeController'
+        controller: 'HomeController as vm'
     })
     .state('main.signup', {
         url: '/signup',

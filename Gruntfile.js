@@ -51,29 +51,18 @@ module.exports = function(grunt) {
                 name: 'diplomacy.constants',
                 dest: 'client/temp/constants.js'
             },
-            mock: {
+            dev: {
                 constants: {
                     CONST: {
-                        apiEndpoint: 'http://private-182900-diplio.apiary-mock.com',
-                        socketEndpoint: 'https://localhost',
-                        diplicityEndpoint: 'https://diplicity-engine.appspot.com'
-                    }
-                }
-            },
-            mongo: {
-                constants: {
-                    CONST: {
-                        apiEndpoint: 'https://localhost/api',
-                        socketEndpoint: 'https://localhost',
-                        diplicityEndpoint: 'https://diplicity-engine.appspot.com'
+                        domain: 'https://localhost',
+                        diplicityEndpoint: 'https://localhost:3000'
                     }
                 }
             },
             prod: {
                 constants: {
                     CONST: {
-                        apiEndpoint: 'https://dipl.io/api',
-                        socketEndpoint: 'https://dipl.io',
+                        domain: 'https://dipl.io',
                         diplicityEndpoint: 'https://diplicity-engine.appspot.com'
                     }
                 }
@@ -288,14 +277,14 @@ module.exports = function(grunt) {
 
     grunt.registerTask('serve', [
         'eslint',
-        'ngconstant:mongo',
+        'ngconstant:dev',
         'wiredep',
         'sass',
         'open',
         'watch'
     ]);
     grunt.registerTask('test', [
-        'ngconstant:mock',
+        'ngconstant:dev',
         'sass',
         'karma'
     ]);
