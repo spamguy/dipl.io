@@ -2,7 +2,7 @@
     <md-tab label="Playing">
         <md-list>
             <md-list-item ng-repeat="game in playing" class="gameItem">
-                <sg-game-list-item game="game.Properties" variant="variants[game.variant]" joinable="false" />
+                <sg-game-list-item game="game" variant="variants[game.variant]" joinable="false" />
             </md-list-item>
         </md-list>
         <div layout="row" layout-align="center center" layout-margin ng-if="!playing.length">
@@ -12,7 +12,7 @@
     <md-tab label="Waiting">
         <md-list>
             <md-list-item ng-repeat="game in waiting" class="gameItem">
-                <sg-game-list-item game="game.Properties" variant="variants[game.variant]" joinable="false" />
+                <sg-game-list-item game="game" variant="variants[game.variant]" joinable="false" />
             </md-list-item>
         </md-list>
         <div layout="row" layout-align="center center" layout-margin ng-if="!waiting.length">

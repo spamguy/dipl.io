@@ -23,13 +23,6 @@ function($http, $localStorage, $scope, $state, $stateParams, CONST, gameService,
         variantName = theGame.variant;
         if (!$scope.variants[variantName])
             $scope.variants[variantName] = { };
-
-        /*
-         * Identify the extent of each game's move data to get, given these rules:
-         *     1) Old phases are fully exposed: old positions, moves, resolution.
-         *     2) Current phases expose old positions.
-         *     3) Players see their own orders in current phases.
-         */
     }
 
     // Populate keys.

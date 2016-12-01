@@ -59,7 +59,8 @@ function(gameService, $mdDialog, $mdPanel, $state) {
                         .cancel('Cancel');
 
         $mdDialog.show(confirm).then(function() {
-            gameService.joinGame(vm.game, { }, function() {
+            gameService.joinGame(vm.game, { })
+            .then(function() {
                 $state.go('profile.games');
             });
         });

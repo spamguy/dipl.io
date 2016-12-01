@@ -16,7 +16,7 @@ angular.module('games', [
     })
     .state('games.list', {
         url: '',
-        controller: 'GameListController',
+        controller: 'GameListController as vm',
         templateUrl: 'app/games/games.html',
         resolve: {
             games: ['gameService', function(gameService) {

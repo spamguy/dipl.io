@@ -101,14 +101,12 @@ angular.module('gameService', ['userService'])
 
         /**
          * @description Signs the current user up for a game.
-         * @param {Object} game    A game.
+         * @param {Object} game      A game.
          * @param {Object} [options] Power preferences, if allowed.
-         * @param {Function} [callback] The callback to execute after completion.
+         * @return {Promise}         The user's promise.
          */
-        joinGame: function(game, options, callback) {
-            // options = options || { };
-            // options.gameID = game.id;
-            // socketService.socket.emit('game:join', options, callback);
+        joinGame: function(game, options) {
+            return Restangular.one('Game', game.ID).customPOST({ }, 'Member');
         },
 
         /**
@@ -184,7 +182,7 @@ angular.module('gameService', ['userService'])
         },
 
         isPlayer: function(game) {
-            return _.find(game.Members, { ID: $localStorage.theUser.ID }) !== null;
+            return !_.isUndefined(_.find(game.Members, { 'User.Id': $localStorage.theUser.Id }));
         },
 
         getFormattedDeadline: function(phase) {
