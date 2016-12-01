@@ -27,7 +27,7 @@ angular.module('diplomacy.main', [
         controller: 'SignupController'
     })
     .state('main.login', {
-        url: '/login?token',
+        url: '/login?token&fake-id',
         template: ' ',
         controller: 'LoginController'
     });

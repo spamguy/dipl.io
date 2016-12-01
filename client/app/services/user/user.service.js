@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('userService', [])
-.factory('userService', ['$localStorage', '$q', '$state', 'Restangular', function($localStorage, $q, $state, Restangular) {
+.factory('userService', ['$localStorage', '$state', 'Restangular', function($localStorage, $state, Restangular) {
     return {
         /**
          * Whether the user is authenticated with a valid and active token.
@@ -9,7 +9,7 @@ angular.module('userService', [])
          */
         isAuthenticated: function() {
             var user = $localStorage.theUser;
-            return (user && new Date(user.ValidUntil) > new Date()) || $localStorage['fake-id'];
+            return (user !== undefined && new Date(user.ValidUntil) > new Date());
         },
 
         /**
@@ -30,10 +30,6 @@ angular.module('userService', [])
 
         getCurrentUserID: function() {
             return $localStorage.theUser.id;
-        },
-
-        getUser: function(userID, callback) {
-            // socketService.socket.emit('user:get', { ID: userID }, callback);
         },
 
         /**

@@ -277,7 +277,8 @@ module.exports = function(grunt) {
 
     grunt.registerTask('serve', [
         'eslint',
-        'ngconstant:dev',
+         // 'ngconstant:dev', (redundant in test task)
+        'test',
         'wiredep',
         'sass',
         'open',

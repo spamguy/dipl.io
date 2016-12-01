@@ -2,6 +2,7 @@
 angular.module('gamelistitem.component')
 .controller('GameListItemController', ['gameService', '$mdDialog', '$mdPanel', '$state',
 function(gameService, $mdDialog, $mdPanel, $state) {
+    this.game = this.game.Properties;
     var vm = this,
         timeUntilDeadline,
         currentPhase;

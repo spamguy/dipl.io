@@ -68,8 +68,7 @@ function(CONST, $stateProvider, $urlRouterProvider, $locationProvider, $httpProv
         messagingSenderId: '635122585664'
     });
 
-    // Retrieve an instance of Firebase Messaging so that it can handle background
-    // messages.
+    // Retrieve an instance of Firebase Messaging so that it can handle background messages.
     var messaging = firebase.messaging(),
         fcmToken;
     messaging.requestPermission()

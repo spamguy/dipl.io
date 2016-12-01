@@ -3,9 +3,8 @@ angular.module('diplomacy.main')
     'use strict';
 
     if ($stateParams['fake-id']) {
-        $localStorage['fake-id'] = $stateParams['fake-id'];
-        Restangular.setDefaultRequestParams({ 'fake-id': $stateParams['fake-id'] });
-        $state.go('profile.games');
+        $localStorage.username = $stateParams['fake-id'];
+        $state.go('main.login');
     }
 
     var vm = this;

@@ -1,10 +1,8 @@
-<div layout="row" layout-xs="column" layout-margin>
-    <md-list class="md-whiteframe-2dp" flex="80" flex-xs="100" flex-order-xs="2" flex-order="1">
-        <md-list-item ng-repeat="game in games" class="gameItem">
-            <sg-game-list-item game="game" variant="variants[game.variant]" joinable="true" />
-        </md-list-item>
-    </md-list>
-    <div layout="row" layout-align="center center" layout-margin ng-if="!games.length">
-        <span>Nothing here.</span>
-    </div>
+<md-list class="md-whiteframe-2dp" layout-margin>
+    <md-list-item ng-repeat="game in games" class="gameItem">
+        <sg-game-list-item game="game" variant="variants[game.variant]" joinable="true" flex />
+    </md-list-item>
+</md-list>
+<div layout="row" layout-align="center center" layout-margin ng-if="!games.length">
+    <span>Nothing here.</span>
 </div>

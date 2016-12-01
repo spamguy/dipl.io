@@ -2,13 +2,30 @@
 
 angular.module('diplomacy.main')
 .controller('LoginController', ['$http', '$localStorage', '$state', '$stateParams', 'CONST', 'loginService', function($http, $localStorage, $state, $stateParams, CONST, loginService) {
-    if ($stateParams.token) {
-        $http.get(CONST.diplicityEndpoint + '?token=' + $stateParams.token, {
+    var url = CONST.diplicityEndpoint,
+        token = $stateParams.token,
+        username = $localStorage.username;
+
+    // Use received token or spoofed user, whichever is available.
+    if (token) {
+        url += '?token=' + token;
+        if (!$localStorage.token)
+            $localStorage.token = token;
+    }
+    else if (username) {
+        url += '?fake-id=' + username;
+    }
+    else {
+        $state.go('main.home');
+    }
+
+    // Retain user data and move to user's game list.
+    if (token || username) {
+        $http.get(url, {
             headers: { 'Accept': 'application/json' }
         })
         .then(function(payload) {
             if (payload.data.Properties.User) {
-                $localStorage.token = $stateParams.token;
                 $localStorage.theUser = payload.data.Properties.User;
 
                 loginService.applyTokens();
@@ -17,9 +34,6 @@ angular.module('diplomacy.main')
             else {
                 return $state.go('main.home');
             }
-        })
-        .then(function(games) {
-
         });
     }
 }]);

@@ -1,5 +1,5 @@
 <div layout="column" layout-fill>
-    <div layout="row" layout-align="center center">
+    <div layout="row" layout-align="start center">
         <md-button style="padding: 0px;" class="md-icon-button md-accent" aria-label="Game details" ng-click="$ctrl.showDetailsDialog()">
             <md-icon style="width: 36px; height: 36px;" md-svg-icon="info"></md-icon>
         </md-button>
@@ -12,7 +12,7 @@
                 <span>{{$ctrl.readableTimer}}</span>
             </div>
         </div>
-        <div flex layout="column" layout-align="center center">
+        <div layout="column" layout-align="center center">
             <!-- HACK: Tooltip does not work on disabled buttons. -->
             <md-tooltip ng-if="$ctrl.joinable && $ctrl.reasonForNoJoin()">{{$ctrl.reasonForNoJoin()}}</md-tooltip>
             <md-button id="joinButton" class="md-raised md-primary" ng-if="$ctrl.joinable" ng-disabled="$ctrl.reasonForNoJoin()" ng-click="$ctrl.showJoinDialog()">Join</md-button>

@@ -12,7 +12,6 @@ module.exports = function(config) {
         frameworks: ['browserify', 'mocha', 'chai-jquery', 'jquery-2.1.0', 'sinon-chai', 'chai-as-promised', 'chai'],
         files: [
             'karma-setup.js',
-            'bower_components/es6-promise/es6-promise.js',
             'bower_components/jquery/dist/jquery.js',
             'bower_components/moment/moment.js',
             'bower_components/d3/d3.js',
@@ -64,7 +63,7 @@ module.exports = function(config) {
         coverageReporter: {
             type: 'html',
             dir: 'coverage/'
-        }//,
+        } // ,
         // httpsServerOptions: {
         //     key: require('fs').readFileSync('dev_certs/server/my-server.key.pem', 'utf8'),
         //     cert: require('fs').readFileSync('dev_certs/server/my-server.crt.pem', 'utf8')
