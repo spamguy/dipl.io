@@ -59,7 +59,13 @@ function(CONST, $stateProvider, $urlRouterProvider, $locationProvider, $httpProv
     RestangularProvider.setBaseUrl(CONST.diplicityEndpoint);
     RestangularProvider.setDefaultHeaders({ Accept: 'application/json' });
 }])
-.run(['loginService', 'userService', function(loginService, userService) {
+.run(['loginService', '$rootScope', 'userService', function(loginService, $rootScope, userService) {
+    // Tie Bluebird to Angular digest cycle.
+    Promise.setScheduler(function(cb) {
+        $rootScope.$evalAsync(cb);
+    });
+
+    // Initialise Firebase messaging.
     firebase.initializeApp({
         apiKey: 'AIzaSyB0rX7dts3Rk0UnDRR9A4vghO01mwCvLxY',
         authDomain: 'diplicity-engine.firebaseapp.com',

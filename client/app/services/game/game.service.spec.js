@@ -36,18 +36,6 @@ describe('Game service', function() {
         httpBackend.verifyNoOutstandingExpectation();
     });
 
-    it('requests a list of variants', function() {
-        httpBackend.expectGET('/Variants').respond('{ "Properties": [{ "Name": "Classical" }, { "Name": "Fleet Rome" }] }');
-
-        var variants;
-        gameService.getAllVariants()
-        .then(function(vr) {
-            variants = vr;
-        });
-        httpBackend.flush();
-        expect(variants.Properties).to.have.lengthOf(2);
-    });
-
     it('requests a list of open games', function() {
         httpBackend.expectGET('/Games/Open').respond('{ "Properties": [{ "Desc": "Game 1" }, { "Desc": "Game 2" }] }');
 
@@ -64,6 +52,15 @@ describe('Game service', function() {
         httpBackend.expectPOST('/Game').respond(200);
 
         gameService.createNewGame({ Desc: 'My Game' })
+        .then(function(o) {
+        });
+        httpBackend.flush();
+    });
+
+    it('joins a game', function() {
+        httpBackend.expectPOST(/Game\/.+?\/Member/).respond(200);
+
+        gameService.joinGame({ Desc: 'My Game', ID: 123 })
         .then(function(o) {
         });
         httpBackend.flush();

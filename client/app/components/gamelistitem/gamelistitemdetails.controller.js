@@ -1,10 +1,14 @@
 angular.module('gamelistitem.component')
-.controller('GameListItemDetailsController', ['game', 'mapService', function(game, MapService) {
+.controller('GameListItemDetailsController', ['game', 'mapService', 'variantService', function(game, MapService, variantService) {
     var vm = this;
 
     vm.game = game;
     vm.closeDialog = closeDialog;
-    vm.service = new MapService(game);
+
+    variantService.getVariant(game.Variant)
+    .then(function(variant) {
+        vm.service = new MapService(variant, game);
+    });
 
     function closeDialog() {
     }

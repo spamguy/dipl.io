@@ -46,8 +46,8 @@ angular.module('games', [
         controller: 'NewGameController as vm',
         templateUrl: 'app/games/new/new.html',
         resolve: {
-            variants: ['gameService', function(gameService) {
-                return gameService.getAllVariants();
+            variants: ['variantService', function(variantService) {
+                return variantService.getAllVariants();
             }]
         },
         onEnter: ['userService', '$state', function(userService, $state) {

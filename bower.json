@@ -29,7 +29,8 @@
     "ngstorage": "^0.3.11",
     "restangular": "1.5.2",
     "pluralize": "3.0.0",
-    "firebase": "3.6.0"
+    "firebase": "3.6.0",
+    "bluebird": "3.4.6"
   },
   "devDependencies": {
     "jquery": "2.2.0",
