@@ -24,7 +24,9 @@ angular.module('variantService', [])
                     return $http.get('variants/' + normalisedVariantName + '/' + normalisedVariantName + '.json');
                 })
                 .then(function(variantCoordinates) {
-                    variant.Graph.Nodes = _.merge(variant.Graph.Nodes, variantCoordinates);
+                    // Squish together diplicity nodes with dipl.io nodes with coordinates.
+                    variant.Graph.Nodes = _.merge(variant.Graph.Nodes, variantCoordinates.data.provinces);
+                    variant.Powers = variantCoordinates.data.powers;
 
                     // Add variant to cache and return.
                     variantCache[variantName] = variant;
