@@ -1,4 +1,4 @@
-angular.module('gamelistitem.component', ['ngMaterial', 'mapService'])
+angular.module('gamelistitem.component', ['ngMaterial', 'mapService', 'variantService'])
 .component('sgGameListItem', {
     bindings: {
         game: '<',

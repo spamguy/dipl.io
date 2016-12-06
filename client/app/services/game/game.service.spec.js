@@ -65,4 +65,12 @@ describe('Game service', function() {
         });
         httpBackend.flush();
     });
+
+    it('identifies the user as a player in a game', function() {
+        var isPlayer = gameService.isPlayer({ Members: [{ User: { Id: '789' } }] });
+        expect(isPlayer).to.be.true;
+
+        isPlayer = gameService.isPlayer({ Members: [{ User: { Id: 'ZZZ' } }] });
+        expect(isPlayer).to.be.false;
+    });
 });

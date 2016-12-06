@@ -4,11 +4,11 @@ angular.module('mapService', ['gameService'])
 
     var currentAction = 'hold',
         commandData = [],
-        service = function(game, phase, index) {
+        service = function(variant, game, phase, index) {
+            this.variant = variant;
             this.game = game;
             this.phase = phase;
             this.phaseIndex = index;
-            this.userPower = gameService.getCurrentUserInGame(this.game).power;
         };
 
     service.prototype.getSCTransform = getSCTransform;

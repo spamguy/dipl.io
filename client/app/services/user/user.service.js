@@ -29,7 +29,7 @@ angular.module('userService', [])
         },
 
         getCurrentUserID: function() {
-            return $localStorage.theUser.id;
+            return $localStorage.theUser.Id;
         },
 
         /**

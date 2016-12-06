@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('variantService', [])
-.factory('variantService', ['$http', 'Restangular', function($http, Restangular) {
+.factory('variantService', ['$http', '$q', 'Restangular', function($http, $q, Restangular) {
     var variantCache = { };
 
     return {
@@ -24,6 +24,8 @@ angular.module('variantService', [])
                     return $http.get('variants/' + normalisedVariantName + '/' + normalisedVariantName + '.json');
                 })
                 .then(function(variantCoordinates) {
+                    variant = variant.Properties;
+
                     // Squish together diplicity nodes with dipl.io nodes with coordinates.
                     variant.Graph.Nodes = _.merge(variant.Graph.Nodes, variantCoordinates.data.provinces);
                     variant.Powers = variantCoordinates.data.powers;
@@ -41,6 +43,18 @@ angular.module('variantService', [])
          */
         getAllVariants: function() {
             return Restangular.all('Variants').customGET();
+        },
+
+        getVariantSVG: function(variantName) {
+            if (variantName) {
+                variantName = this.getNormalisedVariantName(variantName);
+                return $http.get('variants/' + variantName + '/' + variantName + '.svg');
+            }
+            else {
+                return $q(function(resolve) {
+                    resolve({ });
+                });
+            }
         }
     };
 }]);

@@ -72,8 +72,8 @@ angular.module('games', [
             phases: ['gameService', '$stateParams', function(gameService, $stateParams) {
                 return gameService.getPhases($stateParams.id);
             }],
-            svg: ['gameService', 'game', function(gameService, game) {
-                return gameService.getVariantSVG(game.variant);
+            svg: ['variantService', 'game', function(variantService, game) {
+                return variantService.getVariantSVG(game.Variant);
             }],
             powers: ['gameService', 'game', function(gameService, game) {
                 return gameService.getPowerData(game.variant);

@@ -5,7 +5,7 @@
  * @description Interacts with game, variant, and move data.
  */
 angular.module('gameService', ['userService'])
-.factory('gameService', ['$http', '$localStorage', 'userService', 'Restangular', '$q', function($http, $localStorage, userService, Restangular, $q) {
+.factory('gameService', ['$http', 'userService', 'Restangular', '$q', function($http, userService, Restangular, $q) {
     'use strict';
 
     return {
@@ -25,18 +25,6 @@ angular.module('gameService', ['userService'])
          */
         getAllInactiveGamesForCurrentUser: function() {
             return Restangular.all('Games').all('My').customGET('Staging');
-        },
-
-        getVariantSVG: function(variantName) {
-            if (variantName) {
-                variantName = this.getNormalisedVariantName(variantName);
-                return $http.get('variants/' + variantName + '/' + variantName + '.svg');
-            }
-            else {
-                return $q(function(resolve) {
-                    resolve({ });
-                });
-            }
         },
 
         getGame: function(gameID) {
@@ -165,7 +153,9 @@ angular.module('gameService', ['userService'])
         },
 
         isPlayer: function(game) {
-            return !_.isUndefined(_.find(game.Members, { 'User.Id': $localStorage.theUser.Id }));
+            return !_.isUndefined(_.find(game.Members, function(member) {
+                return member.User.Id === userService.getCurrentUserID();
+            }));
         },
 
         getFormattedDeadline: function(phase) {

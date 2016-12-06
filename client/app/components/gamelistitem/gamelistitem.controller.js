@@ -1,7 +1,7 @@
 /* global humanizeDuration */
 angular.module('gamelistitem.component')
-.controller('GameListItemController', ['gameService', '$mdDialog', '$mdPanel', '$state',
-function(gameService, $mdDialog, $mdPanel, $state) {
+.controller('GameListItemController', ['gameService', '$mdDialog', '$mdPanel', '$state', 'variantService',
+function(gameService, $mdDialog, $mdPanel, $state, variantService) {
     this.game = this.game.Properties;
     var vm = this,
         timeUntilDeadline,
@@ -76,7 +76,9 @@ function(gameService, $mdDialog, $mdPanel, $state) {
             clickOutsideToClose: true,
             fullscreen: false,
             locals: {
-                game: this.game
+                game: this.game,
+                variant: variantService.getVariant(this.game.Variant),
+                svg: variantService.getVariantSVG(this.game.Variant)
             }
         });
     }
