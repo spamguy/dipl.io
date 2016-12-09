@@ -1,39 +1,38 @@
 /* global humanizeDuration */
 angular.module('gamelistitem.component')
-.controller('GameListItemController', ['gameService', '$mdDialog', '$mdPanel', '$state', 'variantService',
-function(gameService, $mdDialog, $mdPanel, $state, variantService) {
+.controller('GameListItemController', ['gameService', 'mapService', '$mdDialog', '$mdPanel', '$state', 'variantService',
+function(gameService, MapService, $mdDialog, $mdPanel, $state, variantService) {
     this.game = this.game.Properties;
     var vm = this,
         timeUntilDeadline,
         currentPhase;
-    gameService.getPhases(vm.game.ID)
-    .then(function(phases) {
-        vm.phases = phases.Properties;
-        currentPhase = _.last(vm.phases);
-    });
 
     vm.reasonForNoJoin = reasonForNoJoin;
     vm.showJoinDialog = showJoinDialog;
     vm.goToGame = goToGame;
     vm.showDetailsDialog = showDetailsDialog;
-
-    if (!vm.game.Finished) {
-        if (!vm.game.Started) {
-            // TODO: Replace 0 with variant player count.
-            vm.phaseDescription = '(Not started: waiting on ' + (0 - vm.game.Members.length) + ' more players)';
-        }
-        else if (vm.game.Started && currentPhase) {
-            timeUntilDeadline = new Date(currentPhase.DeadlineAt).getTime() - new Date().getTime();
-            vm.phaseDescription = currentPhase.Season + ' ' + currentPhase.Year;
-            vm.readableTimer = humanizeDuration(timeUntilDeadline, { largest: 2, round: true });
-        }
-    }
-    else {
-        vm.phaseDescription = 'Finished';
-        vm.readableTimer = 'Finished';
-    }
+    gameService.getPhases(vm.game.ID)
+    .then(renderStatuses);
 
     // PRIVATE FUNCTIONS
+
+    function renderStatuses(phases) {
+        if (!vm.game.Finished) {
+            if (!vm.game.Started) {
+                // TODO: Replace 0 with variant player count.
+                vm.phaseDescription = '(Not started: waiting on ' + (0 - vm.game.Members.length) + ' more players)';
+            }
+            else if (vm.game.Started && currentPhase) {
+                timeUntilDeadline = new Date(currentPhase.DeadlineAt).getTime() - new Date().getTime();
+                vm.phaseDescription = currentPhase.Season + ' ' + currentPhase.Year;
+                vm.readableTimer = humanizeDuration(timeUntilDeadline, { largest: 2, round: true });
+            }
+        }
+        else {
+            vm.phaseDescription = 'Finished';
+            vm.readableTimer = 'Finished';
+        }
+    }
 
     function reasonForNoJoin() {
         // Breaking this down into individual rules to avoid one monstrous if() statement.
@@ -51,18 +50,19 @@ function(gameService, $mdDialog, $mdPanel, $state, variantService) {
 
     function showJoinDialog(event) {
         var confirm = $mdDialog.confirm()
-                        .title('Really join?')
-                        .textContent('Are you sure you want to join this game? By clicking OK you are agreeing to participate to the best of your ability. See the FAQ and Community Guidelines for details.')
-                        .ariaLabel('Really join game?')
-                        .targetEvent(event)
-                        .ok('Join')
-                        .cancel('Cancel');
+            .title('Really join?')
+            .textContent('Are you sure you want to join this game? By clicking OK you are agreeing to participate to the best of your ability. See the FAQ and Community Guidelines for details.')
+            .ariaLabel('Really join game?')
+            .targetEvent(event)
+            .ok('Join')
+            .cancel('Cancel');
 
-        $mdDialog.show(confirm).then(function() {
-            gameService.joinGame(vm.game, { })
-            .then(function() {
-                $state.go('profile.games');
-            });
+        $mdDialog.show(confirm)
+        .then(function() {
+            return gameService.joinGame(vm.game, { });
+        })
+        .then(function() {
+            return $state.go('profile.games');
         });
     }
 
@@ -76,9 +76,10 @@ function(gameService, $mdDialog, $mdPanel, $state, variantService) {
             clickOutsideToClose: true,
             fullscreen: false,
             locals: {
-                game: this.game,
-                variant: variantService.getVariant(this.game.Variant),
-                svg: variantService.getVariantSVG(this.game.Variant)
+                game: vm.game,
+                variant: variantService.getVariant(vm.game.Variant),
+                svg: variantService.getVariantSVG(vm.game.Variant),
+                phases: gameService.getPhases(vm.game.ID)
             }
         });
     }

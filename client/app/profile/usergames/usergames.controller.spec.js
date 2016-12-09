@@ -3,9 +3,12 @@ describe('User games controller', function() {
 
     var createController,
         games,
-        waiting;
+        waiting,
+        mockGameService;
 
     beforeEach(function() {
+        mockGameService = {
+        };
         games = { Properties: [{
             name: 'Game 1',
             variant: 'Classical'
@@ -25,6 +28,9 @@ describe('User games controller', function() {
         }] };
 
         angular.mock.module('profile');
+        angular.mock.module('gameService', function($provide) {
+            $provide.value('gameService', mockGameService);
+        });
 
         inject(function($controller, $rootScope) {
             createController = function(theGames, theWaitingGames, theCurrentUser) {

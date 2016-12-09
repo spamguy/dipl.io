@@ -4,17 +4,17 @@ angular.module('mapService', ['gameService'])
 
     var currentAction = 'hold',
         commandData = [],
-        service = function(variant, game, phase, index) {
+        service = function(variant, game, phases, currentState) {
             this.variant = variant;
             this.game = game;
-            this.phase = phase;
-            this.phaseIndex = index;
+            this.phases = phases;
+            this.currentState = currentState;
         };
 
+    service.prototype.getCurrentPhase = getCurrentPhase;
     service.prototype.getSCTransform = getSCTransform;
     service.prototype.getSCPath = getSCPath;
     service.prototype.getSCFill = getSCFill;
-    service.prototype.getProvinceArray = getProvinceArray;
     service.prototype.generateMarkerStart = generateMarkerStart;
     service.prototype.generateMarkerEnd = generateMarkerEnd;
     service.prototype.generateLine = generateLine;
@@ -35,6 +35,9 @@ angular.module('mapService', ['gameService'])
 
     // PRIVATE FUNCTIONS
 
+    function getCurrentPhase() {
+        return _.last(this.phases);
+    }
     function getSCTransform(p) {
         return 'translate(' + p.sc.location.x + ',' + p.sc.location.y + ') scale(0.04)';
     }
@@ -239,10 +242,6 @@ angular.module('mapService', ['gameService'])
 
     function getSCPath() {
         return $location.absUrl() + '#sc';
-    }
-
-    function getProvinceArray() {
-        return _.values(this.phase.provinces);
     }
 
     function isActionCurrent(action) {

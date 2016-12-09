@@ -69,7 +69,7 @@
             </defs>
             <g class="scLayer">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                     ng-repeat="province in $ctrl.service.getProvinceArray() | provinceHasSC"
+                     ng-repeat="province in $ctrl.service.getSCsInVariant()"
                      xlink:href="" ng-href="{{$ctrl.service.getSCPath(province)}}"
                      ng-attr-transform="{{$ctrl.service.getSCTransform(province)}}"
                      ng-attr-fill="{{$ctrl.service.getSCFill(province)}}"

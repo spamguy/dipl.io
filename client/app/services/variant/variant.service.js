@@ -55,6 +55,18 @@ angular.module('variantService', [])
                     resolve({ });
                 });
             }
+        },
+
+        getSCsInVariant: function(variant) {
+            var p,
+                scs = [];
+
+            for (p in variant.Graph.Nodes) {
+                if (variant.Graph.Nodes[p].SC)
+                    scs.push(p.toUpperCase());
+            }
+
+            return scs;
         }
     };
 }]);

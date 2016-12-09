@@ -179,7 +179,7 @@ angular.module('map.component')
             index = 1;
 
         $state.go('.', {
-            id: vm.service.game.id,
+            id: vm.service.game.ID,
             phaseIndex: index
         }, { notify: false });
     }

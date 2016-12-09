@@ -44,6 +44,12 @@ angular.module('gameService', ['userService'])
             return Restangular.one('Game', gameID).customGET('Phases');
         },
 
+        getPhaseState: function(gameID, phase) {
+            if (!phase)
+                return Promise.resolve(null);
+            return Restangular.one('Game', gameID).one('Phase', phase.PhaseOrdinal).customGET('PhaseStates');
+        },
+
         getAllOpenGames: function() {
             return Restangular.all('Games').customGET('Open');
         },
@@ -135,17 +141,17 @@ angular.module('gameService', ['userService'])
         },
 
         getCurrentUserInGame: function(game) {
-            if (game.gmID === userService.getCurrentUserID())
-                return { power: 'GM' };
-            var p = 0,
-                players = game.players || [];
-            for (p = 0; p < players.length; p++) {
-                if (players[p].player_id === userService.getCurrentUserID())
-                    return players[p];
-            }
-
-            // Just a viewer.
-            return { power: null };
+            // if (game.gmID === userService.getCurrentUserID())
+            //     return { power: 'GM' };
+            // var p = 0,
+            //     players = game.players || [];
+            // for (p = 0; p < players.length; p++) {
+            //     if (players[p].player_id === userService.getCurrentUserID())
+            //         return players[p];
+            // }
+            //
+            // // Just a viewer.
+            // return { power: null };
         },
 
         getPlayerInGameByCode: function(game, code) {

@@ -3,6 +3,7 @@ describe('Game list item details controller', function() {
 
     var variant,
         game,
+        phases,
         mockGameService,
         mdDialog,
         controller;
@@ -10,6 +11,7 @@ describe('Game list item details controller', function() {
     beforeEach(function() {
         game = { Members: [] };
         variant = { };
+        phases = [ ];
         mockGameService = {
 
         };
@@ -26,6 +28,7 @@ describe('Game list item details controller', function() {
             controller = _$controller_('GameListItemDetailsController', {
                 variant: variant,
                 game: game,
+                phases: phases,
                 svg: { }
             });
         });

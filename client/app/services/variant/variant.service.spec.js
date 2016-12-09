@@ -66,4 +66,20 @@ describe('Variant service', function() {
         rootScope.$digest();
         timeout.flush();
     });
+
+    it('lists SCs in the variant', function() {
+        var variant = {
+                Graph: {
+                    Nodes: {
+                        alb: { },
+                        mun: { SC: 'Germany' },
+                        lon: { SC: 'England' }
+                    }
+                }
+            },
+            scs = variantService.getSCsInVariant(variant);
+        expect(scs).to.contain('MUN');
+        expect(scs).to.contain('LON');
+        expect(scs).to.not.contain('ALB');
+    });
 });

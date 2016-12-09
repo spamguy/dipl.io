@@ -73,4 +73,22 @@ describe('Game service', function() {
         isPlayer = gameService.isPlayer({ Members: [{ User: { Id: 'ZZZ' } }] });
         expect(isPlayer).to.be.false;
     });
+
+    it('gets game phases', function() {
+        httpBackend.expectGET(/Game\/.+?\/Phases/).respond(200);
+
+        gameService.getPhases('123')
+        .then(function(o) {
+        });
+        httpBackend.flush();
+    });
+
+    it('gets a phase\'s state', function() {
+        httpBackend.expectGET(/Game\/.+?\/Phase\/\d+\/PhaseStates/).respond(200);
+
+        gameService.getPhaseState('123', { id: '456', PhaseOrdinal: 455 })
+        .then(function(o) {
+        });
+        httpBackend.flush();
+    });
 });

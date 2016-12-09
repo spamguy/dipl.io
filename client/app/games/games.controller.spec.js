@@ -2,9 +2,12 @@ describe('Open game list controller', function() {
     'use strict';
 
     var games,
-        createController;
+        createController,
+        mockGameService;
 
     beforeEach(function() {
+        mockGameService = {
+        };
         games = {
             Properties: [{
                 name: 'Game 1',
@@ -22,6 +25,9 @@ describe('Open game list controller', function() {
         };
 
         angular.mock.module('games');
+        angular.mock.module('gameService', function($provide) {
+            $provide.value('gameService', mockGameService);
+        });
 
         inject(function($controller, $rootScope) {
             createController = function(theGames) {
