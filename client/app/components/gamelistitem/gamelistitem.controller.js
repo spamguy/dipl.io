@@ -5,22 +5,29 @@ function(gameService, MapService, $mdDialog, $mdPanel, $state, variantService) {
     this.game = this.game.Properties;
     var vm = this,
         timeUntilDeadline,
-        currentPhase;
+        mapService;
 
     vm.reasonForNoJoin = reasonForNoJoin;
     vm.showJoinDialog = showJoinDialog;
     vm.goToGame = goToGame;
     vm.showDetailsDialog = showDetailsDialog;
-    gameService.getPhases(vm.game.ID)
-    .then(renderStatuses);
+
+    // Fetch remaining data.
+    Promise.all([
+        variantService.getVariant(vm.game.Variant),
+        gameService.getPhases(vm.game.ID)
+    ])
+    .spread(renderStatuses);
 
     // PRIVATE FUNCTIONS
 
-    function renderStatuses(phases) {
+    function renderStatuses(variant, phases) {
+        mapService = new MapService(variant, vm.game, phases);
+        var currentPhase = mapService.getCurrentPhase();
         if (!vm.game.Finished) {
             if (!vm.game.Started) {
                 // TODO: Replace 0 with variant player count.
-                vm.phaseDescription = '(Not started: waiting on ' + (0 - vm.game.Members.length) + ' more players)';
+                vm.phaseDescription = '(Not started: waiting on ' + (variant.Nations.length - vm.game.Members.length) + ' more players)';
             }
             else if (vm.game.Started && currentPhase) {
                 timeUntilDeadline = new Date(currentPhase.DeadlineAt).getTime() - new Date().getTime();

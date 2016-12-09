@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('diplomacy.main')
-.controller('LoginController', ['$http', '$localStorage', '$state', '$stateParams', 'CONST', 'loginService', function($http, $localStorage, $state, $stateParams, CONST, loginService) {
+.controller('LoginController', ['$http', '$localStorage', '$state', '$stateParams', 'CONST', 'userService', function($http, $localStorage, $state, $stateParams, CONST, userService) {
     var url = CONST.diplicityEndpoint,
         token = $stateParams.token,
         username = $localStorage.username;
@@ -28,7 +28,7 @@ angular.module('diplomacy.main')
             if (payload.data.Properties.User) {
                 $localStorage.theUser = payload.data.Properties.User;
 
-                loginService.applyTokens();
+                userService.applyTokens();
                 $state.go('profile.games');
             }
             else {

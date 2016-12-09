@@ -5,7 +5,6 @@ angular.module('diplomacy.main', [
     'ngMessages',
     'ngAnimate',
     'userService',
-    'loginService',
     'gameService'
     // 'angularTypewrite'
 ])

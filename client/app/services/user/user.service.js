@@ -2,7 +2,7 @@
 
 angular.module('userService', [])
 .factory('userService', ['$localStorage', '$state', 'Restangular', function($localStorage, $state, Restangular) {
-    return {
+    var service = {
         /**
          * Whether the user is authenticated with a valid and active token.
          * @return {Boolean} True if the user is authenticated.
@@ -39,6 +39,28 @@ angular.module('userService', [])
         getUserConfig: function() {
             var userID = $localStorage.theUser.ID;
             return Restangular.one('User', userID).getList('UserConfig');
+        },
+
+        applyTokens: function(fcmToken) {
+            $localStorage.fcmToken = fcmToken;
+            var token = $localStorage.token,
+                username = $localStorage.username;
+            if (token)
+                Restangular.setDefaultHeaders({ Authorization: 'Bearer ' + token });
+            else if (username)
+                Restangular.setDefaultRequestParams({ 'fake-id': username });
+        },
+
+        apiErrorHandler: function(response) {
+            // If Unauthorized is received, log out and indicate error as handled.
+            if (response.status === 401) {
+                service.logOff();
+                return false;
+            }
+
+            return true;
         }
     };
+
+    return service;
 }]);

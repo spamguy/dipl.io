@@ -59,7 +59,9 @@ function(CONST, $stateProvider, $urlRouterProvider, $locationProvider, $httpProv
     RestangularProvider.setBaseUrl(CONST.diplicityEndpoint);
     RestangularProvider.setDefaultHeaders({ Accept: 'application/json' });
 }])
-.run(['loginService', '$rootScope', 'userService', function(loginService, $rootScope, userService) {
+.run(['Restangular', '$rootScope', 'userService', function(Restangular, $rootScope, userService) {
+    Restangular.setErrorInterceptor(userService.apiErrorHandler);
+
     // Tie Bluebird to Angular digest cycle.
     Promise.setScheduler(function(cb) {
         $rootScope.$evalAsync(cb);
@@ -90,7 +92,7 @@ function(CONST, $stateProvider, $urlRouterProvider, $locationProvider, $httpProv
         console.error(ex);
     });
 
-    loginService.applyTokens(fcmToken);
+    userService.applyTokens(fcmToken);
 
     messaging.onMessage(function(payload) {
         userService.getMessageConfig()

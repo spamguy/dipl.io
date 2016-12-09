@@ -193,7 +193,7 @@ module.exports = function(grunt) {
                     src: ['index.html', 'package.json', 'robots.txt', 'assets/**']
                 }, {
                     expand: true,
-                    dest: 'dist',
+                    dest: 'dist/client',
                     src: [
                         'variants/**/*'
                     ]
