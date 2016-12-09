@@ -1,4 +1,4 @@
-# dipl.io [![Build Status](https://travis-ci.org/spamguy/dipl.io.svg?branch=master)](https://travis-ci.org/spamguy/dipl.io)
+# dipl.io [![CircleCI](https://circleci.com/gh/spamguy/dipl.io.svg?style=svg)](https://circleci.com/gh/spamguy/dipl.io)
 
 [dipl.io website][3] | [dipl.io blog][4]
 
@@ -28,3 +28,18 @@ This project retains the front-end of the original and discards the back-end. By
 The application as a whole consists of two parts:
  * The website. Developed using AngularJS.
  * The backend, responsible for scheduling adjudication events and processing data. Sent to zond/diplicity through its API.
+ 
+# Setup
+This assumes you have npm and bower working.
+
+1. Clone this repository.
+2. Clone the [diplicity repository](https://github.com/zond/diplicity). Follow its setup and startup instructions.
+3. Run `npm install -g grunt-cli` anywhere.
+2. Run `bower install` in dipl.io's directory.
+3. Run `npm install` in dipl.io's directory.
+4. OPTIONAL: Run `npm test` or `grunt test` (same thing).
+5. Run `grunt serve`.
+
+If you have a web server on your machine already, set it up to serve the `/client` directory in this repository.
+
+If you don't, nginx is recommended, though it takes some work. This will be touched upon in a wiki article.
