@@ -1,3 +1,4 @@
+/* global humanizeDuration */
 angular.module('mapService', ['gameService'])
 .service('mapService', ['$location', 'gameService', function($location, gameService) {
     'use strict';
@@ -12,6 +13,8 @@ angular.module('mapService', ['gameService'])
         };
 
     service.prototype.getCurrentPhase = getCurrentPhase;
+    service.prototype.getStatusDescription = getStatusDescription;
+    service.prototype.getReadableDeadline = getReadableDeadline;
     service.prototype.getSCTransform = getSCTransform;
     service.prototype.getSCPath = getSCPath;
     service.prototype.getSCFill = getSCFill;
@@ -250,5 +253,35 @@ angular.module('mapService', ['gameService'])
 
     function isInPendingCommand(province) {
         return commandData.indexOf(province) >= 0;
+    }
+
+    function getStatusDescription() {
+        var currentPhase = this.getCurrentPhase();
+
+        if (!this.game.Finished) {
+            if (!this.game.Started)
+                return '(Not started: waiting on ' + (this.variant.Nations.length - this.game.Members.length) + ' more players)';
+            else if (this.game.Started && currentPhase)
+                return currentPhase.Season + ' ' + currentPhase.Year;
+        }
+        else {
+            return 'Finished';
+        }
+    }
+
+    function getReadableDeadline() {
+        var currentPhase = this.getCurrentPhase(),
+            timeUntilDeadline;
+        if (!this.game.Finished) {
+            if (this.game.Started && currentPhase) {
+                timeUntilDeadline = new Date(currentPhase.DeadlineAt).getTime() - new Date().getTime();
+                return humanizeDuration(timeUntilDeadline, { largest: 2, round: true });
+            }
+
+            // TODO: Handle paused states.
+        }
+        else {
+            return '';
+        }
     }
 }]);

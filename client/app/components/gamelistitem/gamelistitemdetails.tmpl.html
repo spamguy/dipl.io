@@ -6,20 +6,25 @@
     </md-toolbar>
 
     <md-dialog-content>
-        <div class="md-dialog-content">
-            <div layout="row" flex>
-                <div>
-                    <sg-map service="dg.service" svg="dg.svg" header="false" arrows="false" />
-                </div>
+        <div layout="row" layout-padding>
+            <div layout="column">
+                <div><sg-map service="dg.service" svg="dg.svg" header="false" arrows="false" /></div>
+                <div>{{dg.service.getStatusDescription()}}</div>
             </div>
-            <div layout="column" flex>
-                <div><h4>Name:</h4> {{dg.game.Desc}}</div>
+            <div layout="column">
+                <div layout="row" class="mapDescription">
+                    <span class="md-body-2">Name:</span>
+                    <span class="md-body-2">{{dg.game.Desc}}</span>
+                </div>
+
+                <div layout="row" class="mapDescription">
+                    <span class="md-body-2">Variant:</span>
+                    <span class="md-body-2">{{dg.game.Variant}}</span>
+                </div>
             </div>
         </div>
     </md-dialog-content>
 
     <md-dialog-actions layout="row">
-      <md-button md-autofocus ng-click="dg.closeDialog()">
-        Close
-      </md-button>
+      <md-button md-autofocus ng-click="dg.closeDialog()">Close</md-button>
 </md-dialog>

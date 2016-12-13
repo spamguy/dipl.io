@@ -1,11 +1,8 @@
-/* global humanizeDuration */
 angular.module('gamelistitem.component')
 .controller('GameListItemController', ['gameService', 'mapService', '$mdDialog', '$mdPanel', '$state', 'variantService',
 function(gameService, MapService, $mdDialog, $mdPanel, $state, variantService) {
     this.game = this.game.Properties;
-    var vm = this,
-        timeUntilDeadline,
-        mapService;
+    var vm = this;
 
     vm.reasonForNoJoin = reasonForNoJoin;
     vm.showJoinDialog = showJoinDialog;
@@ -17,28 +14,12 @@ function(gameService, MapService, $mdDialog, $mdPanel, $state, variantService) {
         variantService.getVariant(vm.game.Variant),
         gameService.getPhases(vm.game.ID)
     ])
-    .spread(renderStatuses);
+    .spread(buildMapService);
 
     // PRIVATE FUNCTIONS
 
-    function renderStatuses(variant, phases) {
-        mapService = new MapService(variant, vm.game, phases);
-        var currentPhase = mapService.getCurrentPhase();
-        if (!vm.game.Finished) {
-            if (!vm.game.Started) {
-                // TODO: Replace 0 with variant player count.
-                vm.phaseDescription = '(Not started: waiting on ' + (variant.Nations.length - vm.game.Members.length) + ' more players)';
-            }
-            else if (vm.game.Started && currentPhase) {
-                timeUntilDeadline = new Date(currentPhase.DeadlineAt).getTime() - new Date().getTime();
-                vm.phaseDescription = currentPhase.Season + ' ' + currentPhase.Year;
-                vm.readableTimer = humanizeDuration(timeUntilDeadline, { largest: 2, round: true });
-            }
-        }
-        else {
-            vm.phaseDescription = 'Finished';
-            vm.readableTimer = 'Finished';
-        }
+    function buildMapService(variant, phases) {
+        vm.service = new MapService(variant, vm.game, phases);
     }
 
     function reasonForNoJoin() {
@@ -86,7 +67,8 @@ function(gameService, MapService, $mdDialog, $mdPanel, $state, variantService) {
                 game: vm.game,
                 variant: variantService.getVariant(vm.game.Variant),
                 svg: variantService.getVariantSVG(vm.game.Variant),
-                phases: gameService.getPhases(vm.game.ID)
+                phases: gameService.getPhases(vm.game.ID),
+                status: vm.phaseDescription
             }
         });
     }

@@ -13,3 +13,13 @@
         color: #999;
     }
 }
+
+.mapDescription
+{
+    /* Label of item. */
+    :first-child
+    {
+        padding-right: 10px;
+        font-weight: 600;
+    }
+}
