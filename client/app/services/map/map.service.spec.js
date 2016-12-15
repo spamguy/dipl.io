@@ -68,6 +68,11 @@ describe('Map service', function() {
         expect(ms.getCurrentPhase().Properties.Season).to.equal('Fall');
     });
 
+    it('returns the phase at an ordinal', function() {
+        expect(ms.getPhaseAtOrdinal(1).Properties.Season).to.equal('Spring');
+        expect(ms.getPhaseAtOrdinal(undefined).Properties.Season).to.equal('Fall');
+    });
+
     it('determines if the user can submit phase-appropriate orders', function() {
         expect(ms.userCanPerformAction('Movement')).to.be.true;
         expect(ms.userCanPerformAction('Retreat')).to.be.false;

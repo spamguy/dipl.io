@@ -13,6 +13,7 @@ angular.module('mapService', ['gameService'])
         };
 
     service.prototype.getCurrentPhase = getCurrentPhase;
+    service.prototype.getPhaseAtOrdinal = getPhaseAtOrdinal;
     service.prototype.getStatusDescription = getStatusDescription;
     service.prototype.getReadableDeadline = getReadableDeadline;
     service.prototype.getSCTransform = getSCTransform;
@@ -39,6 +40,14 @@ angular.module('mapService', ['gameService'])
     function getCurrentPhase() {
         return _.last(this.phases);
     }
+
+    function getPhaseAtOrdinal(ordinal) {
+        if (ordinal)
+            return this.phases[ordinal - 1];
+        else
+            return this.getCurrentPhase();
+    }
+
     function getSCTransform(p) {
         return 'translate(' + p.sc.location.x + ',' + p.sc.location.y + ') scale(0.04)';
     }
