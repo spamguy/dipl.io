@@ -1,26 +1,29 @@
 'use strict';
 
 angular.module('games')
-.controller('ViewController', ['$scope', '$state', 'userService', 'gameService', 'mapService', 'game', 'phase', 'svg', 'powers', '$mdDialog', '$stateParams', function($scope, $state, userService, gameService, MapService, game, phase, svg, powers, $mdDialog, $stateParams) {
-    $scope.updateProvinceData = updateProvinceData;
+.controller('ViewController', ['$state', 'userService', 'gameService', 'mapService', 'game', 'phases', 'svg', 'variant', '$mdDialog', '$stateParams',
+function($state, userService, gameService, MapService, game, phases, svg, variant, $mdDialog, $stateParams) {
+    game = game.Properties;
+    phases = phases.Properties;
+    var vm = this;
+    vm.updateProvinceData = updateProvinceData;
 
-    $scope.powers = powers;
-    $scope.currentUserInGame = gameService.getCurrentUserInGame(game);
-    $scope.svg = new DOMParser().parseFromString(svg.data, 'image/svg+xml');
-    $scope.service = new MapService(game, phase, $stateParams.phaseIndex);
+    vm.currentUserInGame = gameService.getCurrentUserInGame(game);
+    vm.svg = new DOMParser().parseFromString(svg.data, 'image/svg+xml');
+    vm.service = new MapService(variant, game, phases, $stateParams.phaseIndex);
 
-    this.uiOnParamsChanged = function(params) {
-        var index = params.phaseIndex;
-
-        gameService.getPhases(game.id)
-        .then(function(phases) {
-            $scope.service.phase = phases[index];
-            $scope.$broadcast('renderphase');
-        });
-    };
+    // this.uiOnParamsChanged = function(params) {
+    //     var index = params.phaseIndex;
+    //
+    //     gameService.getPhases(game.id)
+    //     .then(function(phases) {
+    //         vm.service.phase = phases[index];
+    //         vm.$broadcast('renderphase');
+    //     });
+    // };
 
     // Point out games that haven't started yet.
-    if (game.status === 0) {
+    if (!game.Started) {
         $mdDialog.show(
             $mdDialog.alert()
                 .parent(angular.element(document.body))
@@ -34,14 +37,14 @@ angular.module('games')
 
     function updateProvinceData(p, action, target, targetOfTarget) {
         // Update local data to reflect DB change.
-        $scope.service.phase.provinces[p].unit.action = action;
-        if (target)
-            $scope.service.phase.provinces[p].unit.target = target;
-        if (targetOfTarget)
-            $scope.service.phase.provinces[p].unit.targetOfTarget = targetOfTarget;
-
-        $scope.$broadcast('orderChange', {
-            p: p
-        });
+        // vm.service.phase.provinces[p].unit.action = action;
+        // if (target)
+        //     vm.service.phase.provinces[p].unit.target = target;
+        // if (targetOfTarget)
+        //     vm.service.phase.provinces[p].unit.targetOfTarget = targetOfTarget;
+        //
+        // vm.$broadcast('orderChange', {
+        //     p: p
+        // });
     }
 }]);

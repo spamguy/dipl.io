@@ -1,4 +1,3 @@
-/* global pluralize */
 angular.module('gametools.component')
 .controller('GameToolsController', ['userService', 'gameService', '$mdDialog', '$state', function(userService, gameService, $mdDialog, $state) {
     var vm = this,

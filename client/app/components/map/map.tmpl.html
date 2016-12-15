@@ -1,13 +1,8 @@
 <div class="md-whiteframe-2dp">
     <md-toolbar class="md-toolbar-tools" id="mapToolbar" ng-if="$ctrl.header">
         <div layout="column" layout-align="center center">
-            <div class="md-title">{{$ctrl.service.phase.season}} {{$ctrl.service.phase.year}}</div>
-            <div ng-switch="$ctrl.service.game.status">
-                <div ng-switch-when="0" class="md-caption">(Game has not started)</div>
-                <!-- FIXME: Display more intelligent timer. Wrap seconds-only timer in humanizeDuration()? -->
-                <div ng-switch-when="1" class="md-caption">Deadline in <timer ng-attr-end-time="$ctrl.getFormattedDeadline($ctrl.service.phase)">{{days}} days, {{hours}} hours, {{minutes}} minute{{minutesS}}</timer></div>
-                <div ng-switch-when="2" class="md-caption">Game ended!</div>
-            </div>
+            <div class="md-title">{{$ctrl.service.getCurrentPhase().Properties.Season + ' ' + $ctrl.service.getCurrentPhase().Properties.Type + ' ' + $ctrl.service.getCurrentPhase().Properties.Year}}</div>
+            <div class="md-caption">{{$ctrl.service.getReadableDeadline()}}</div>
         </div>
         <span flex></span>
         <div ng-if="!$ctrl.readonly">
@@ -15,34 +10,34 @@
                 <md-icon md-svg-icon="{{$ctrl.service.getCurrentAction()}}"></md-icon>
                 <md-tooltip>Change action</md-tooltip>
             </md-button>
-            <md-button ng-if="$ctrl.service.userCanMove()" ng-click="$ctrl.service.setCurrentAction('hold')" class="md-icon-button" aria-label="Hold" hide-sm hide-xs>
+            <md-button ng-if="$ctrl.service.userCanPerformAction('Movement')" ng-click="$ctrl.service.setCurrentAction('hold')" class="md-icon-button" aria-label="Hold" hide-sm hide-xs>
                 <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('hold') }"></md-icon>
                 <md-tooltip>Hold</md-tooltip>
             </md-button>
-            <md-button ng-if="$ctrl.service.userCanMove() || $ctrl.service.userCanRetreat()" ng-click="$ctrl.service.setCurrentAction('move')" class="md-icon-button" aria-label="Move" hide-sm hide-xs>
+            <md-button ng-if="$ctrl.service.userCanPerformAction('Movement') || $ctrl.service.userCanPerformAction('Retreat')" ng-click="$ctrl.service.setCurrentAction('move')" class="md-icon-button" aria-label="Move" hide-sm hide-xs>
                 <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('move') }"></md-icon>
                 <md-tooltip>Move</md-tooltip>
             </md-button>
-            <md-button ng-if="$ctrl.service.userCanMove()" ng-click="$ctrl.service.setCurrentAction('support')" class="md-icon-button" aria-label="Support" hide-sm hide-xs>
+            <md-button ng-if="$ctrl.service.userCanPerformAction('Movement')" ng-click="$ctrl.service.setCurrentAction('support')" class="md-icon-button" aria-label="Support" hide-sm hide-xs>
                 <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('support') }"></md-icon>
                 <md-tooltip>Support</md-tooltip>
             </md-button>
-            <md-button ng-if="$ctrl.service.userCanMove()" ng-click="$ctrl.service.setCurrentAction('convoy')" class="md-icon-button" aria-label="Convoy" hide-sm hide-xs>
+            <md-button ng-if="$ctrl.service.userCanPerformAction('Movement')" ng-click="$ctrl.service.setCurrentAction('convoy')" class="md-icon-button" aria-label="Convoy" hide-sm hide-xs>
                 <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('convoy') }"></md-icon>
                 <md-tooltip>Convoy</md-tooltip>
             </md-button>
-            <md-button ng-if="$ctrl.service.userCanAdjust()" ng-click="$ctrl.service.setCurrentAction('build')" class="md-icon-button" aria-label="Build" hide-sm hide-xs>
+            <md-button ng-if="$ctrl.service.userCanPerformAction('Adjustment')" ng-click="$ctrl.service.setCurrentAction('build')" class="md-icon-button" aria-label="Build" hide-sm hide-xs>
                 <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('build') }"></md-icon>
                 <md-tooltip>Build</md-tooltip>
             </md-button>
-            <md-button ng-if="$ctrl.service.userCanAdjust()" ng-click="$ctrl.service.setCurrentAction('disband')" class="md-icon-button" aria-label="Disband" hide-sm hide-xs>
+            <md-button ng-if="$ctrl.service.userCanPerformAction('Adjustment') || $ctrl.service.userCanPerformAction('Retreat')" ng-click="$ctrl.service.setCurrentAction('disband')" class="md-icon-button" aria-label="Disband" hide-sm hide-xs>
                 <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('disband') }"></md-icon>
                 <md-tooltip>Disband</md-tooltip>
             </md-button>
         </div>
     </md-toolbar>
 
-    <div class="mapContainer" ng-class="{'notStarted': !$ctrl.service.phase}" ng-style="{'background-image':'url({{$ctrl.imagePath}})'}">
+    <div class="mapContainer" ng-class="{'notStarted': !$ctrl.service.game.Started}" ng-style="{'background-image':'url({{$ctrl.imagePath}})'}">
         <svg width="100%" ng-attr-view_box="{{$ctrl.viewBox}}">
             <defs>
                 <marker id="move" viewBox="0 -5 10 10" markerWidth="5" markerHeight="5" orient="auto">

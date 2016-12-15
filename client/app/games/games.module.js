@@ -56,7 +56,7 @@ angular.module('games', [
     })
     .state('games.view', {
         url: '/:id/{phaseIndex:int}',
-        controller: 'ViewController',
+        controller: 'ViewController as vm',
         templateUrl: 'app/games/view/view.html',
         params: {
             phaseIndex: {
@@ -72,11 +72,11 @@ angular.module('games', [
             phases: ['gameService', '$stateParams', function(gameService, $stateParams) {
                 return gameService.getPhases($stateParams.id);
             }],
-            svg: ['variantService', 'game', function(variantService, game) {
-                return variantService.getVariantSVG(game.Variant);
+            variant: ['variantService', 'game', function(variantService, game) {
+                return variantService.getVariant(game.Properties.Variant);
             }],
-            powers: ['gameService', 'game', function(gameService, game) {
-                return gameService.getPowerData(game.variant);
+            svg: ['variantService', 'game', function(variantService, game) {
+                return variantService.getVariantSVG(game.Properties.Variant);
             }]
         },
         onEnter: ['userService', '$state', function(userService, $state) {

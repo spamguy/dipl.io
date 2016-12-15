@@ -19,7 +19,7 @@ function(gameService, MapService, $mdDialog, $mdPanel, $state, variantService) {
     // PRIVATE FUNCTIONS
 
     function buildMapService(variant, phases) {
-        vm.service = new MapService(variant, vm.game, phases);
+        vm.service = new MapService(variant, vm.game, phases.Properties);
     }
 
     function reasonForNoJoin() {

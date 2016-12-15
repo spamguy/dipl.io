@@ -11,7 +11,7 @@ describe('Map service', function() {
 
     beforeEach(function() {
         mockGameService = {
-
+            isPlayer: function() { return true; }
         };
 
         angular.mock.module('mapService');
@@ -30,17 +30,23 @@ describe('Map service', function() {
             Members: [{ }]
         };
         phases = [{
-            id: '123',
-            Season: 'Spring Movement',
-            Year: 1901
+            Properties: {
+                Season: 'Spring',
+                Type: 'Movement',
+                Year: 1901
+            }
         }, {
-            id: '456',
-            Season: 'Summer Retreat',
-            Year: 1901
+            Properties: {
+                Season: 'Summer',
+                Type: 'Retreat',
+                Year: 1901
+            }
         }, {
-            id: '789',
-            Season: 'Fall Movement',
-            Year: 1901
+            Properties: {
+                Season: 'Fall',
+                Type: 'Movement',
+                Year: 1901
+            }
         }];
         currentState = { };
 
@@ -59,17 +65,27 @@ describe('Map service', function() {
     });
 
     it('returns the current phase', function() {
-        expect(ms.getCurrentPhase().id).to.equal('789');
+        expect(ms.getCurrentPhase().Properties.Season).to.equal('Fall');
+    });
+
+    it('determines if the user can submit phase-appropriate orders', function() {
+        expect(ms.userCanPerformAction('Movement')).to.be.true;
+        expect(ms.userCanPerformAction('Retreat')).to.be.false;
     });
 
     describe('Status description', function() {
-        it('displays the correct phase and year during active games', function() {
+        it('displays the correct phase, phase type, and year during active games', function() {
             expect(ms.getStatusDescription()).to.equal('Fall Movement 1901');
         });
 
         it('displays the number of remaining needed players during new games', function() {
+            // 'players' for multiple.
             game.Started = false;
-            expect(ms.getStatusDescription()).to.equal('(Not started: waiting on 3 more players)');
+            expect(ms.getStatusDescription()).to.equal('Not started: waiting on 3 more players');
+
+            // 'player' for one.
+            game.Members = [{ }, { }, { }];
+            expect(ms.getStatusDescription()).to.equal('Not started: waiting on 1 more player');
         });
 
         it('displays a completion message if the game is completed', function() {

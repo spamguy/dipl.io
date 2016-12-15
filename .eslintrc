@@ -4,17 +4,16 @@
         "inject": true,
         "_": true,
         "d3": true,
-        "io": true,
         "expect": true,
         "sinon": true,
         "$": true,
-        "Promise": true
+        "Promise": true,
+        "pluralize": true
     },
     "extends": "semistandard",
     "env": {
         "mocha": true,
         "browser": true,
-        "node": true,
         "es6": false
     },
     "rules": {

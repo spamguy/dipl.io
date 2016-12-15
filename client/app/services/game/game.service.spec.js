@@ -74,6 +74,25 @@ describe('Game service', function() {
         expect(isPlayer).to.be.false;
     });
 
+    it('identifies which player in a game is the user', function() {
+        expect(gameService.getCurrentUserInGame({
+            Members: [
+                { User: { Id: '123' }, Nation: 'Russia' },
+                { User: { Id: '456' }, Nation: 'Germany' },
+                { User: { Id: '789' }, Nation: 'France' }
+            ]
+        }).Nation).to.equal('France');
+    });
+
+    it('gets a game', function() {
+        httpBackend.expectGET(/Game\/.+?/).respond(200);
+
+        gameService.getGame('123')
+        .then(function(o) {
+        });
+        httpBackend.flush();
+    });
+
     it('gets game phases', function() {
         httpBackend.expectGET(/Game\/.+?\/Phases/).respond(200);
 
