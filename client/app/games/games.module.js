@@ -73,8 +73,8 @@ angular.module('games', [
                 return gameService.getPhases($stateParams.id);
             }],
             phaseState: ['game', 'gameService', 'mapService', 'phases', '$stateParams', function(game, gameService, MapService, phases, $stateParams) {
-                var mapService = new MapService(null, game, phases.Properties),
-                    phase = mapService.getPhaseAtOrdinal($stateParams.phaseIndex);
+                var mapService = new MapService(null, game, phases.Properties, null, $stateParams.phaseIndex),
+                    phase = mapService.getCurrentPhase();
                 return gameService.getPhaseState($stateParams.id, phase.Properties);
             }],
             variant: ['variantService', 'game', function(variantService, game) {

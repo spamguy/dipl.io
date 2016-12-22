@@ -17,37 +17,33 @@ angular.module('gametoolsprovincelistitem.directive', ['ngSanitize'])
             });
 
             function generateProvinceStatus() {
-                var unit = scope.province.unit,
-                    provinceName = scope.province.p,
-                    provinceStatus;
+                var provinceStatus = '<strong>' + scope.province.Province.toUpperCase() + '</strong> ';
 
-                provinceStatus = '<strong>' + provinceName + '</strong> ';
-
-                if (unit && unit.action) {
-                    switch (unit.action) {
-                    case 'move':
-                        provinceStatus += '→ <strong>' + unit.target + '</strong>';
-                        break;
-                    case 'support':
-                        provinceStatus += 'supports <strong>' + unit.target + '</strong> ';
-                        if (unit.targetOfTarget)
-                            provinceStatus += '→ <strong>' + unit.targetOfTarget + '</strong>';
-                        break;
-                    case 'hold':
-                        provinceStatus += 'holds';
-                        break;
-                    case 'convoy':
-                        provinceStatus += 'convoys <strong>' + unit.target + '</strong> → <strong>' + unit.targetOfTarget + '</strong>';
-                        break;
-                    case 'build':
-                        provinceStatus += 'builds a'; break;
-                    case 'disband':
-                        provinceStatus += 'disbands'; break;
-                    }
-                }
-                else {
-                    provinceStatus += '<em>awaiting orders</em>';
-                }
+                // if (unit && unit.action) {
+                //     switch (unit.action) {
+                //     case 'move':
+                //         provinceStatus += '→ <strong>' + unit.target + '</strong>';
+                //         break;
+                //     case 'support':
+                //         provinceStatus += 'supports <strong>' + unit.target + '</strong> ';
+                //         if (unit.targetOfTarget)
+                //             provinceStatus += '→ <strong>' + unit.targetOfTarget + '</strong>';
+                //         break;
+                //     case 'hold':
+                //         provinceStatus += 'holds';
+                //         break;
+                //     case 'convoy':
+                //         provinceStatus += 'convoys <strong>' + unit.target + '</strong> → <strong>' + unit.targetOfTarget + '</strong>';
+                //         break;
+                //     case 'build':
+                //         provinceStatus += 'builds a'; break;
+                //     case 'disband':
+                //         provinceStatus += 'disbands'; break;
+                //     }
+                // }
+                // else {
+                //     provinceStatus += '<em>awaiting orders</em>';
+                // }
 
                 return provinceStatus;
             }

@@ -3,17 +3,18 @@ angular.module('mapService', ['gameService'])
 .service('mapService', ['$location', 'gameService', function($location, gameService) {
     'use strict';
 
-    var currentAction = 'hold',
-        commandData = [],
-        service = function(variant, game, phases, currentState) {
+    var _currentAction = 'hold',
+        _commandData = [],
+        _ordinal = 1,
+        service = function(variant, game, phases, currentState, ordinal) {
             this.variant = variant;
             this.game = game;
             this.phases = phases;
             this.currentState = currentState;
+            _ordinal = ordinal;
         };
 
     service.prototype.getCurrentPhase = getCurrentPhase;
-    service.prototype.getPhaseAtOrdinal = getPhaseAtOrdinal;
     service.prototype.getStatusDescription = getStatusDescription;
     service.prototype.getReadableDeadline = getReadableDeadline;
     service.prototype.getSCTransform = getSCTransform;
@@ -38,14 +39,9 @@ angular.module('mapService', ['gameService'])
     // PRIVATE FUNCTIONS
 
     function getCurrentPhase() {
+        if (_ordinal)
+            return this.phases[_ordinal - 1];
         return _.last(this.phases);
-    }
-
-    function getPhaseAtOrdinal(ordinal) {
-        if (ordinal)
-            return this.phases[ordinal - 1];
-        else
-            return this.getCurrentPhase();
     }
 
     function getSCTransform(p) {
@@ -119,18 +115,18 @@ angular.module('mapService', ['gameService'])
     }
 
     function setCurrentAction(action) {
-        currentAction = action;
+        _currentAction = action;
 
         // Reset any half-made orders.
         clearAllCommands();
     }
 
     function getCurrentAction() {
-        return currentAction;
+        return _currentAction;
     }
 
     function clearAllCommands() {
-        while (commandData.length) commandData.pop();
+        while (_commandData.length) _commandData.pop();
     }
 
     function inputCommand(id, callback) {
@@ -142,44 +138,44 @@ angular.module('mapService', ['gameService'])
 
         // Users who try to control units that don't exist or don't own?
         // We have ways of shutting the whole thing down.
-        if (commandData.length === 0 &&
+        if (_commandData.length === 0 &&
             (!province.unit || province.unit.owner !== gameService.getCurrentUserInGame(this.game).power))
             return;
 
-        commandData.push(p);
+        _commandData.push(p);
 
-        switch (currentAction) {
+        switch (_currentAction) {
         case 'hold':
             // Don't bother retaining clicks. Just continue on to send the command.
             break;
         case 'move':
             // Source, target.
-            if (commandData.length < 2)
+            if (_commandData.length < 2)
                 return;
 
             // Don't move to yourself. Treat this as a hold.
-            if (commandData[0] === commandData[1]) {
-                commandData.pop();
+            if (_commandData[0] === _commandData[1]) {
+                _commandData.pop();
                 overrideAction = 'hold';
             }
             break;
         case 'support':
             // Don't support yourself. Treat this as a hold.
-            if (commandData[0] === commandData[1]) {
+            if (_commandData[0] === _commandData[1]) {
                 clearAllCommands();
                 overrideAction = 'hold';
             }
             // Source, target, target of target.
-            else if (commandData.length < 3) {
+            else if (_commandData.length < 3) {
                 return;
             }
             // Source, holding target.
-            else if (commandData[1] === commandData[2]) {
-                commandData.pop();
+            else if (_commandData[1] === _commandData[2]) {
+                _commandData.pop();
             }
             break;
         case 'convoy':
-            if (commandData.length < 3)
+            if (_commandData.length < 3)
                 return;
 
             /*
@@ -189,7 +185,7 @@ angular.module('mapService', ['gameService'])
              * In short, source/target/target of target should be distinct.
              * Treat violations of the above as a hold.
              */
-            if (commandData.length !== _.uniq(commandData).length) {
+            if (_commandData.length !== _.uniq(_commandData).length) {
                 clearAllCommands();
                 overrideAction = 'hold';
             }
@@ -197,9 +193,9 @@ angular.module('mapService', ['gameService'])
         }
 
         // Making it this far means there is a full set of commands to publish.
-        gameService.publishCommand(currentAction, commandData, this.phase,
+        gameService.publishCommand(_currentAction, _commandData, this.phase,
             function(response) {
-                callback(response, commandData[0], overrideAction || currentAction, commandData[1], commandData[2]);
+                callback(response, _commandData[0], overrideAction || _currentAction, _commandData[1], _commandData[2]);
                 clearAllCommands();
             }
         );
@@ -241,11 +237,11 @@ angular.module('mapService', ['gameService'])
     }
 
     function isActionCurrent(action) {
-        return action === currentAction;
+        return action === _currentAction;
     }
 
     function isInPendingCommand(province) {
-        return commandData.indexOf(province) >= 0;
+        return _commandData.indexOf(province) >= 0;
     }
 
     function getStatusDescription() {

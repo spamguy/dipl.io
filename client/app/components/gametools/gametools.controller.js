@@ -5,50 +5,11 @@ angular.module('gametools.component')
 
     vm.gameService = gameService;
     vm.powerOwnsUnitInProvince = powerOwnsUnitInProvince;
-    vm.getPowerList = getPowerList;
     vm.setReadyState = setReadyState;
     vm.currentUserInGame = gameService.getCurrentUserInGame(vm.service.game);
     vm.getPowerHeader = getPowerHeader;
 
     vm.actions = {
-        adjudicateNow: function() {
-            confirm = $mdDialog.confirm()
-                .title('Adjudicate')
-                .textContent('Are you sure you want to adjudicate the current phase?')
-                .ariaLabel('Adjudicate now?')
-                .targetEvent(event)
-                .ok('OK')
-                .cancel('Cancel');
-
-            $mdDialog.show(confirm).then(function() {
-                gameService.adjudicateCurrentPhase(vm.service.game, function() {
-                    $state.go('profile.games');
-                });
-            });
-        },
-        endGame: function() {
-            confirm = $mdDialog.confirm()
-                .title('Abort')
-                .htmlContent('<p>Are you sure you want to abort this game?</p><ul><li>Players will not receive credit.</li><li>You run the risk of being scorned by your peers.</li></ul>')
-                .ariaLabel('Abort game')
-                .targetEvent(event)
-                .ok('OK')
-                .cancel('Cancel');
-
-            $mdDialog.show(confirm).then(function() {
-                gameService.endGame(vm.service.game, function() {
-                    $state.go('profile.games');
-                });
-            });
-        },
-        excusePlayer: function() {
-            // TODO: Allow excusing players without penalty.
-            // Use custom dialog providing list of powers (not players).
-        },
-        bootPlayer: function() {
-            // TODO: Allow booting players with penalty.
-            // Use custom dialog providing list of powers (not players).
-        },
         quitGame: function() {
             confirm = $mdDialog.confirm()
                 .title('Quit')
@@ -68,12 +29,6 @@ angular.module('gametools.component')
 
     function powerOwnsUnitInProvince(code, province) {
         return province.unit && province.unit.owner === code;
-    }
-
-    function getPowerList() {
-        var powersWithoutGM = vm.powers;
-        delete powersWithoutGM.GM;
-        return powersWithoutGM;
     }
 
     function setReadyState() {

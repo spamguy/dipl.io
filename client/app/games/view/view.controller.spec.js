@@ -1,4 +1,3 @@
-/* eslint-disable */
 describe('Game view controller', function() {
     'use strict';
 

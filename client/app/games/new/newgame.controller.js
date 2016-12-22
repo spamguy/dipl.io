@@ -1,11 +1,25 @@
 'use strict';
 
 angular.module('games')
-.controller('NewGameController', ['gameService', '$localStorage', '$state', 'variants', function(gameService, $localStorage, $state, variants) {
+.controller('NewGameController', ['gameService', '$state', 'variants', function(gameService, $state, variants) {
     var vm = this;
 
-    vm.$storage = $localStorage;
     angular.extend(vm, {
+        move: {
+            minutes: 0,
+            hours: 0,
+            days: 1
+        },
+        retreat: {
+            minutes: 0,
+            hours: 0,
+            days: 1
+        },
+        adjust: {
+            minutes: 0,
+            hours: 0,
+            days: 1
+        },
         game: {
             Started: false,
             Closed: false,
@@ -15,9 +29,12 @@ angular.module('games')
             PhaseLengthMinutes: 60 * 24,
 
             save: function() {
-                gameService.createNewGame(vm.game)
+                // Calculate minutes in supplied deadline.
+                vm.game.PhaseLengthMinutes = vm.move.minutes + (vm.move.hours * 60) + (vm.move.days * 24 * 60);
+
+                return gameService.createNewGame(vm.game)
                 .then(function(game) {
-                    $state.go('profile.games');
+                    return $state.go('profile.games');
                 });
             }
         }

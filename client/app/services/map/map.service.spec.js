@@ -31,18 +31,21 @@ describe('Map service', function() {
         };
         phases = [{
             Properties: {
+                PhaseOrdinal: 1,
                 Season: 'Spring',
                 Type: 'Movement',
                 Year: 1901
             }
         }, {
             Properties: {
+                PhaseOrdinal: 2,
                 Season: 'Summer',
                 Type: 'Retreat',
                 Year: 1901
             }
         }, {
             Properties: {
+                PhaseOrdinal: 3,
                 Season: 'Fall',
                 Type: 'Movement',
                 Year: 1901
@@ -52,25 +55,24 @@ describe('Map service', function() {
 
         inject(function(_mapService_) {
             MapService = _mapService_;
-            ms = new MapService(variant, game, phases, currentState);
+            ms = new MapService(variant, game, phases, currentState, null);
         });
     });
 
-    it('exposes variant/game/phase data', function() {
+    it('exposes variant/game/phase data, but not ordinal', function() {
         expect(ms.variant).to.not.be.undefined;
         expect(ms.game).to.not.be.undefined;
         expect(ms.phases).to.not.be.undefined;
         expect(ms.phases).to.be.an('Array');
         expect(ms.currentState).to.not.be.undefined;
+        expect(ms._ordinal).to.be.undefined;
     });
 
-    it('returns the current phase', function() {
+    it('returns the appropriate phase by its ordinal', function() {
         expect(ms.getCurrentPhase().Properties.Season).to.equal('Fall');
-    });
 
-    it('returns the phase at an ordinal', function() {
-        expect(ms.getPhaseAtOrdinal(1).Properties.Season).to.equal('Spring');
-        expect(ms.getPhaseAtOrdinal(undefined).Properties.Season).to.equal('Fall');
+        ms = new MapService(variant, game, phases, currentState, 2);
+        expect(ms.getCurrentPhase(undefined).Properties.Season).to.equal('Summer');
     });
 
     it('determines if the user can submit phase-appropriate orders', function() {

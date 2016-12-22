@@ -9,11 +9,11 @@
                     </md-switch>
                 </div>
 
-                <section ng-if="$ctrl.service.game.status > 0" ng-repeat="(code, power) in $ctrl.getPowerList()" class="section-{{code}}">
-                    <md-subheader>{{$ctrl.getPowerHeader(code, power)}}</md-subheader>
+                <section ng-if="$ctrl.service.game.Started" ng-repeat="nation in $ctrl.service.variant.Nations" class="section-{{code}}">
+                    <md-subheader>{{nation}}</md-subheader>
                     <md-divider></md-divider>
                     <md-list>
-                        <md-list-item ng-repeat="(key, province) in $ctrl.service.phase.provinces" ng-if="$ctrl.powerOwnsUnitInProvince(code, province)">
+                        <md-list-item ng-repeat="province in $ctrl.service.getCurrentPhase().Properties.Units" ng-if="province.Unit.Nation === nation">
                             <sg-province-list-item province="province" />
                         </md-list-item>
                     </md-list>
