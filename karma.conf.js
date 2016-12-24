@@ -12,6 +12,7 @@ module.exports = function(config) {
         frameworks: ['browserify', 'mocha', 'chai-jquery', 'jquery-2.1.0', 'sinon-chai', 'chai-as-promised', 'chai'],
         files: [
             'karma-setup.js',
+            'client/temp/modernizr.js',
             'bower_components/pluralize/pluralize.js',
             'bower_components/bluebird/js/browser/bluebird.js',
             'bower_components/jquery/dist/jquery.js',

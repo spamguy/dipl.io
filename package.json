@@ -26,6 +26,7 @@
     "grunt-contrib-watch": "1.0.0",
     "grunt-eslint": "19.0.0",
     "grunt-karma": "2.0.0",
+    "grunt-modernizr": "1.0.2",
     "grunt-ng-annotate": "2.0.2",
     "grunt-ng-constant": "2.0.1",
     "grunt-open": "~0.2.3",

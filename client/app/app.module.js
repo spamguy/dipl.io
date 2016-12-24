@@ -67,30 +67,32 @@ function(CONST, $stateProvider, $urlRouterProvider, $locationProvider, $httpProv
         $rootScope.$evalAsync(cb);
     });
 
-    // Initialise Firebase messaging.
-    firebase.initializeApp({
-        apiKey: 'AIzaSyB0rX7dts3Rk0UnDRR9A4vghO01mwCvLxY',
-        authDomain: 'diplicity-engine.firebaseapp.com',
-        databaseURL: 'https://diplicity-engine.firebaseio.com',
-        storageBucket: 'diplicity-engine.appspot.com',
-        messagingSenderId: '635122585664'
-    });
+    // Initialise Firebase messaging if browser can handle it.
+    if (Modernizr.notification) {
+        firebase.initializeApp({
+            apiKey: 'AIzaSyB0rX7dts3Rk0UnDRR9A4vghO01mwCvLxY',
+            authDomain: 'diplicity-engine.firebaseapp.com',
+            databaseURL: 'https://diplicity-engine.firebaseio.com',
+            storageBucket: 'diplicity-engine.appspot.com',
+            messagingSenderId: '635122585664'
+        });
 
-    // Retrieve an instance of Firebase Messaging so that it can handle background messages.
-    var messaging = firebase.messaging(),
-        fcmToken;
-    messaging.requestPermission()
-    .then(function() {
-        console.log('Notification permission granted.');
-        return messaging.getToken();
-    })
-    .then(function(token) {
-        console.log('FCM token = ' + token);
-        fcmToken = token;
-    })
-    .catch(function(ex) {
-        console.error(ex);
-    });
+        // Retrieve an instance of Firebase Messaging so that it can handle background messages.
+        var messaging = firebase.messaging(),
+            fcmToken;
+        messaging.requestPermission()
+        .then(function() {
+            console.log('Notification permission granted.');
+            return messaging.getToken();
+        })
+        .then(function(token) {
+            console.log('FCM token = ' + token);
+            fcmToken = token;
+        })
+        .catch(function(ex) {
+            console.error(ex);
+        });
+    }
 
     userService.applyTokens(fcmToken);
 

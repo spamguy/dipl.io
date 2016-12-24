@@ -84,8 +84,17 @@ module.exports = function(grunt) {
             },
             target: [
                 'client/**/*.js',
-                '!client/temp/constants.js'
+                '!client/temp/*.js'
             ]
+        },
+        modernizr: {
+            prod: {
+                uglify: false, // Let other processes uglify this.
+                dest: 'client/temp/modernizr.js',
+                files: {
+                    src: ['client/app/**/*.{js,css,scss}']
+                }
+            }
         },
         clean: {
             before: {
@@ -255,10 +264,10 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('build', [
-        'eslint',
-        'clean:before',
         'ngconstant:prod',
-        'wiredep',
+        'eslint',
+        'test',
+        'clean:before',
         'useminPrepare',
         'ngtemplates',
         'concat:generated',
@@ -275,17 +284,21 @@ module.exports = function(grunt) {
         'clean:after'
     ]);
 
+    /*
+     * Present in 'test' and not needed in 'serve' and/or 'build':
+     * - modernizr:prod
+     * - sass
+     * - wiredep
+    */
     grunt.registerTask('serve', [
         'eslint',
-         // 'ngconstant:dev', (redundant in test task)
+        'ngconstant:dev',
         'test',
-        'wiredep',
-        'sass',
         'open',
         'watch'
     ]);
     grunt.registerTask('test', [
-        'ngconstant:dev',
+        'modernizr:prod',
         'sass',
         'karma'
     ]);

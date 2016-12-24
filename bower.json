@@ -30,7 +30,8 @@
     "restangular": "1.5.2",
     "pluralize": "3.0.0",
     "firebase": "3.6.0",
-    "bluebird": "3.4.6"
+    "bluebird": "3.4.6",
+    "notify": "0.0.1"
   },
   "devDependencies": {
     "jquery": "2.2.0",

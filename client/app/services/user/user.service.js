@@ -45,10 +45,15 @@ angular.module('userService', [])
             $localStorage.fcmToken = fcmToken;
             var token = $localStorage.token,
                 username = $localStorage.username;
-            if (token)
-                Restangular.setDefaultHeaders({ Authorization: 'Bearer ' + token });
-            else if (username)
+            if (token) {
+                Restangular.setDefaultHeaders({
+                    Accept: 'application/json',
+                    Authorization: 'Bearer ' + token
+                });
+            }
+            else if (username) {
                 Restangular.setDefaultRequestParams({ 'fake-id': username });
+            }
         },
 
         apiErrorHandler: function(response) {
