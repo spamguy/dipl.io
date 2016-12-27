@@ -298,7 +298,7 @@ module.exports = function(grunt) {
         'watch'
     ]);
     grunt.registerTask('test', [
-        'ngconstant:dev'
+        'ngconstant:dev',
         'modernizr:prod',
         'sass',
         'karma'
