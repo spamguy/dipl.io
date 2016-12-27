@@ -202,7 +202,7 @@ module.exports = function(grunt) {
                     src: ['index.html', 'package.json', 'robots.txt', 'assets/**']
                 }, {
                     expand: true,
-                    dest: 'dist/client',
+                    dest: 'dist/',
                     src: [
                         'variants/**/*'
                     ]
@@ -298,6 +298,7 @@ module.exports = function(grunt) {
         'watch'
     ]);
     grunt.registerTask('test', [
+        'ngconstant:dev'
         'modernizr:prod',
         'sass',
         'karma'
