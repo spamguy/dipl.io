@@ -264,9 +264,9 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('build', [
-        'ngconstant:prod',
         'eslint',
         'test',
+        'ngconstant:prod',
         'clean:before',
         'useminPrepare',
         'ngtemplates',

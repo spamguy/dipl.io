@@ -64,10 +64,10 @@
             </defs>
             <g class="scLayer">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                     ng-repeat="province in $ctrl.service.getSCsInVariant()"
-                     xlink:href="" ng-href="{{$ctrl.service.getSCPath(province)}}"
-                     ng-attr-transform="{{$ctrl.service.getSCTransform(province)}}"
-                     ng-attr-fill="{{$ctrl.service.getSCFill(province)}}"
+                     ng-repeat="sc in $ctrl.service.getCurrentPhase().Properties.SCs"
+                     xlink:href="" ng-href="{{$ctrl.service.getSCPath(sc)}}"
+                     ng-attr-transform="{{$ctrl.service.getSCTransform(sc)}}"
+                     ng-attr-fill="{{$ctrl.service.getSCFill(sc)}}"
                      class="sc">
                 </use>
             </g>

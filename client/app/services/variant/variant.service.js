@@ -24,7 +24,16 @@ angular.module('variantService', [])
                     return $http.get('variants/' + normalisedVariantName + '/' + normalisedVariantName + '.json');
                 })
                 .then(function(variantCoordinates) {
+                    var key,
+                        province;
                     variant = variant.Properties;
+
+                    // Convert all keys in diplicity variant definition to uppercase.
+                    for (key in variant.Graph.Nodes) {
+                        province = variant.Graph.Nodes[key];
+                        delete variant.Graph.Nodes[key];
+                        variant.Graph.Nodes[key.toUpperCase()] = province;
+                    }
 
                     // Squish together diplicity nodes with dipl.io nodes with coordinates.
                     variant.Graph.Nodes = _.merge(variant.Graph.Nodes, variantCoordinates.data.provinces);

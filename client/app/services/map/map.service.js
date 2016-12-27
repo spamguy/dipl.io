@@ -45,11 +45,23 @@ angular.module('mapService', ['gameService'])
     }
 
     function getSCTransform(p) {
-        return 'translate(' + p.sc.location.x + ',' + p.sc.location.y + ') scale(0.04)';
+        var key = p.Province.toUpperCase(),
+            sc;
+
+        if (!this.variant.Graph.Nodes[key].sc) {
+            console.warn('Province \'' + key + '\' not found in definition');
+            return '';
+        }
+
+        sc = this.variant.Graph.Nodes[key].sc;
+        return 'translate(' + sc.x + ',' + sc.y + ') scale(0.04)';
     }
 
     function getSCFill(p) {
-        return (p.sc && p.sc.owner) ? p.sc.fill : '#ccc';
+        var key = p.Province.toUpperCase(),
+            sc = this.variant.Graph.Nodes[key].sc;
+
+        return (sc && sc.Owner) ? this.variant.Powers[sc.Owner[0]].colour : '#ccc';
     }
 
     function generateMarkerStart(d) {
@@ -263,7 +275,7 @@ angular.module('mapService', ['gameService'])
     }
 
     function getReadableDeadline() {
-        var currentPhase = this.getCurrentPhase(),
+        var currentPhase = this.getCurrentPhase().Properties,
             timeUntilDeadline;
         if (!this.game.Finished) {
             if (this.game.Started && currentPhase) {
