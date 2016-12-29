@@ -48,7 +48,8 @@ describe('Map service', function() {
                 PhaseOrdinal: 3,
                 Season: 'Fall',
                 Type: 'Movement',
-                Year: 1901
+                Year: 1901,
+                DeadlineAt: moment().add({ minutes: 3, seconds: 12, milliseconds: 144 }).toISOString()
             }
         }];
         currentState = { };
@@ -101,15 +102,9 @@ describe('Map service', function() {
         });
     });
 
-    xdescribe('Readable deadline', function() {
-        it('displays the largest two units in deadline during active games', function() {
-        });
-
+    describe('Readable deadline', function() {
         it('rounds off seconds in deadline', function() {
-            // scope.game.phases[0].deadline = moment.utc().add({ minutes: 3, seconds: 12, milliseconds: 144 });
-            // el = compile('<sg-game-list-item game="game" joinable="false"></sg-game-list-item>')(scope);
-            // scope.$digest();
-            // expect(el.isolateScope().readableTimer).to.equal('3 minutes, 12 seconds');
+            expect(ms.getReadableDeadline()).to.equal('3 minutes');
         });
     });
 });

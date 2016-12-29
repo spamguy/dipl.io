@@ -1,4 +1,3 @@
-/* global moment */
 'use strict';
 
 var localStorage,

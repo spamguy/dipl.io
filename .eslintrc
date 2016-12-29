@@ -9,7 +9,8 @@
         "$": true,
         "Promise": true,
         "pluralize": true,
-        "Modernizr": true
+        "Modernizr": true,
+        "moment": true
     },
     "extends": "semistandard",
     "env": {

@@ -45,23 +45,12 @@ angular.module('mapService', ['gameService'])
     }
 
     function getSCTransform(p) {
-        var key = p.Province.toUpperCase(),
-            sc;
-
-        if (!this.variant.Graph.Nodes[key].sc) {
-            console.warn('Province \'' + key + '\' not found in definition');
-            return '';
-        }
-
-        sc = this.variant.Graph.Nodes[key].sc;
-        return 'translate(' + sc.x + ',' + sc.y + ') scale(0.04)';
+        return 'translate(' + p.sc.x + ',' + p.sc.y + ') scale(0.04)';
     }
 
     function getSCFill(p) {
-        var key = p.Province.toUpperCase(),
-            sc = this.variant.Graph.Nodes[key].sc;
-
-        return (sc && sc.Owner) ? this.variant.Powers[sc.Owner[0]].colour : '#ccc';
+        var sc = _.find(this.getCurrentPhase().Properties.SCs, ['Province', p.Name]);
+        return sc ? this.variant.Powers[p.SC[0]].colour : '#ccc';
     }
 
     function generateMarkerStart(d) {
@@ -280,7 +269,11 @@ angular.module('mapService', ['gameService'])
         if (!this.game.Finished) {
             if (this.game.Started && currentPhase) {
                 timeUntilDeadline = new Date(currentPhase.DeadlineAt).getTime() - new Date().getTime();
-                return humanizeDuration(timeUntilDeadline, { largest: 2, round: true });
+                return humanizeDuration(timeUntilDeadline, {
+                    largest: 2,
+                    round: true,
+                    units: ['mo', 'w', 'd', 'h', 'm']
+                });
             }
 
             // TODO: Handle paused states.

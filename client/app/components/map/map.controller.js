@@ -13,6 +13,7 @@ angular.module('map.component')
         holds = [],
         unitRadiusPlusPadding = 16;
 
+    vm._ = _; // Expose lodash to Angular template.
     vm.paths = { };
     vm.getFormattedDeadline = gameService.getFormattedDeadline;
     vm.goToIndex = goToIndex;

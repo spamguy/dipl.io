@@ -1,4 +1,3 @@
-/* global moment */
 /**
  * @ngdoc service
  * @name gameService
@@ -98,10 +97,6 @@ angular.module('gameService', ['userService'])
 
         isPlayer: function(game) {
             return !!this.getCurrentUserInGame(game);
-        },
-
-        getFormattedDeadline: function(phase) {
-            return moment(phase.deadline).valueOf();
         }
     };
 }]);
