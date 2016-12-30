@@ -16,7 +16,8 @@ angular.module('map.component')
     vm._ = _; // Expose lodash to Angular template.
     vm.paths = { };
     vm.getFormattedDeadline = gameService.getFormattedDeadline;
-    vm.goToIndex = goToIndex;
+    vm.goToOrdinal = goToOrdinal;
+    vm.addToOrdinal = addToOrdinal;
 
     vm.onOrderSave = function(response, r, action, source, target) {
         if (response.status === 'ok') {
@@ -174,14 +175,25 @@ angular.module('map.component')
         return vm.svg.documentElement.getAttribute(attr);
     }
 
-    function goToIndex(index) {
-        // Keep phase index inside countable number of phases.
-        if (index <= 0)
-            index = 1;
+    function goToOrdinal(ordinal) {
+        // Keep phase ordinal inside countable number of phases.
+        if (ordinal <= 0)
+            ordinal = 1;
+        else if (ordinal > vm.service.phases.length)
+            ordinal = null;
 
+        goToState(ordinal);
+    }
+
+    function goToState(ordinal) {
         $state.go('.', {
             id: vm.service.game.ID,
-            phaseIndex: index
+            ordinal: ordinal
         }, { notify: false });
+    }
+
+    function addToOrdinal(delta) {
+        vm.service.addToOrdinal(delta);
+        goToState(vm.service.getCurrentPhase().Properties.PhaseOrdinal);
     }
 }]);

@@ -133,13 +133,13 @@
         </svg>
     </div>
 
-    <md-toolbar class="md-toolbar-tools" id="mapNavToolbar" ng-if="$ctrl.header && $ctrl.service.phase">
-        <md-icon md-menu-origin md-svg-icon="first" ng-click="$ctrl.goToIndex(1)" class="svg48px"></md-icon>
-        <md-icon md-menu-origin md-svg-icon="previous" ng-click="$ctrl.goToIndex($ctrl.service.phase.phaseIndex - 1)" class="svg48px"></md-icon>
+    <md-toolbar class="md-toolbar-tools" id="mapNavToolbar" ng-if="$ctrl.header && $ctrl.service.game.Started">
+        <md-icon md-menu-origin md-svg-icon="first" ng-click="$ctrl.goToOrdinal(1)" class="svg48px"></md-icon>
+        <md-icon md-menu-origin md-svg-icon="previous" ng-click="$ctrl.addToOrdinal(-1)" class="svg48px"></md-icon>
         <span hide-sm hide-xs>Previous</span>
         <span flex></span>
         <span hide-sm hide-xs>Next</span>
-        <md-icon md-menu-origin md-svg-icon="next" ng-click="$ctrl.goToIndex($ctrl.service.phase.phaseIndex + 1)" class="svg48px"></md-icon>
-        <md-icon md-menu-origin md-svg-icon="last" ng-click="$ctrl.goToIndex(null)" class="svg48px"></md-icon>
+        <md-icon md-menu-origin md-svg-icon="next" ng-click="$ctrl.addToOrdinal(1)" class="svg48px"></md-icon>
+        <md-icon md-menu-origin md-svg-icon="last" ng-click="$ctrl.goToOrdinal(null)" class="svg48px"></md-icon>
     </md-toolbar>
 </div>

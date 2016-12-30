@@ -11,7 +11,7 @@ describe('Games module', function() {
         };
 
         mockUserService.getUser.resolves({
-            _id: '123'
+            ID: '123'
         });
 
         angular.mock.module('games', function($provide) {
@@ -31,6 +31,6 @@ describe('Games module', function() {
     });
 
     it('resolves game URLs with phase parameters', function() {
-        expect($state.href('games.view', { id: '55d33430c9e0fa7a0c762b9a', phaseIndex: 2 })).to.equal('#/games/55d33430c9e0fa7a0c762b9a/2');
+        expect($state.href('games.view', { id: '55d33430c9e0fa7a0c762b9a', ordinal: 2 })).to.equal('#/games/55d33430c9e0fa7a0c762b9a/2');
     });
 });

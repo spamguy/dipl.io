@@ -55,11 +55,11 @@ angular.module('games', [
         }]
     })
     .state('games.view', {
-        url: '/:id/{phaseIndex:int}',
+        url: '/:id/{ordinal:int}',
         controller: 'ViewController as vm',
         templateUrl: 'app/games/view/view.html',
         params: {
-            phaseIndex: {
+            ordinal: {
                 value: null,
                 squash: true,
                 dynamic: true
@@ -73,7 +73,7 @@ angular.module('games', [
                 return gameService.getPhases($stateParams.id);
             }],
             phaseState: ['game', 'gameService', 'mapService', 'phases', '$stateParams', function(game, gameService, MapService, phases, $stateParams) {
-                var mapService = new MapService(null, game, phases.Properties, null, $stateParams.phaseIndex),
+                var mapService = new MapService(null, game, phases.Properties, null, $stateParams.ordinal),
                     phase = mapService.getCurrentPhase();
 
                 // No phase? No phase state.

@@ -33,6 +33,7 @@ angular.module('mapService', ['gameService'])
     service.prototype.adjustExpected = adjustExpected;
     service.prototype.isActionCurrent = isActionCurrent;
     service.prototype.isInPendingCommand = isInPendingCommand;
+    service.prototype.addToOrdinal = addToOrdinal;
 
     return service;
 
@@ -281,5 +282,15 @@ angular.module('mapService', ['gameService'])
         else {
             return '';
         }
+    }
+
+    function addToOrdinal(delta) {
+        if (!_ordinal)
+            _ordinal = this.phases.length;
+        _ordinal += delta;
+        if (_ordinal <= 0)
+            _ordinal = 1;
+        else if (_ordinal > this.phases.length)
+            _ordinal = this.phases.length;
     }
 }]);
