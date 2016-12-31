@@ -4,6 +4,7 @@ describe('Map service', function() {
     var variant,
         game,
         phases,
+        orders,
         currentState,
         mockGameService,
         MapService,
@@ -53,10 +54,11 @@ describe('Map service', function() {
             }
         }];
         currentState = { };
+        orders = [];
 
         inject(function(_mapService_) {
             MapService = _mapService_;
-            ms = new MapService(variant, game, phases, currentState, null);
+            ms = new MapService(variant, game, phases, orders, currentState);
         });
     });
 
@@ -72,8 +74,8 @@ describe('Map service', function() {
     it('returns the appropriate phase by its ordinal', function() {
         expect(ms.getCurrentPhase().Properties.Season).to.equal('Fall');
 
-        ms = new MapService(variant, game, phases, currentState, 2);
-        expect(ms.getCurrentPhase(undefined).Properties.Season).to.equal('Summer');
+        ms = new MapService(variant, game, phases, orders, currentState, 2);
+        expect(ms.getCurrentPhase().Properties.Season).to.equal('Summer');
     });
 
     it('determines if the user can submit phase-appropriate orders', function() {

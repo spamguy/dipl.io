@@ -14,12 +14,24 @@ function(gameService, MapService, $mdDialog, $mdPanel, $state, variantService) {
         variantService.getVariant(vm.game.Variant),
         gameService.getPhases(vm.game.ID)
     ])
-    .spread(buildMapService);
+    .spread(function(variant, phases) {
+        var currentPhase = _.last(phases);
+        return Promise.all([
+            Promise.resolve(variant),
+            Promise.resolve(phases),
+            gameService.getPhaseState(vm.game.ID, currentPhase),
+            gameService.getPhaseOrders(vm.game.ID, currentPhase)
+        ])
+        .spread(buildMapService);
+    });
 
     // PRIVATE FUNCTIONS
 
-    function buildMapService(variant, phases) {
-        vm.service = new MapService(variant, vm.game, phases.Properties);
+    function buildMapService(variant, phases, phaseState, orders) {
+        phases = phases.Properties;
+        phaseState = phaseState ? phaseState.Properties : null;
+        orders = orders ? orders.Properties : null;
+        vm.service = new MapService(variant, vm.game, phases, orders, phaseState);
     }
 
     function reasonForNoJoin() {
@@ -64,10 +76,8 @@ function(gameService, MapService, $mdDialog, $mdPanel, $state, variantService) {
             clickOutsideToClose: true,
             fullscreen: false,
             locals: {
-                game: vm.game,
-                variant: variantService.getVariant(vm.game.Variant),
+                service: vm.service,
                 svg: variantService.getVariantSVG(vm.game.Variant),
-                phases: gameService.getPhases(vm.game.ID),
                 status: vm.phaseDescription
             }
         });

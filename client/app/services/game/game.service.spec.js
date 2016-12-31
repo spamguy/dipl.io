@@ -110,4 +110,13 @@ describe('Game service', function() {
         });
         httpBackend.flush();
     });
+
+    it('gets a phase\'s orders', function() {
+        httpBackend.expectGET(/Game\/.+?\/Phase\/\d+\/Orders/).respond(200);
+
+        gameService.getPhaseOrders('123', { id: '456', PhaseOrdinal: 455 })
+        .then(function(o) {
+        });
+        httpBackend.flush();
+    });
 });

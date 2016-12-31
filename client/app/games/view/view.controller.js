@@ -1,16 +1,18 @@
 'use strict';
 
 angular.module('games')
-.controller('ViewController', ['$state', 'userService', 'gameService', 'mapService', 'game', 'phases', 'svg', 'variant', '$mdDialog', '$stateParams',
-function($state, userService, gameService, MapService, game, phases, svg, variant, $mdDialog, $stateParams) {
+.controller('ViewController', ['$state', 'userService', 'gameService', 'mapService', 'game', 'orders', 'phases', 'phaseState', 'svg', 'variant', '$mdDialog', '$stateParams',
+function($state, userService, gameService, MapService, game, orders, phases, phaseState, svg, variant, $mdDialog, $stateParams) {
     game = game.Properties;
     phases = phases.Properties;
+    orders = orders ? orders.Properties : null;
+    phaseState = phaseState ? phaseState.Properties : null;
     var vm = this;
     vm.updateProvinceData = updateProvinceData;
 
     vm.currentUserInGame = gameService.getCurrentUserInGame(game);
     vm.svg = new DOMParser().parseFromString(svg.data, 'image/svg+xml');
-    vm.service = new MapService(variant, game, phases, $stateParams.phaseIndex);
+    vm.service = new MapService(variant, game, phases, orders, phaseState, $stateParams.phaseIndex);
 
     // this.uiOnParamsChanged = function(params) {
     //     var index = params.phaseIndex;

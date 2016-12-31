@@ -21,7 +21,9 @@ describe('Game list item directive', function() {
             }
         };
         mockGameService = {
-            getPhases: sinon.stub().returnsPromise().resolves({ Properties: [] }),
+            getPhases: sinon.stub().returnsPromise().resolves({ Properties: [{ PhaseOrdinal: 1 }] }),
+            getPhaseState: sinon.stub().returnsPromise().resolves({ Properties: [] }),
+            getPhaseOrders: sinon.stub().returnsPromise().resolves({ Properties: [] }),
             isPlayer: function() { return false; }
         };
 

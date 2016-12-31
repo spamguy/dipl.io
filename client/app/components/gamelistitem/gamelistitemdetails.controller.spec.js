@@ -5,6 +5,7 @@ describe('Game list item details controller', function() {
         game,
         phases,
         mockGameService,
+        MapService,
         mdDialog,
         controller;
 
@@ -22,13 +23,12 @@ describe('Game list item details controller', function() {
         angular.mock.module('ui.router');
         angular.mock.module('gamelistitem.component');
 
-        inject(function(_$controller_, _$mdDialog_) {
+        inject(function(_$controller_, _$mdDialog_, _mapService_) {
+            MapService = _mapService_;
             mdDialog = _$mdDialog_;
             sinon.spy(mdDialog, 'hide');
             controller = _$controller_('GameListItemDetailsController', {
-                variant: variant,
-                game: game,
-                phases: phases,
+                service: new MapService(variant, game, phases),
                 svg: { }
             });
         });

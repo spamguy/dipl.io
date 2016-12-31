@@ -40,6 +40,12 @@ angular.module('gameService', ['userService'])
             return Restangular.one('Game', gameID).one('Phase', phase.PhaseOrdinal).customGET('PhaseStates');
         },
 
+        getPhaseOrders: function(gameID, phase) {
+            if (!phase)
+                return Promise.resolve(null);
+            return Restangular.one('Game', gameID).one('Phase', phase.PhaseOrdinal).customGET('Orders');
+        },
+
         getAllOpenGames: function() {
             return Restangular.all('Games').customGET('Open');
         },

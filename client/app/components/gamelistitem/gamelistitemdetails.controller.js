@@ -1,11 +1,10 @@
 angular.module('gamelistitem.component')
-.controller('GameListItemDetailsController', ['game', 'phases', 'mapService', '$mdDialog', 'svg', 'variant', function(game, phases, MapService, $mdDialog, svg, variant) {
+.controller('GameListItemDetailsController', ['service', '$mdDialog', 'svg', function(service, $mdDialog, svg) {
     var dg = this;
 
-    dg.game = game;
     dg.svg = new DOMParser().parseFromString(svg.data, 'image/svg+xml');
     dg.closeDialog = closeDialog;
-    dg.service = new MapService(variant, game, phases);
+    dg.service = service;
 
     function closeDialog() {
         $mdDialog.hide();

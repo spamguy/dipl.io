@@ -6,12 +6,13 @@ angular.module('mapService', ['gameService'])
     var _currentAction = 'hold',
         _commandData = [],
         _ordinal = 1,
-        service = function(variant, game, phases, currentState, ordinal) {
+        service = function(variant, game, phases, orders, currentState, ordinal) {
             this.variant = variant;
             this.game = game;
             this.phases = phases;
             this.currentState = currentState;
-            _ordinal = ordinal;
+            this.orders = orders;
+            _ordinal = ordinal || this.phases.length;
         };
 
     service.prototype.getCurrentPhase = getCurrentPhase;
@@ -204,7 +205,8 @@ angular.module('mapService', ['gameService'])
     }
 
     function userCanPerformAction(phaseType) {
-        return gameService.isPlayer(this.game) && this.getCurrentPhase().Properties.Type === phaseType;
+        var phase = this.getCurrentPhase();
+        return phase && gameService.isPlayer(this.game) && phase.Properties.Type === phaseType;
     }
 
     /**
@@ -265,11 +267,11 @@ angular.module('mapService', ['gameService'])
     }
 
     function getReadableDeadline() {
-        var currentPhase = this.getCurrentPhase().Properties,
+        var currentPhase = this.getCurrentPhase(),
             timeUntilDeadline;
         if (!this.game.Finished) {
             if (this.game.Started && currentPhase) {
-                timeUntilDeadline = new Date(currentPhase.DeadlineAt).getTime() - new Date().getTime();
+                timeUntilDeadline = new Date(currentPhase.Properties.DeadlineAt).getTime() - new Date().getTime();
                 return humanizeDuration(timeUntilDeadline, {
                     largest: 2,
                     round: true,
