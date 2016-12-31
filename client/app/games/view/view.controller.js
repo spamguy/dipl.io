@@ -14,15 +14,17 @@ function($state, userService, gameService, MapService, game, orders, phases, pha
     vm.svg = new DOMParser().parseFromString(svg.data, 'image/svg+xml');
     vm.service = new MapService(variant, game, phases, orders, phaseState, $stateParams.phaseIndex);
 
-    // this.uiOnParamsChanged = function(params) {
-    //     var index = params.phaseIndex;
-    //
-    //     gameService.getPhases(game.id)
-    //     .then(function(phases) {
-    //         vm.service.phase = phases[index];
-    //         vm.$broadcast('renderphase');
-    //     });
-    // };
+    this.uiOnParamsChanged = function(params) {
+        Promise.all([
+            gameService.getPhaseState(vm.game.ID, vm.service.getCurrentPhase()),
+            gameService.getPhaseOrders(vm.game.ID, vm.service.getCurrentPhase())
+        ])
+        .spread(function(state, orders) {
+            vm.service.currentState = state;
+            vm.service.orders = orders;
+            vm.$broadcast('renderphase');
+        });
+    };
 
     // Point out games that haven't started yet.
     if (!game.Started) {
