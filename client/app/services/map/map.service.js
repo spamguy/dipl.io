@@ -52,7 +52,7 @@ angular.module('mapService', ['gameService'])
 
     function getSCFill(p) {
         var sc = _.find(this.getCurrentPhase().Properties.SCs, ['Province', p.Name]);
-        return sc ? this.variant.Powers[p.SC[0]].colour : '#ccc';
+        return sc ? this.variant.Powers[sc.Owner[0]].colour : '#ccc';
     }
 
     function generateMarkerStart(d) {

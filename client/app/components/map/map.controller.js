@@ -52,7 +52,8 @@ angular.module('map.component')
     vm.imagePath = 'variants/' + normalisedVariantName + '/' + normalisedVariantName + '.png';
     vm.viewBox = '0 0 ' + getSVGAttribute('width') + ' ' + getSVGAttribute('height');
 
-    if (!vm.service.phase)
+    // Unstarted games have rendered all they need to.
+    if (!vm.service.game.Started)
         return;
 
     vm.clickCount = 0;
@@ -101,68 +102,72 @@ angular.module('map.component')
      * Builds force directed graph.
      */
     function renderForceDirectedGraph() {
-        var target,
-            province;
+        var // target,
+            // province,
+            o,
+            order,
+            action;
 
         // Reset link list and regenerate holding unit list.
         links = [];
         holds = [];
 
-        for (p in vm.service.phase.provinces) {
-            province = vm.service.phase.provinces[p];
+        for (o = 0; o < vm.service.orders.length; o++) {
+            order = vm.service.orders[o].Properties;
+            action = order.Parts[1];
 
-            // Nothing to render for provinces without units or units without orders.
-            if (!province.unit || !province.unit.action)
-                continue;
-
-            if (province.unit.action === 'hold') {
-                holds.push(province);
+            if (action === 'hold') {
+                holds.push(order.Parts[0]);
             }
             else {
-                target = province.unit.target;
-                links.push({
-                    source: _.defaults(province, { fixed: true }),
-                    target: _.assignIn({ }, vm.service.phase.provinces[target], {
-                        fixed: true, // To keep d3 from treating this map like a true force graph.
-                        action: province.unit.action,
-                        resolution: province.unit.resolution
-                    })
-                });
+        //         target = province.unit.target;
+        //         links.push({
+        //             source: _.defaults(province, { fixed: true }),
+        //             target: _.assignIn({ }, vm.service.phase.provinces[target], {
+        //                 fixed: true, // To keep d3 from treating this map like a true force graph.
+        //                 action: province.unit.action,
+        //                 resolution: province.unit.resolution
+        //             })
+        //         });
             }
-
-            // Convoys get an extra link to convey conveyance.
-            if (province.unit.action === 'convoy') {
-                links.push({
-                    source: _.defaults(province, { fixed: true }),
-                    target: _.assignIn({ }, vm.service.phase.provinces[province.unit.targetOfTarget], {
-                        fixed: true, // To keep d3 from treating this map like a true force graph.
-                        action: province.unit.action,
-                        resolution: province.unit.resolution
-                    })
-                });
-            }
+        //
+        //     // Convoys get an extra link to convey conveyance.
+        //     if (province.unit.action === 'convoy') {
+        //         links.push({
+        //             source: _.defaults(province, { fixed: true }),
+        //             target: _.assignIn({ }, vm.service.phase.provinces[province.unit.targetOfTarget], {
+        //                 fixed: true, // To keep d3 from treating this map like a true force graph.
+        //                 action: province.unit.action,
+        //                 resolution: province.unit.resolution
+        //             })
+        //         });
+        //     }
         }
-
-        moveLayerArrows = moveLayerArrows.data(links);
-        moveLayerArrows.enter()
-            .insert('svg:path')
-            .attr('marker-start', vm.service.generateMarkerStart)
-            .attr('marker-end', vm.service.generateMarkerEnd)
-            .attr('class', function(d) {
-                var failed = d.target.resolution ? 'failed ' : 'ok ';
-                return failed + 'link ' + d.target.action;
-            })
-            .attr('id', function(d) { return d.source.p + '-' + d.target.p + '-link'; });
-        moveLayerArrows.exit().remove();
-
+        //
+        // moveLayerArrows = moveLayerArrows.data(links);
+        // moveLayerArrows.enter()
+        //     .insert('svg:path')
+        //     .attr('marker-start', vm.service.generateMarkerStart)
+        //     .attr('marker-end', vm.service.generateMarkerEnd)
+        //     .attr('class', function(d) {
+        //         var failed = d.target.resolution ? 'failed ' : 'ok ';
+        //         return failed + 'link ' + d.target.action;
+        //     })
+        //     .attr('id', function(d) { return d.source.p + '-' + d.target.p + '-link'; });
+        // moveLayerArrows.exit().remove();
+        //
         // Append circles to units perceived to or actually holding.
         moveLayerHolds = moveLayerHolds.data(holds);
         moveLayerHolds.enter()
             .insert('svg:circle')
             .attr('id', function(d) { return d.p + '-hold'; })
             .attr('class', 'hold')
-            .attr('cx', function(d) { return vm.service.phase.provinces[d.p].unitLocation.x; })
-            .attr('cy', function(d) { return vm.service.phase.provinces[d.p].unitLocation.y; })
+            .attr('cx', function(d) {
+                return vm.service.variant.Graph.Nodes[d.Name.toUpperCase()].x;
+            })
+            .attr('cy', function(d) {
+                return vm.service.variant.Graph.Nodes[d.Name.toUpperCase()].y;
+            })
             .attr('r', unitRadiusPlusPadding);
         moveLayerHolds.exit().remove();
 

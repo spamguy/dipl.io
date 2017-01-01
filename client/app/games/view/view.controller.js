@@ -14,6 +14,7 @@ function($state, userService, gameService, MapService, game, orders, phases, pha
     vm.svg = new DOMParser().parseFromString(svg.data, 'image/svg+xml');
     vm.service = new MapService(variant, game, phases, orders, phaseState, $stateParams.phaseIndex);
 
+    // When the ordinal changes, get new data corresponding to the phase.
     this.uiOnParamsChanged = function(params) {
         Promise.all([
             gameService.getPhaseState(vm.game.ID, vm.service.getCurrentPhase()),
