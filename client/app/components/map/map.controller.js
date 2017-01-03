@@ -116,8 +116,8 @@ angular.module('map.component')
             order = vm.service.orders[o].Properties;
             action = order.Parts[1];
 
-            if (action === 'hold') {
-                holds.push(order.Parts[0]);
+            if (action === 'Hold') {
+                holds.push(order.Parts[0].toUpperCase());
             }
             else {
         //         target = province.unit.target;
@@ -160,13 +160,13 @@ angular.module('map.component')
         moveLayerHolds = moveLayerHolds.data(holds);
         moveLayerHolds.enter()
             .insert('svg:circle')
-            .attr('id', function(d) { return d.p + '-hold'; })
+            .attr('id', function(d) { return d + '-hold'; })
             .attr('class', 'hold')
             .attr('cx', function(d) {
-                return vm.service.variant.Graph.Nodes[d.Name.toUpperCase()].x;
+                return vm.service.variant.Graph.Nodes[d].x;
             })
             .attr('cy', function(d) {
-                return vm.service.variant.Graph.Nodes[d.Name.toUpperCase()].y;
+                return vm.service.variant.Graph.Nodes[d].y;
             })
             .attr('r', unitRadiusPlusPadding);
         moveLayerHolds.exit().remove();

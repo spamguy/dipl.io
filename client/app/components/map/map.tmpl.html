@@ -111,20 +111,20 @@
                         r="8"
                         stroke="#000"
                         stroke-width="1px"
-                        ng-attr-cx="{{$ctrl.service.variant.provinces[province.Province.toUpperCase()].x}}"
-                        ng-attr-cy="{{$ctrl.service.variant.provinces[province.Province.toUpperCase()].y}}"
-                        ng-attr-fill="{{$ctrl.service.variant.powers[province.Owner[0]].fill}}">
+                        ng-attr-cx="{{$ctrl.service.variant.Graph.Nodes[province.Province.toUpperCase()].x}}"
+                        ng-attr-cy="{{$ctrl.service.variant.Graph.Nodes[province.Province.toUpperCase()].y}}"
+                        ng-attr-fill="{{$ctrl.service.variant.Powers[province.Unit.Nation[0]].colour}}">
                 </circle>
 
                 <rect ng-repeat="province in $ctrl.service.getCurrentPhase().Properties.Units | filter: { Unit: { Type: 'Fleet' } }"
-                      id="{{province.Province.toUpperCase().replace('/', '-')}}-fleet"
+                      id="{{province.Province.toUpperCase()}}-fleet"
                       height="8"
                       width="16"
                       stroke="#000"
                       stroke-width="1px"
-                      ng-attr-x="{{$ctrl.service.variant.provinces[province.Province.toUpperCase()].x - 16/2}}"
-                      ng-attr-y="{{$ctrl.service.variant.provinces[province.Province.toUpperCase()].y - 8/2}}"
-                      ng-attr-fill="{{$ctrl.service.variant.powers[province.Owner[0]].fill}}">
+                      ng-attr-x="{{$ctrl.service.variant.Graph.Nodes[province.Province.toUpperCase()].x - 16/2}}"
+                      ng-attr-y="{{$ctrl.service.variant.Graph.Nodes[province.Province.toUpperCase()].y - 8/2}}"
+                      ng-attr-fill="{{$ctrl.service.variant.Powers[province.Unit.Nation[0]].colour}}">
                 </rect>
             </g>
 
