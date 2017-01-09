@@ -3,8 +3,8 @@ angular.module('mapService', ['gameService'])
 .service('mapService', ['$location', 'gameService', function($location, gameService) {
     'use strict';
 
-    var _currentAction = 'hold',
-        _commandData = [],
+    var _currentAction = 'Hold',
+        _pendingOrder = [],
         _ordinal = 1,
         service = function(variant, game, phases, orders, currentState, ordinal) {
             this.variant = variant;
@@ -28,7 +28,8 @@ angular.module('mapService', ['gameService'])
     service.prototype.generateBisectingLine = generateBisectingLine;
     service.prototype.setCurrentAction = setCurrentAction;
     service.prototype.getCurrentAction = getCurrentAction;
-    service.prototype.inputCommand = inputCommand;
+    service.prototype.inputOrder = inputOrder;
+    service.prototype.applyOrderLocally = applyOrderLocally;
     service.prototype.userCanPerformAction = userCanPerformAction;
     service.prototype.retreatExpected = retreatExpected;
     service.prototype.adjustExpected = adjustExpected;
@@ -121,64 +122,59 @@ angular.module('mapService', ['gameService'])
         _currentAction = action;
 
         // Reset any half-made orders.
-        clearAllCommands();
+        clearPendingOrder();
     }
 
     function getCurrentAction() {
         return _currentAction;
     }
 
-    function clearAllCommands() {
-        while (_commandData.length) _commandData.pop();
+    function clearPendingOrder() {
+        while (_pendingOrder.length) _pendingOrder.pop();
     }
 
-    function inputCommand(id, callback) {
-        var p = id.toUpperCase().replace('-', '/'), // HTML IDs use - for subdivisions.
-            province = this.phase.provinces[p],
-            overrideAction;
+    function inputOrder(id, callback) {
+        var sourceProvince = this.variant.Graph.Nodes[getProvinceComponent(_pendingOrder[0] || id)].Subs[getSubprovinceComponent(_pendingOrder[0] || id)];
 
         // TODO: Force armies to move to provinces only.
 
         // Users who try to control units that don't exist or don't own?
         // We have ways of shutting the whole thing down.
-        if (_commandData.length === 0 &&
-            (!province.unit || province.unit.owner !== gameService.getCurrentUserInGame(this.game).power))
-            return;
+        // if (_pendingOrder.length === 0 &&
+        //     (!province.unit || province.unit.owner !== gameService.getCurrentUserInGame(this.game).power))
+        //     return;
 
-        _commandData.push(p);
+        _pendingOrder.push(id.toLowerCase());
 
         switch (_currentAction) {
-        case 'hold':
+        case 'Hold':
             // Don't bother retaining clicks. Just continue on to send the command.
+            _pendingOrder.push(_currentAction);
             break;
-        case 'move':
+        case 'Move':
             // Source, target.
-            if (_commandData.length < 2)
+            if (_pendingOrder.length < 2)
                 return;
 
-            // Don't move to yourself. Treat this as a hold.
-            if (_commandData[0] === _commandData[1]) {
-                _commandData.pop();
-                overrideAction = 'hold';
-            }
+            if (_pendingOrder[0] === _pendingOrder[1]) // Don't move to yourself. Treat this as a hold.
+                _pendingOrder = buildDefaultOrder(id);
+            else if (!sourceProvince.Edges[_pendingOrder[1]]) // Verify adjacency of source/target. Submit non-adjacent provinces as MoveViaConvoy.
+                _pendingOrder.splice(1, 0, 'MoveViaConvoy');
             break;
-        case 'support':
-            // Don't support yourself. Treat this as a hold.
-            if (_commandData[0] === _commandData[1]) {
-                clearAllCommands();
-                overrideAction = 'hold';
-            }
-            // Source, target, target of target.
-            else if (_commandData.length < 3) {
+        case 'Support':
+            if (_pendingOrder.length < 3)
                 return;
-            }
-            // Source, holding target.
-            else if (_commandData[1] === _commandData[2]) {
-                _commandData.pop();
-            }
+
+            if (_pendingOrder[0] === _pendingOrder[1]) // Treat as hold.
+                _pendingOrder = buildDefaultOrder(id);
+            else if (_pendingOrder[1] === _pendingOrder[2]) // Source + holding target.
+                _pendingOrder.pop();
+
+            _pendingOrder.splice(1, 0, 'Support');
+
             break;
-        case 'convoy':
-            if (_commandData.length < 3)
+        case 'Convoy':
+            if (_pendingOrder.length < 3)
                 return;
 
             /*
@@ -188,20 +184,21 @@ angular.module('mapService', ['gameService'])
              * In short, source/target/target of target should be distinct.
              * Treat violations of the above as a hold.
              */
-            if (_commandData.length !== _.uniq(_commandData).length) {
-                clearAllCommands();
-                overrideAction = 'hold';
-            }
+            if (_pendingOrder.length !== _.uniq(_pendingOrder).length)
+                _pendingOrder = buildDefaultOrder(id);
             break;
         }
 
         // Making it this far means there is a full set of commands to publish.
-        gameService.publishCommand(_currentAction, _commandData, this.phase,
-            function(response) {
-                callback(response, _commandData[0], overrideAction || _currentAction, _commandData[1], _commandData[2]);
-                clearAllCommands();
-            }
-        );
+        return gameService.publishOrder(this.game, this.getCurrentPhase(), _pendingOrder);
+    }
+
+    function applyOrderLocally() {
+        // Purge old order (if any) for this province before adding new one.
+        this.orders = _.reject(this.orders, function(o) { return o.Properties.Parts[0] === _pendingOrder[0]; });
+        this.orders.push({ Properties: { Parts: _.clone(_pendingOrder) } });
+
+        clearPendingOrder();
     }
 
     function userCanPerformAction(phaseType) {
@@ -245,7 +242,7 @@ angular.module('mapService', ['gameService'])
     }
 
     function isInPendingCommand(province) {
-        return _commandData.indexOf(province) >= 0;
+        return _pendingOrder.indexOf(province) >= 0;
     }
 
     function getStatusDescription() {
@@ -294,5 +291,18 @@ angular.module('mapService', ['gameService'])
             _ordinal = 1;
         else if (_ordinal > this.phases.length)
             _ordinal = this.phases.length;
+    }
+
+    function getSubprovinceComponent(id) {
+        var idComponents = id.split('/');
+        return idComponents[1] ? idComponents[1] : '';
+    }
+
+    function getProvinceComponent(id) {
+        return id.split('/')[0];
+    }
+
+    function buildDefaultOrder(id) {
+        return [id, 'Hold'];
     }
 }]);

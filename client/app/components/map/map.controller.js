@@ -9,6 +9,7 @@ angular.module('map.component')
         moveLayerArrows = moveLayer.selectAll('path'),
         moveLayerHolds = moveLayer.selectAll('circle'),
         force,
+        // unitDictionary = _.keyBy(vm.service.getCurrentPhase().Properties.Units, function(u) { return u.Province.toUpperCase(); }),
         links = [],
         holds = [],
         unitRadiusPlusPadding = 16;
@@ -19,12 +20,12 @@ angular.module('map.component')
     vm.goToOrdinal = goToOrdinal;
     vm.addToOrdinal = addToOrdinal;
 
-    vm.onOrderSave = function(response, r, action, source, target) {
-        if (response.status === 'ok') {
-            $scope.$parent.updateProvinceData(r, action, source, target);
-
+    vm.inputOrder = function(id) {
+        vm.service.inputOrder(id)
+        .then(function() {
+            vm.service.applyOrderLocally();
             renderForceDirectedGraph();
-        }
+        });
     };
 
     $scope.$on('renderphase', function(event) {
@@ -59,7 +60,7 @@ angular.module('map.component')
     vm.clickCount = 0;
 
     force = d3.layout.force()
-        .nodes(vm.service.game)
+        .nodes(vm.service.getCurrentPhase().Properties.Units)
         .links(links)
         .on('tick', onForceDirectedGraphTick.bind(this)); // bind() forces function's scope to controller.
 

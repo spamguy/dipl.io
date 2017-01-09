@@ -19,6 +19,8 @@ angular.module('gametoolsprovincelistitem.directive', ['ngSanitize'])
             function generateProvinceStatus() {
                 var provinceStatus = '<strong>' + scope.province.Province.toUpperCase() + '</strong> ';
 
+                    // order = _.find(scope.service.orders, function(o) { return o.Properties.Parts[0] === scope.province.Province; });
+
                 // if (unit && unit.action) {
                 //     switch (unit.action) {
                 //     case 'move':

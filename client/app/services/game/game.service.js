@@ -84,17 +84,13 @@ angular.module('gameService', ['userService'])
 
         /**
          * Updates orders for a single unit.
-         * @param  {String} action  The action.
-         * @param  {Object} command The unit's new command.
+         * @param  {Object} game  The game.
+         * @param  {Object} phase The phase owning the order.
          * @param  {Object} phase  The phase being modified.
          * @param  {Function} callback The callback to execute after completion.
          */
-        publishCommand: function(action, command, phase, callback) {
-            // socketService.socket.emit('phase:setorder', {
-            //     phaseID: phase.id,
-            //     command: command,
-            //     action: action
-            // }, callback);
+        publishOrder: function(game, phase, order) {
+            return Restangular.one('Game', game.ID).one('Phase', phase.Properties.PhaseOrdinal).customPOST({ Parts: order }, 'Order');
         },
 
         getCurrentUserInGame: function(game) {

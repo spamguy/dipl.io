@@ -10,28 +10,28 @@
                 <md-icon md-svg-icon="{{$ctrl.service.getCurrentAction()}}"></md-icon>
                 <md-tooltip>Change action</md-tooltip>
             </md-button>
-            <md-button ng-if="$ctrl.service.userCanPerformAction('Movement')" ng-click="$ctrl.service.setCurrentAction('hold')" class="md-icon-button" aria-label="Hold" hide-sm hide-xs>
-                <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('hold') }"></md-icon>
+            <md-button ng-if="$ctrl.service.userCanPerformAction('Movement')" ng-click="$ctrl.service.setCurrentAction('Hold')" class="md-icon-button" aria-label="Hold" hide-sm hide-xs>
+                <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('Hold') }"></md-icon>
                 <md-tooltip>Hold</md-tooltip>
             </md-button>
             <md-button ng-if="$ctrl.service.userCanPerformAction('Movement') || $ctrl.service.userCanPerformAction('Retreat')" ng-click="$ctrl.service.setCurrentAction('move')" class="md-icon-button" aria-label="Move" hide-sm hide-xs>
-                <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('move') }"></md-icon>
+                <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('Move') }"></md-icon>
                 <md-tooltip>Move</md-tooltip>
             </md-button>
-            <md-button ng-if="$ctrl.service.userCanPerformAction('Movement')" ng-click="$ctrl.service.setCurrentAction('support')" class="md-icon-button" aria-label="Support" hide-sm hide-xs>
-                <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('support') }"></md-icon>
+            <md-button ng-if="$ctrl.service.userCanPerformAction('Movement')" ng-click="$ctrl.service.setCurrentAction('Support')" class="md-icon-button" aria-label="Support" hide-sm hide-xs>
+                <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('Support') }"></md-icon>
                 <md-tooltip>Support</md-tooltip>
             </md-button>
-            <md-button ng-if="$ctrl.service.userCanPerformAction('Movement')" ng-click="$ctrl.service.setCurrentAction('convoy')" class="md-icon-button" aria-label="Convoy" hide-sm hide-xs>
-                <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('convoy') }"></md-icon>
+            <md-button ng-if="$ctrl.service.userCanPerformAction('Movement')" ng-click="$ctrl.service.setCurrentAction('Convoy')" class="md-icon-button" aria-label="Convoy" hide-sm hide-xs>
+                <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('Convoy') }"></md-icon>
                 <md-tooltip>Convoy</md-tooltip>
             </md-button>
-            <md-button ng-if="$ctrl.service.userCanPerformAction('Adjustment')" ng-click="$ctrl.service.setCurrentAction('build')" class="md-icon-button" aria-label="Build" hide-sm hide-xs>
-                <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('build') }"></md-icon>
+            <md-button ng-if="$ctrl.service.userCanPerformAction('Adjustment')" ng-click="$ctrl.service.setCurrentAction('Build')" class="md-icon-button" aria-label="Build" hide-sm hide-xs>
+                <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('Build') }"></md-icon>
                 <md-tooltip>Build</md-tooltip>
             </md-button>
             <md-button ng-if="$ctrl.service.userCanPerformAction('Adjustment') || $ctrl.service.userCanPerformAction('Retreat')" ng-click="$ctrl.service.setCurrentAction('disband')" class="md-icon-button" aria-label="Disband" hide-sm hide-xs>
-                <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('disband') }"></md-icon>
+                <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('Disband') }"></md-icon>
                 <md-tooltip>Disband</md-tooltip>
             </md-button>
         </div>
@@ -78,7 +78,7 @@
                 <path ng-repeat="(p, d) in $ctrl.paths"
                       id="{{p}}"
                       ng-attr-d="{{d}}"
-                      ng-click="$ctrl.service.inputCommand(p, $ctrl.onOrderSave)"
+                      ng-click="$ctrl.inputOrder(p)"
                       ng-class="{'clicked': $ctrl.service.isInPendingCommand(p)}">
                 </path>
             </g>
