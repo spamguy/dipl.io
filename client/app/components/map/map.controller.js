@@ -22,8 +22,8 @@ angular.module('map.component')
 
     vm.inputOrder = function(id) {
         vm.service.inputOrder(id)
-        .then(function() {
-            vm.service.applyOrderLocally();
+        .then(function(order) {
+            vm.service.applyOrderLocally(order);
             renderForceDirectedGraph();
         });
     };

@@ -14,7 +14,7 @@
                 <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('Hold') }"></md-icon>
                 <md-tooltip>Hold</md-tooltip>
             </md-button>
-            <md-button ng-if="$ctrl.service.userCanPerformAction('Movement') || $ctrl.service.userCanPerformAction('Retreat')" ng-click="$ctrl.service.setCurrentAction('move')" class="md-icon-button" aria-label="Move" hide-sm hide-xs>
+            <md-button ng-if="$ctrl.service.userCanPerformAction('Movement') || $ctrl.service.userCanPerformAction('Retreat')" ng-click="$ctrl.service.setCurrentAction('Move')" class="md-icon-button" aria-label="Move" hide-sm hide-xs>
                 <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.isActionCurrent('Move') }"></md-icon>
                 <md-tooltip>Move</md-tooltip>
             </md-button>

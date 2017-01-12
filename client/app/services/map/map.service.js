@@ -1,10 +1,10 @@
 /* global humanizeDuration */
 angular.module('mapService', ['gameService'])
-.service('mapService', ['$location', 'gameService', function($location, gameService) {
+.service('mapService', ['gameService', '$location', function(gameService, $location) {
     'use strict';
 
     var _currentAction = 'Hold',
-        _pendingOrder = [],
+        _clickedProvinces = [],
         _ordinal = 1,
         service = function(variant, game, phases, orders, currentState, ordinal) {
             this.variant = variant;
@@ -34,7 +34,6 @@ angular.module('mapService', ['gameService'])
     service.prototype.retreatExpected = retreatExpected;
     service.prototype.adjustExpected = adjustExpected;
     service.prototype.isActionCurrent = isActionCurrent;
-    service.prototype.isInPendingCommand = isInPendingCommand;
     service.prototype.addToOrdinal = addToOrdinal;
 
     return service;
@@ -130,13 +129,12 @@ angular.module('mapService', ['gameService'])
     }
 
     function clearPendingOrder() {
-        while (_pendingOrder.length) _pendingOrder.pop();
+        while (_clickedProvinces.length) _clickedProvinces.pop();
     }
 
-    function inputOrder(id, callback) {
-        var sourceProvince = this.variant.Graph.Nodes[getProvinceComponent(_pendingOrder[0] || id)].Subs[getSubprovinceComponent(_pendingOrder[0] || id)];
-
-        // TODO: Force armies to move to provinces only.
+    function inputOrder(id) {
+        id = id.toLowerCase();
+        var order;
 
         // Users who try to control units that don't exist or don't own?
         // We have ways of shutting the whole thing down.
@@ -144,61 +142,52 @@ angular.module('mapService', ['gameService'])
         //     (!province.unit || province.unit.owner !== gameService.getCurrentUserInGame(this.game).power))
         //     return;
 
-        _pendingOrder.push(id.toLowerCase());
+        _clickedProvinces.push(id);
 
-        switch (_currentAction) {
+        switch (getCurrentAction()) {
         case 'Hold':
             // Don't bother retaining clicks. Just continue on to send the command.
-            _pendingOrder.push(_currentAction);
+            order = buildDefaultOrder(_clickedProvinces.pop());
             break;
         case 'Move':
-            // Source, target.
-            if (_pendingOrder.length < 2)
-                return;
-
-            if (_pendingOrder[0] === _pendingOrder[1]) // Don't move to yourself. Treat this as a hold.
-                _pendingOrder = buildDefaultOrder(id);
-            else if (!sourceProvince.Edges[_pendingOrder[1]]) // Verify adjacency of source/target. Submit non-adjacent provinces as MoveViaConvoy.
-                _pendingOrder.splice(1, 0, 'MoveViaConvoy');
+            order = buildMoveOrder(this.variant);
             break;
         case 'Support':
-            if (_pendingOrder.length < 3)
-                return;
-
-            if (_pendingOrder[0] === _pendingOrder[1]) // Treat as hold.
-                _pendingOrder = buildDefaultOrder(id);
-            else if (_pendingOrder[1] === _pendingOrder[2]) // Source + holding target.
-                _pendingOrder.pop();
-
-            _pendingOrder.splice(1, 0, 'Support');
-
+            order = buildSupportOrder();
             break;
         case 'Convoy':
-            if (_pendingOrder.length < 3)
-                return;
-
-            /*
-             * Don't convoy the convoyer.
-             * Don't convoy into the convoyer.
-             * Don't let the start equal the finish.
-             * In short, source/target/target of target should be distinct.
-             * Treat violations of the above as a hold.
-             */
-            if (_pendingOrder.length !== _.uniq(_pendingOrder).length)
-                _pendingOrder = buildDefaultOrder(id);
+            order = buildConvoyOrder();
+            break;
+        case 'Build':
+            order = buildBuildOrder();
+            break;
+        case 'Disband':
+            order = buildDisbandOrder();
+            break;
+        default:
+            console.warn('Order type \'' + getCurrentAction() + '\' not recognised');
             break;
         }
 
+        // No order = no action.
+        if (!order)
+            return Promise.resolve(null);
+
         // Making it this far means there is a full set of commands to publish.
-        return gameService.publishOrder(this.game, this.getCurrentPhase(), _pendingOrder);
+        return gameService.publishOrder(this.game, this.getCurrentPhase(), order)
+        .catch(function(ex) {
+            console.warn('Order submit ' + JSON.stringify(ex.config.data.Parts) + ' failed');
+            return null;
+        });
     }
 
-    function applyOrderLocally() {
-        // Purge old order (if any) for this province before adding new one.
-        this.orders = _.reject(this.orders, function(o) { return o.Properties.Parts[0] === _pendingOrder[0]; });
-        this.orders.push({ Properties: { Parts: _.clone(_pendingOrder) } });
+    function applyOrderLocally(order) {
+        if (!order)
+            return;
 
-        clearPendingOrder();
+        // Purge old order (if any) for this province before adding new one.
+        this.orders = _.reject(this.orders, function(o) { return o.Properties.Parts[0] === order[0]; });
+        this.orders.push({ Properties: { Parts: order } });
     }
 
     function userCanPerformAction(phaseType) {
@@ -239,10 +228,6 @@ angular.module('mapService', ['gameService'])
 
     function isActionCurrent(action) {
         return action === _currentAction;
-    }
-
-    function isInPendingCommand(province) {
-        return _pendingOrder.indexOf(province) >= 0;
     }
 
     function getStatusDescription() {
@@ -304,5 +289,68 @@ angular.module('mapService', ['gameService'])
 
     function buildDefaultOrder(id) {
         return [id, 'Hold'];
+    }
+
+    function buildMoveOrder(variant) {
+        // Source -> target.
+        if (_clickedProvinces.length < 2)
+            return null;
+
+        var source = _clickedProvinces.shift(),
+            target = _clickedProvinces.shift(),
+            sourceProvince = variant.Graph.Nodes[getProvinceComponent(source).toUpperCase()].Subs[getSubprovinceComponent(source)];
+
+        // Source can't move to itself. Treat as hold.
+        if (source === target)
+            return buildDefaultOrder(source);
+
+        // Discern between Move and MoveViaConvoy by examining graph edges.
+        if (!sourceProvince.Edges[target])
+            return [source, 'MoveViaConvoy', target];
+
+        return [source, 'Move', target];
+    }
+
+    function buildSupportOrder() {
+        // Source -> target.
+        if (_clickedProvinces.length < 2)
+            return null;
+
+        var source = _clickedProvinces.shift(),
+            target = _clickedProvinces.shift();
+
+        // Source can't support itself. Treat as hold.
+        if (source === target)
+            return buildDefaultOrder(source);
+
+        return [source, 'Support', target];
+    }
+
+    function buildConvoyOrder() {
+        // Source -> target -> target of target.
+        if (_clickedProvinces.length < 3)
+            return;
+
+        var source = _clickedProvinces.shift(),
+            target = _clickedProvinces.shift(),
+            targetOfTarget = _clickedProvinces.shift();
+
+        /*
+         * Don't convoy the convoyer.
+         * Don't convoy into the convoyer.
+         * Don't let the start equal the finish.
+         * In short, source/target/target of target should be distinct.
+         * Treat violations of the above as a hold.
+         */
+        if (_clickedProvinces.length !== _.uniq(_clickedProvinces).length)
+            return buildDefaultOrder(source);
+
+        return [source, 'Convoy', target, targetOfTarget];
+    }
+
+    function buildBuildOrder() {
+    }
+
+    function buildDisbandOrder() {
     }
 }]);

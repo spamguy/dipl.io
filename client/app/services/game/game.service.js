@@ -90,7 +90,10 @@ angular.module('gameService', ['userService'])
          * @param  {Function} callback The callback to execute after completion.
          */
         publishOrder: function(game, phase, order) {
-            return Restangular.one('Game', game.ID).one('Phase', phase.Properties.PhaseOrdinal).customPOST({ Parts: order }, 'Order');
+            return Restangular.one('Game', game.ID).one('Phase', phase.Properties.PhaseOrdinal).customPOST({ Parts: order }, 'Order')
+            .then(function() {
+                return order;
+            });
         },
 
         getCurrentUserInGame: function(game) {
