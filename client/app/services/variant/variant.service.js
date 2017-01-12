@@ -76,6 +76,21 @@ angular.module('variantService', [])
             }
 
             return scs;
+        },
+
+        getProvinceInVariant: function(variant, id) {
+            return variant.Graph.Nodes[getProvinceComponent(id).toUpperCase()];
         }
     };
+
+    // PRIVATE FUNCTIONS
+
+    function getSubprovinceComponent(id) { // eslint-disable-line no-unused-vars
+        var idComponents = id.split('/');
+        return idComponents[1] ? idComponents[1] : '';
+    }
+
+    function getProvinceComponent(id) {
+        return id.split('/')[0];
+    }
 }]);

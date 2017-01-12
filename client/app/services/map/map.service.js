@@ -1,6 +1,6 @@
 /* global humanizeDuration */
-angular.module('mapService', ['gameService'])
-.service('mapService', ['gameService', '$location', function(gameService, $location) {
+angular.module('mapService', ['gameService', 'variantService'])
+.service('mapService', ['gameService', '$location', 'variantService', function(gameService, $location, variantService) {
     'use strict';
 
     var _currentAction = 'Hold',
@@ -65,10 +65,11 @@ angular.module('mapService', ['gameService'])
             return null;
     }
 
-    function generateMarkerEnd(d) {
+    function generateMarkerEnd(order) {
         // See CSS file for why separate markers exist for failed orders.
-        var failed = d.source.unit.resolution ? 'failed' : '';
-        return 'url(' + $location.absUrl() + '#' + failed + d.source.unit.action + ')';
+        // TODO: Consider failure in generating marker end.
+        var failed = !order ? 'failed' : '';
+        return 'url(' + $location.absUrl() + '#' + failed + order[1].toLowerCase() + ')';
     }
 
     /**
@@ -92,21 +93,21 @@ angular.module('mapService', ['gameService'])
 
     /**
      * Generate an SVG path line with a slight arc to it.
-     * @param  {Number} sx The source unit's x coordinate.
-     * @param  {Number} sy The source unit's y coordinate.
-     * @param  {Number} tx The target unit's x coordinate.
-     * @param  {Number} ty The target unit's y coordinate.
+     * @param  {String} source The source province.
+     * @param  {String} target The target province.
      * @return {String}    An SVG path.
      */
-    function generateArc(sx, sy, tx, ty) {
-        var LINK_UNIT_PADDING = 20,
-            dx = tx - sx,
-            dy = ty - sy,
+    function generateArc(source, target) {
+        var sourceProvince = variantService.getProvinceInVariant(this.variant, source),
+            targetProvince = variantService.getProvinceInVariant(this.variant, target),
+            LINK_UNIT_PADDING = 20,
+            dx = targetProvince.x - sourceProvince.x,
+            dy = targetProvince.y - sourceProvince.y,
             dr = Math.sqrt(dx * dx + dy * dy),
             offsetX = (dx * LINK_UNIT_PADDING) / dr,
             offsetY = (dy * LINK_UNIT_PADDING) / dr;
 
-        return 'M' + sx + ',' + sy + 'A' + dr + ',' + dr + ' 0 0,1 ' + (tx - offsetX) + ',' + (ty - offsetY);
+        return 'M' + sourceProvince.x + ',' + sourceProvince.y + 'A' + dr + ',' + dr + ' 0 0,1 ' + (targetProvince.x - offsetX) + ',' + (targetProvince.y - offsetY);
     }
 
     function generateBisectingLine(target, targetOfTarget, sx, sy) {
@@ -278,15 +279,6 @@ angular.module('mapService', ['gameService'])
             _ordinal = this.phases.length;
     }
 
-    function getSubprovinceComponent(id) {
-        var idComponents = id.split('/');
-        return idComponents[1] ? idComponents[1] : '';
-    }
-
-    function getProvinceComponent(id) {
-        return id.split('/')[0];
-    }
-
     function buildDefaultOrder(id) {
         return [id, 'Hold'];
     }
@@ -298,14 +290,14 @@ angular.module('mapService', ['gameService'])
 
         var source = _clickedProvinces.shift(),
             target = _clickedProvinces.shift(),
-            sourceProvince = variant.Graph.Nodes[getProvinceComponent(source).toUpperCase()].Subs[getSubprovinceComponent(source)];
+            sourceProvince = variantService.getProvinceInVariant(variant, source);
 
         // Source can't move to itself. Treat as hold.
         if (source === target)
             return buildDefaultOrder(source);
 
         // Discern between Move and MoveViaConvoy by examining graph edges.
-        if (!sourceProvince.Edges[target])
+        if (!sourceProvince.Subs[''].Edges[target])
             return [source, 'MoveViaConvoy', target];
 
         return [source, 'Move', target];

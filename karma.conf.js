@@ -17,7 +17,6 @@ module.exports = function(config) {
             'bower_components/bluebird/js/browser/bluebird.js',
             'bower_components/jquery/dist/jquery.js',
             'bower_components/moment/moment.js',
-            'bower_components/d3/d3.js',
             'bower_components/lodash/lodash.js',
             'bower_components/humanize-duration/humanize-duration.js',
             'bower_components/firebase/firebase-app.js',

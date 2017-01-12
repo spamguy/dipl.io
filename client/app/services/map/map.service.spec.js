@@ -7,6 +7,7 @@ describe('Map service', function() {
         orders,
         currentState,
         mockGameService,
+        mockVariantService,
         MapService,
         ms;
 
@@ -18,6 +19,7 @@ describe('Map service', function() {
         angular.mock.module('mapService');
         angular.mock.module('gameService', function($provide) {
             $provide.value('gameService', mockGameService);
+            $provide.value('variantService', mockVariantService);
         });
 
         variant = {

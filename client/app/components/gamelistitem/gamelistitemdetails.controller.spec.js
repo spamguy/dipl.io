@@ -14,7 +14,6 @@ describe('Game list item details controller', function() {
         variant = { };
         phases = [ ];
         mockGameService = {
-
         };
 
         angular.mock.module('gameService', function($provide) {
@@ -22,6 +21,7 @@ describe('Game list item details controller', function() {
         });
         angular.mock.module('ui.router');
         angular.mock.module('gamelistitem.component');
+        angular.mock.module('restangular');
 
         inject(function(_$controller_, _$mdDialog_, _mapService_) {
             MapService = _mapService_;
