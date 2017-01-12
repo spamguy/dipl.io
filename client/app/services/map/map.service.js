@@ -135,13 +135,15 @@ angular.module('mapService', ['gameService', 'variantService'])
 
     function inputOrder(id) {
         id = id.toLowerCase();
-        var order;
+        var order,
+            currentPlayerNation = gameService.getCurrentUserInGame(this.game);
 
         // Users who try to control units that don't exist or don't own?
         // We have ways of shutting the whole thing down.
-        // if (_pendingOrder.length === 0 &&
-        //     (!province.unit || province.unit.owner !== gameService.getCurrentUserInGame(this.game).power))
-        //     return;
+        if (!_.find(this.getCurrentPhase().Properties.Units, function(u) {
+            return u.Province === id && currentPlayerNation && u.Unit.Nation === currentPlayerNation.Nation;
+        }))
+            return Promise.resolve(null);
 
         _clickedProvinces.push(id);
 
