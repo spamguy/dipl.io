@@ -2,6 +2,11 @@
 
 module.exports = function(config) {
     config.set({
+        client: {
+            mocha: {
+                timeout: 6000
+            }
+        },
         preprocessors: {
             'karma-setup.js': ['browserify'],
             'client/temp/constants.js': ['browserify'],
@@ -9,7 +14,7 @@ module.exports = function(config) {
             'client/app/**/*.tmpl.html': ['ng-html2js'],
             'client/app/**/!(*.spec).js': ['coverage']
         },
-        frameworks: ['browserify', 'mocha', 'chai-jquery', 'jquery-2.1.0', 'sinon-chai', 'chai-as-promised', 'chai'],
+        frameworks: ['browserify', 'mocha', 'jquery-2.1.0', 'sinon-chai'],
         files: [
             'karma-setup.js',
             'client/temp/modernizr.js',

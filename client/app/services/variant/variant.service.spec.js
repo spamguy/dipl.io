@@ -2,11 +2,22 @@ describe('Variant service', function() {
     'use strict';
 
     var variantService,
+        variant,
         httpBackend,
         rootScope,
         timeout;
 
     beforeEach(function() {
+        variant = {
+            Graph: {
+                Nodes: {
+                    ALB: { },
+                    MUN: { SC: 'Germany' },
+                    LON: { SC: 'England' }
+                }
+            }
+        };
+
         Promise.onPossiblyUnhandledRejection(function(error) {
             throw error;
         });
@@ -50,7 +61,7 @@ describe('Variant service', function() {
                 Name: 'Classical',
                 Graph: {
                     Nodes: {
-                        mun: {
+                        MUN: {
                             x: 10,
                             y: 20,
                             Subs: { }
@@ -68,18 +79,13 @@ describe('Variant service', function() {
     });
 
     it('lists SCs in the variant', function() {
-        var variant = {
-                Graph: {
-                    Nodes: {
-                        alb: { },
-                        mun: { SC: 'Germany' },
-                        lon: { SC: 'England' }
-                    }
-                }
-            },
-            scs = variantService.getSCsInVariant(variant);
+        var scs = variantService.getSCsInVariant(variant);
         expect(scs).to.contain('MUN');
         expect(scs).to.contain('LON');
         expect(scs).to.not.contain('ALB');
+    });
+
+    it('gets a province\'s data from the variant graph', function() {
+        expect(variantService.getProvinceInVariant(variant, 'MUN')).to.deep.equal({ SC: 'Germany' });
     });
 });

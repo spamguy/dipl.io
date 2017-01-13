@@ -13,7 +13,8 @@ describe('Map service', function() {
 
     beforeEach(function() {
         mockGameService = {
-            isPlayer: function() { return true; }
+            isPlayer: function() { return true; },
+            getCurrentUserInGame: function() { return 'Germany'; }
         };
 
         angular.mock.module('mapService');
@@ -24,7 +25,12 @@ describe('Map service', function() {
 
         variant = {
             Name: 'Classical',
-            Nations: [{ }, { }, { }, { }]
+            Nations: [{ }, { }, { }, { }],
+            Graph: {
+                Nodes: {
+                    'MUN': { }
+                }
+            }
         };
         game = {
             Desc: 'My Game 1',
@@ -52,7 +58,10 @@ describe('Map service', function() {
                 Season: 'Fall',
                 Type: 'Movement',
                 Year: 1901,
-                DeadlineAt: moment().add({ minutes: 3, seconds: 12, milliseconds: 144 }).toISOString()
+                DeadlineAt: moment().add({ minutes: 3, seconds: 12, milliseconds: 144 }).toISOString(),
+                Units: [
+                    { Properties: { Unit: { Nation: 'Germany' } } }
+                ]
             }
         }];
         currentState = { };
@@ -109,6 +118,12 @@ describe('Map service', function() {
     describe('Readable deadline', function() {
         it('rounds off seconds in deadline', function() {
             expect(ms.getReadableDeadline()).to.equal('3 minutes');
+        });
+    });
+
+    xdescribe('Order input', function() {
+        it('returns a null promise when no order is submittable', function() {
+            return expect(ms.inputOrder('mun')).to.eventually.equal(null);
         });
     });
 });
