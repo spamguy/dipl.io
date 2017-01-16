@@ -33,7 +33,6 @@ angular.module('mapService', ['gameService', 'variantService'])
     service.prototype.userCanPerformAction = userCanPerformAction;
     service.prototype.retreatExpected = retreatExpected;
     service.prototype.adjustExpected = adjustExpected;
-    service.prototype.isActionCurrent = isActionCurrent;
     service.prototype.addToOrdinal = addToOrdinal;
 
     return service;
@@ -125,10 +124,6 @@ angular.module('mapService', ['gameService', 'variantService'])
         clearPendingOrder();
     }
 
-    function getCurrentAction() {
-        return _currentAction;
-    }
-
     function clearPendingOrder() {
         while (_clickedProvinces.length) _clickedProvinces.pop();
     }
@@ -138,11 +133,13 @@ angular.module('mapService', ['gameService', 'variantService'])
         var order,
             currentPlayerNation = gameService.getCurrentUserInGame(this.game);
 
-        // Users who try to control units that don't exist or don't own?
-        // We have ways of shutting the whole thing down.
-        if (!_.find(this.getCurrentPhase().Properties.Units, function(u) {
-            return u.Province === id && currentPlayerNation && u.Unit.Nation === currentPlayerNation.Nation;
-        }))
+        /*
+         * Users who try to control units that don't exist or don't own?
+         * We have ways of shutting the whole thing down.
+         * The first click in a queue indicates the unit receiving the order.
+         * No unit or ownership at that click = stop.
+         */
+        if (!_clickedProvinces.length && !findUnitOwnedByUserAtProvince(this.getCurrentPhase().Properties.Units))
             return Promise.resolve(null);
 
         _clickedProvinces.push(id);
@@ -182,6 +179,14 @@ angular.module('mapService', ['gameService', 'variantService'])
             console.warn('Order submit ' + JSON.stringify(ex.config.data.Parts) + ' failed');
             return null;
         });
+
+        function findUnitOwnedByUserAtProvince(phaseProvinces) {
+            return _.find(phaseProvinces, unitIsOwnedByPower);
+        }
+
+        function unitIsOwnedByPower(u) {
+            return u.Province === id && currentPlayerNation && u.Unit.Nation === currentPlayerNation.Nation;
+        }
     }
 
     function applyOrderLocally(order) {
@@ -229,8 +234,8 @@ angular.module('mapService', ['gameService', 'variantService'])
         return $location.absUrl() + '#sc';
     }
 
-    function isActionCurrent(action) {
-        return action === _currentAction;
+    function getCurrentAction() {
+        return _currentAction;
     }
 
     function getStatusDescription() {

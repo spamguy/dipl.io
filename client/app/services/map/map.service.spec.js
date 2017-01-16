@@ -94,6 +94,10 @@ describe('Map service', function() {
         expect(ms.userCanPerformAction('Retreat')).to.be.false;
     });
 
+    it('returns an SC\'s SVG path', function() {
+
+    });
+
     describe('Status description', function() {
         it('displays the correct phase, phase type, and year during active games', function() {
             expect(ms.getStatusDescription()).to.equal('Fall Movement 1901');
@@ -121,9 +125,14 @@ describe('Map service', function() {
         });
     });
 
-    xdescribe('Order input', function() {
-        it('returns a null promise when no order is submittable', function() {
+    describe('Order input', function() {
+        xit('returns a null promise when no order is submittable', function() {
             return expect(ms.inputOrder('mun')).to.eventually.equal(null);
+        });
+
+        it('sets and gets the current action', function() {
+            ms.setCurrentAction('Move');
+            expect(ms.getCurrentAction()).to.equal('Move');
         });
     });
 });

@@ -1,27 +1,27 @@
 <md-bottom-sheet class="md-grid">
     <md-list flex layout="row" layout-align="center center">
-        <md-button ng-if="vm.service.userCanMove()" ng-click="vm.setCurrentActionInSheet('hold')" class="md-icon-button" aria-label="Hold">
-            <md-icon md-svg-icon="join" ng-class="{'active': vm.service.isActionCurrent('hold') }"></md-icon>
+        <md-button ng-if="vm.service.userCanMove()" ng-click="vm.setCurrentActionInSheet('Hold')" class="md-icon-button" aria-label="Hold">
+            <md-icon md-svg-icon="join" ng-class="{'active': vm.service.getCurrentAction() === 'Hold' }"></md-icon>
             <md-tooltip>Hold</md-tooltip>
         </md-button>
-        <md-button ng-if="vm.service.userCanMove() || vm.service.userCanRetreat()" ng-click="vm.setCurrentActionInSheet('move')" class="md-icon-button" aria-label="Move">
-            <md-icon md-svg-icon="join" ng-class="{'active': vm.service.isActionCurrent('move') }"></md-icon>
+        <md-button ng-if="vm.service.userCanMove() || vm.service.userCanRetreat()" ng-click="vm.setCurrentActionInSheet('Move')" class="md-icon-button" aria-label="Move">
+            <md-icon md-svg-icon="join" ng-class="{'active': vm.service.getCurrentAction() === 'Move' }"></md-icon>
             <md-tooltip>Move</md-tooltip>
         </md-button>
-        <md-button ng-if="vm.service.userCanMove()" ng-click="vm.setCurrentActionInSheet('support')" class="md-icon-button" aria-label="Support">
-            <md-icon md-svg-icon="join" ng-class="{'active': vm.service.isActionCurrent('support') }"></md-icon>
+        <md-button ng-if="vm.service.userCanMove()" ng-click="vm.setCurrentActionInSheet('Support')" class="md-icon-button" aria-label="Support">
+            <md-icon md-svg-icon="join" ng-class="{'active': vm.service.getCurrentAction() === 'Support' }"></md-icon>
             <md-tooltip>Support</md-tooltip>
         </md-button>
-        <md-button ng-if="vm.service.userCanMove()" ng-click="vm.setCurrentActionInSheet('convoy')" class="md-icon-button" aria-label="Convoy">
-            <md-icon md-svg-icon="join" ng-class="{'active': vm.service.isActionCurrent('convoy') }"></md-icon>
+        <md-button ng-if="vm.service.userCanMove()" ng-click="vm.setCurrentActionInSheet('Convoy')" class="md-icon-button" aria-label="Convoy">
+            <md-icon md-svg-icon="join" ng-class="{'active': vm.service.getCurrentAction() === 'Convoy' }"></md-icon>
             <md-tooltip>Convoy</md-tooltip>
         </md-button>
-        <md-button ng-if="vm.service.userCanAdjust()" ng-click="vm.setCurrentActionInSheet('build')" class="md-icon-button" aria-label="Build">
-            <md-icon md-svg-icon="join" ng-class="{'active': vm.service.isActionCurrent('build') }"></md-icon>
+        <md-button ng-if="vm.service.userCanAdjust()" ng-click="vm.setCurrentActionInSheet('Build')" class="md-icon-button" aria-label="Build">
+            <md-icon md-svg-icon="join" ng-class="{'active': vm.service.getCurrentAction() === 'Build' }"></md-icon>
             <md-tooltip>Build</md-tooltip>
         </md-button>
-        <md-button ng-if="vm.service.userCanAdjust()" ng-click="vm.setCurrentActionInSheet('disband')" class="md-icon-button" aria-label="Disband">
-            <md-icon md-svg-icon="join" ng-class="{'active': vm.service.isActionCurrent('disband') }"></md-icon>
+        <md-button ng-if="vm.service.userCanAdjust()" ng-click="vm.setCurrentActionInSheet('Disband')" class="md-icon-button" aria-label="Disband">
+            <md-icon md-svg-icon="join" ng-class="{'active': vm.service.getCurrentAction() === 'Disband' }"></md-icon>
             <md-tooltip>Disband</md-tooltip>
         </md-button>
     </md-list>
