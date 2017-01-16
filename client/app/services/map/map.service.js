@@ -28,6 +28,7 @@ angular.module('mapService', ['gameService', 'variantService'])
     service.prototype.generateBisectingLine = generateBisectingLine;
     service.prototype.setCurrentAction = setCurrentAction;
     service.prototype.getCurrentAction = getCurrentAction;
+    service.prototype.isInPendingCommand = isInPendingCommand;
     service.prototype.inputOrder = inputOrder;
     service.prototype.applyOrderLocally = applyOrderLocally;
     service.prototype.userCanPerformAction = userCanPerformAction;
@@ -236,6 +237,10 @@ angular.module('mapService', ['gameService', 'variantService'])
 
     function getCurrentAction() {
         return _currentAction;
+    }
+
+    function isInPendingCommand(id) {
+        return _clickedProvinces.indexOf(id.toLowerCase()) >= 0;
     }
 
     function getStatusDescription() {
