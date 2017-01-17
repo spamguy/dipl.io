@@ -1,0 +1,6 @@
+<div ng-class="{'hasFailedOrder': vm.hasFailedOrder()}">
+    <span class="name">{{vm.province.Province.toUpperCase()}}</span>
+    <span class="order">{{vm.renderOrder()}}
+    <md-tooltip md-direction="left">{{vm.province.Unit.resolution}}</md-tooltip>
+    <md-divider></md-divider>
+</div>

@@ -4,7 +4,7 @@ angular.module('games', [
     'ui.router',
     'ngMaterial',
     'gametools.component',
-    'gametoolsprovincelistitem.directive',
+    'gametoolsprovincelistitem.component',
     'vAccordion'
 ])
 .config(['$stateProvider', function($stateProvider) {

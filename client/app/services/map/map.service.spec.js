@@ -9,7 +9,8 @@ describe('Map service', function() {
         mockGameService,
         mockVariantService,
         MapService,
-        ms;
+        ms,
+        location;
 
     beforeEach(function() {
         mockGameService = {
@@ -28,7 +29,12 @@ describe('Map service', function() {
             Nations: [{ }, { }, { }, { }],
             Graph: {
                 Nodes: {
-                    'MUN': { }
+                    MUN: {
+                        sc: {
+                            x: 123,
+                            y: 456
+                        }
+                    }
                 }
             }
         };
@@ -67,7 +73,8 @@ describe('Map service', function() {
         currentState = { };
         orders = [];
 
-        inject(function(_mapService_) {
+        inject(function(_mapService_, _$location_) {
+            location = _$location_;
             MapService = _mapService_;
             ms = new MapService(variant, game, phases, orders, currentState);
         });
@@ -94,8 +101,15 @@ describe('Map service', function() {
         expect(ms.userCanPerformAction('Retreat')).to.be.false;
     });
 
-    it('returns an SC\'s SVG path', function() {
+    describe('SC generation', function() {
+        it('generates an SVG path', function() {
+            location.path('/games/123456');
+            expect(ms.getSCPath()).to.have.string('/games/123456#sc');
+        });
 
+        it('generates an SVG transform', function() {
+            expect(ms.getSCTransform(variant.Graph.Nodes.MUN)).to.equal('translate(123,456) scale(0.04)');
+        });
     });
 
     describe('Status description', function() {

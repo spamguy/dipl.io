@@ -41,9 +41,7 @@ angular.module('mapService', ['gameService', 'variantService'])
     // PRIVATE FUNCTIONS
 
     function getCurrentPhase() {
-        if (_ordinal)
-            return this.phases[_ordinal - 1];
-        return _.last(this.phases);
+        return this.phases[_ordinal - 1];
     }
 
     function getSCTransform(p) {
