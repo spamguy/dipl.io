@@ -45,7 +45,6 @@ module.exports = function(config) {
             'client/app/app.controller.js',
             'client/app/**/*.service.js',
             'client/app/**/*.component.js',
-            'client/app/**/*.directive.js',
             'client/app/**/*.module.js',
             'client/app/**/*.filter.js',
             'client/app/**/*.controller.js',
@@ -59,13 +58,16 @@ module.exports = function(config) {
             'client/app/**/*.tmpl.html'
         ],
         logLevel: 'INFO',
-        reporters: ['dots', 'coverage'],
+        reporters: ['mocha', 'coverage'],
         autoWatch: false,
         singleRun: true,
         browsers: ['PhantomJS'],
         ngHtml2JsPreprocessor: {
             stripPrefix: 'client/',
             moduleName: 'templates'
+        },
+        mochaReporter: {
+            output: 'minimal'
         },
         coverageReporter: {
             type: 'html',

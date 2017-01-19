@@ -71,7 +71,15 @@ describe('Map service', function() {
             }
         }];
         currentState = { };
-        orders = [];
+        orders = [{
+            Properties: {
+                Parts: ['mun', 'Move', 'ber']
+            }
+        }, {
+            Properties: {
+                Parts: ['den', 'Hold']
+            }
+        }];
 
         inject(function(_mapService_, _$location_) {
             location = _$location_;
@@ -83,9 +91,9 @@ describe('Map service', function() {
     it('exposes variant/game/phase data, but not ordinal', function() {
         expect(ms.variant).to.not.be.undefined;
         expect(ms.game).to.not.be.undefined;
-        expect(ms.phases).to.not.be.undefined;
         expect(ms.phases).to.be.an('Array');
         expect(ms.currentState).to.not.be.undefined;
+        expect(ms.orders).to.be.an('Array');
         expect(ms._ordinal).to.be.undefined;
     });
 
@@ -139,7 +147,7 @@ describe('Map service', function() {
         });
     });
 
-    describe('Order input', function() {
+    describe('Order management', function() {
         xit('returns a null promise when no order is submittable', function() {
             return expect(ms.inputOrder('mun')).to.eventually.equal(null);
         });
@@ -147,6 +155,11 @@ describe('Map service', function() {
         it('sets and gets the current action', function() {
             ms.setCurrentAction('Move');
             expect(ms.getCurrentAction()).to.equal('Move');
+        });
+
+        it('gets a province\'s order', function() {
+            expect(ms.getOrderForProvince('MUN').Properties.Parts[0]).to.equal('mun');
+            expect(ms.getOrderForProvince('den').Properties.Parts[0]).to.equal('den');
         });
     });
 });

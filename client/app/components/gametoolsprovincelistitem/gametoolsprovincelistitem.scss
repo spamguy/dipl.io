@@ -1,6 +1,6 @@
 sg-province-list-item
 {
-    span.name
+    span.source
     {
         font-weight: bold;
     }
@@ -9,5 +9,10 @@ sg-province-list-item
     {
         color: #f00;
         text-decoration-style: dotted;
+    }
+
+    span.target
+    {
+        font-weight: bold;
     }
 }

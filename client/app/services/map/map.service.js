@@ -31,6 +31,7 @@ angular.module('mapService', ['gameService', 'variantService'])
     service.prototype.isInPendingCommand = isInPendingCommand;
     service.prototype.inputOrder = inputOrder;
     service.prototype.applyOrderLocally = applyOrderLocally;
+    service.prototype.getOrderForProvince = getOrderForProvince;
     service.prototype.userCanPerformAction = userCanPerformAction;
     service.prototype.retreatExpected = retreatExpected;
     service.prototype.adjustExpected = adjustExpected;
@@ -195,6 +196,12 @@ angular.module('mapService', ['gameService', 'variantService'])
         // Purge old order (if any) for this province before adding new one.
         this.orders = _.reject(this.orders, function(o) { return o.Properties.Parts[0] === order[0]; });
         this.orders.push({ Properties: { Parts: order } });
+    }
+
+    function getOrderForProvince(p) {
+        return _.find(this.orders, function(o) {
+            return o.Properties.Parts[0] === p.toLowerCase();
+        });
     }
 
     function userCanPerformAction(phaseType) {
