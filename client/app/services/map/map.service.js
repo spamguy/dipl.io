@@ -18,6 +18,7 @@ angular.module('mapService', ['gameService', 'variantService'])
     service.prototype.getCurrentPhase = getCurrentPhase;
     service.prototype.getStatusDescription = getStatusDescription;
     service.prototype.getReadableDeadline = getReadableDeadline;
+    service.prototype.getAllSCs = getAllSCs;
     service.prototype.getSCTransform = getSCTransform;
     service.prototype.getSCPath = getSCPath;
     service.prototype.getSCFill = getSCFill;
@@ -43,6 +44,16 @@ angular.module('mapService', ['gameService', 'variantService'])
 
     function getCurrentPhase() {
         return this.phases[_ordinal - 1];
+    }
+
+    function getAllSCs() {
+        return _.filter(_.values(this.variant.Graph.Nodes), function(n) {
+            return n.SC;
+        });
+    }
+
+    function getSCPath() {
+        return $location.absUrl() + '#sc';
     }
 
     function getSCTransform(p) {
@@ -130,7 +141,8 @@ angular.module('mapService', ['gameService', 'variantService'])
 
     function inputOrder(id) {
         id = id.toLowerCase();
-        var order,
+        var emptyOrder = Promise.resolve(null),
+            order = emptyOrder,
             currentPlayerNation = gameService.getCurrentUserInGame(this.game);
 
         /*
@@ -140,7 +152,11 @@ angular.module('mapService', ['gameService', 'variantService'])
          * No unit or ownership at that click = stop.
          */
         if (!_clickedProvinces.length && !findUnitOwnedByUserAtProvince(this.getCurrentPhase().Properties.Units))
-            return Promise.resolve(null);
+            return emptyOrder;
+
+        // Resolved phases don't receive orders at all.
+        if (this.getCurrentPhase().Properties.Resolved)
+            return emptyOrder;
 
         _clickedProvinces.push(id);
 
@@ -171,7 +187,7 @@ angular.module('mapService', ['gameService', 'variantService'])
 
         // No order = no action.
         if (!order)
-            return Promise.resolve(null);
+            return emptyOrder;
 
         // Making it this far means there is a full set of commands to publish.
         return gameService.publishOrder(this.game, this.getCurrentPhase(), order)
@@ -232,10 +248,6 @@ angular.module('mapService', ['gameService', 'variantService'])
 
         // FIXME: Not accurate, obviously.
         return true;
-    }
-
-    function getSCPath() {
-        return $location.absUrl() + '#sc';
     }
 
     function getCurrentAction() {

@@ -65,7 +65,7 @@
             <g class="scLayer" ng-if="$ctrl.service.game.Started">
                 <!-- Filter variant nodes by presence of SC property. -->
                 <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                     ng-repeat="sc in $ctrl._.values($ctrl.service.variant.Graph.Nodes) | filter: { SC: '' }"
+                     ng-repeat="sc in $ctrl.service.getAllSCs()"
                      xlink:href="" ng-href="{{$ctrl.service.getSCPath(sc)}}"
                      ng-attr-transform="{{$ctrl.service.getSCTransform(sc)}}"
                      ng-attr-fill="{{$ctrl.service.getSCFill(sc)}}"

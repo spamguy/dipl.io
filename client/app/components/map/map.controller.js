@@ -6,7 +6,6 @@ function($animate, gameService, $mdBottomSheet, $scope, $state, variantService) 
         paths = vm.svg.getElementsByTagName('path'),
         p;
 
-    vm._ = _; // Expose lodash to Angular template.
     vm.paths = { };
     vm.getFormattedDeadline = gameService.getFormattedDeadline;
     vm.goToOrdinal = goToOrdinal;
