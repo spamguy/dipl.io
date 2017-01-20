@@ -1,18 +1,51 @@
-sg-province-list-item
+md-list-item
 {
-    span.source
+    &.submit
     {
-        font-weight: bold;
+        @-webkit-keyframes flash {
+            0%
+            {
+                background-color: white;
+            }
+            50%
+            {
+                background-color: #b2dabb;
+            }
+            100%
+            {
+                background-color: white;
+            }
+        }
+
+        &.success
+        {
+            -webkit-animation-name: flash;
+            -webkit-animation-duration: 300ms;
+            -webkit-animation-iteration-count: 1;
+            -webkit-animation-timing-function: linear;
+            -moz-animation-name: flash;
+            -moz-animation-duration: 300ms;
+            -moz-animation-iteration-count: 1;
+            -moz-animation-timing-function: linear;
+        }
     }
 
-    span.failed
+    sg-province-list-item
     {
-        color: #f00;
-        text-decoration-style: dotted;
-    }
+        span.source
+        {
+            font-weight: bold;
+        }
 
-    span.target
-    {
-        font-weight: bold;
+        span.failed
+        {
+            color: #f00;
+            text-decoration-style: dotted;
+        }
+
+        span.target
+        {
+            font-weight: bold;
+        }
     }
 }

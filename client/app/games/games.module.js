@@ -5,6 +5,7 @@ angular.module('games', [
     'ngMaterial',
     'gametools.component',
     'gametoolsprovincelistitem.component',
+    'mapService',
     'vAccordion'
 ])
 .config(['$stateProvider', function($stateProvider) {
@@ -66,6 +67,7 @@ angular.module('games', [
             }
         },
         resolve: {
+            mapService: 'mapService',
             game: ['gameService', '$stateParams', function(gameService, $stateParams) {
                 return gameService.getGame($stateParams.id);
             }],

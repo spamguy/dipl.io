@@ -20,7 +20,7 @@
     <script src="https://localhost:35729/livereload.js"></script>
     <!-- @endif -->
 </head>
-<body ng-controller="AppController as vm">
+<body ng-controller="AppController">
     <md-toolbar style="background-color:transparent;" ng-if="$storage.theUser">
         <div class="md-toolbar-tools">
             <span class="md-primary logo"><a ui-sref="main.home">dipl<span class="stab">.</span>io</a></span>
@@ -109,6 +109,8 @@
     <script src="../bower_components/humanize-duration/humanize-duration.js"></script>
     <script src="../bower_components/moment/min/moment-with-locales.js"></script>
     <script src="../bower_components/v-accordion/dist/v-accordion.js"></script>
+    <script src="../bower_components/angular-hotkeys/angular-hotkeys.js"></script>
+    <!-- <script src="../bower_components/angular-360-no-scope/angular-360-no-scope.js"></script> -->
     <!-- endbower -->
     <!-- endbuild -->
 

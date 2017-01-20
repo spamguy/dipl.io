@@ -38,6 +38,7 @@ module.exports = function(config) {
             'bower_components/angular-material/angular-material.js',
             'bower_components/angular-aria/angular-aria.js',
             'bower_components/v-accordion/dist/v-accordion.js',
+            'bower_components/angular-hotkeys/angular-hotkeys.js',
 
             // Client files.
             'client/temp/constants.js',

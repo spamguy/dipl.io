@@ -13,7 +13,7 @@
                     <md-subheader>{{nation}}</md-subheader>
                     <md-divider></md-divider>
                     <md-list>
-                        <md-list-item ng-repeat="province in $ctrl.service.getCurrentPhase().Properties.Units" ng-if="province.Unit.Nation === nation">
+                        <md-list-item id="{{province.Province.toUpperCase() + '-order'}}" ng-repeat="province in $ctrl.service.getCurrentPhase().Properties.Units" ng-if="province.Unit.Nation === nation">
                             <sg-province-list-item province="province" service="$ctrl.service" />
                         </md-list-item>
                     </md-list>

@@ -1,5 +1,6 @@
 angular.module('map.component')
-.controller('MapController', ['gameService', '$mdBottomSheet', '$scope', '$state', 'variantService', function(gameService, $mdBottomSheet, $scope, $state, variantService) {
+.controller('MapController', ['$animate', 'gameService', '$mdBottomSheet', '$scope', '$state', 'variantService',
+function($animate, gameService, $mdBottomSheet, $scope, $state, variantService) {
     var vm = this,
         normalisedVariantName = variantService.getNormalisedVariantName(vm.service.game.Variant),
         paths = vm.svg.getElementsByTagName('path'),
@@ -14,7 +15,17 @@ angular.module('map.component')
     vm.inputOrder = function(id) {
         vm.service.inputOrder(id)
         .then(function(order) {
+            if (!order)
+                return;
             vm.service.applyOrderLocally(order);
+
+            // Apply/remote flash CSS.
+            var provinceToAnimate = order[0].toUpperCase(),
+                el = angular.element(document.querySelector('#' + provinceToAnimate + '-order'));
+            $animate.addClass(el, 'submit success')
+            .then(function() {
+                el.removeClass('submit success');
+            });
         });
     };
 

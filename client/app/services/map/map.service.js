@@ -190,15 +190,13 @@ angular.module('mapService', ['gameService', 'variantService'])
     }
 
     function applyOrderLocally(order) {
-        if (!order)
-            return;
-
         // Purge old order (if any) for this province before adding new one.
         this.orders = _.reject(this.orders, function(o) { return o.Properties.Parts[0] === order[0]; });
         this.orders.push({ Properties: { Parts: order } });
     }
 
     function getOrderForProvince(p) {
+        // TODO: Index orders to cut down on looping.
         return _.find(this.orders, function(o) {
             return o.Properties.Parts[0] === p.toLowerCase();
         });

@@ -1,5 +1,5 @@
 angular.module('gametoolsprovincelistitem.component')
-.controller('GameToolsProvinceListItemController', [function() {
+.controller('GameToolsProvinceListItemController', ['$scope', function($scope) {
     var vm = this,
         order = vm.service.getOrderForProvince(vm.province.Province);
 
@@ -11,6 +11,15 @@ angular.module('gametoolsprovincelistitem.component')
     if (order)
         order = order.Properties.Parts;
 
+    // Keep an eye out for changes to this province's orders.
+    $scope.$watchCollection(function() {
+        var orderTest = vm.service.getOrderForProvince(vm.province.Province);
+        return _.isUndefined(orderTest) ? undefined : orderTest.Properties.Parts;
+    }, function(newOrder) {
+        if (newOrder)
+            order = newOrder;
+    });
+
     function hasFailedOrder() {
         return false; // TODO: Add failure class.
     }
@@ -20,6 +29,7 @@ angular.module('gametoolsprovincelistitem.component')
             return '';
         switch (order[1]) {
         case 'Move': return '⇒';
+        case 'Hold': return 'holds';
         default: return '';
         }
     }
