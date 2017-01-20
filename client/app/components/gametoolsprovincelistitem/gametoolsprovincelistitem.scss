@@ -32,7 +32,7 @@ md-list-item
 
     sg-province-list-item
     {
-        span.source
+        span.source, span.target, span.targetOfTarget
         {
             font-weight: bold;
         }
@@ -41,11 +41,6 @@ md-list-item
         {
             color: #f00;
             text-decoration-style: dotted;
-        }
-
-        span.target
-        {
-            font-weight: bold;
         }
     }
 }

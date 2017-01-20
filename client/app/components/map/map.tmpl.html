@@ -79,28 +79,6 @@
             </g>
 
             <g class="unitLayer">
-                <!-- <g class="dislodgedUnitLayer">
-                    <circle ng-repeat="province in $ctrl.service.getProvinceArray() | provinceHasUnit:1:true"
-                            id="{{province.p}}-dislodged-army"
-                            r="8"
-                            stroke="#f00"
-                            stroke-width="3px"
-                            ng-attr-cx="{{province.unitLocation.x + 8}}"
-                            ng-attr-cy="{{province.unitLocation.y + 8}}"
-                            ng-attr-fill="{{province.dislodged.fill}}">
-                    </circle>
-
-                    <rect ng-repeat="province in $ctrl.service.getProvinceArray() | provinceHasUnit:2:true"
-                          id="{{province.p.replace('/', '-')}}-dislodged-fleet"
-                          height="8"
-                          width="16"
-                          stroke="#f00"
-                          stroke-width="3px"
-                          ng-attr-x="{{province.unitLocation.x + 8 - 16/2}}"
-                          ng-attr-y="{{province.unitLocation.y + 8 - 8/2}}"
-                          ng-attr-fill="{{province.dislodged.fill}}">
-                    </rect>
-                </g> -->
                 <circle ng-repeat="province in $ctrl.service.getCurrentPhase().Properties.Units | filter: { Unit: { Type: 'Army' } }"
                         id="{{province.Province.toUpperCase()}}-army"
                         r="8"
@@ -124,15 +102,29 @@
             </g>
 
             <g class="orderLayer" ng-repeat="order in $ctrl.service.orders">
+                <!-- MOVE -->
                 <path ng-if="order.Properties.Parts[1] === 'Move'"
-                    id="{{order.Properties.Parts[0].toUpperCase() + '-move'}}"
+                    id="{{order.Properties.Parts[0].toUpperCase() + '-order'}}"
                     fill-opacity="0"
                     stroke="#000"
                     stroke-width="4px"
                     ng-attr-d="{{$ctrl.service.generateArc(order.Properties.Parts[0], order.Properties.Parts[2])}}"
                     ng-attr-marker-end="{{$ctrl.service.generateMarkerEnd(order.Properties.Parts)}}">
                 </path>
+
+                <!-- SUPPORT + MOVE -->
+                <path ng-if="order.Properties.Parts[1] === 'Support' && order.Properties.Parts.length > 3"
+                    id="{{order.Properties.Parts[0].toUpperCase() + '-order'}}"
+                    fill-opacity="0"
+                    stroke="#000"
+                    stroke-width="4px"
+                    ng-attr-d="{{$ctrl.service.generateBisectingLine(order.Properties.Parts[0], order.Properties.Parts[2], order.Properties.Parts[3])}}"
+                    ng-attr-marker-end="{{$ctrl.service.generateMarkerEnd(order.Properties.Parts)}}">
+                </path>
+
+                <!-- HOLD -->
                 <circle ng-if="order.Properties.Parts[1] === 'Hold'"
+                    id="{{order.Properties.Parts[0].toUpperCase() + '-order'}}"
                     ng-attr-cx="{{$ctrl.service.variant.Graph.Nodes[order.Properties.Parts[0].toUpperCase()].x}}"
                     ng-attr-cy="{{$ctrl.service.variant.Graph.Nodes[order.Properties.Parts[0].toUpperCase()].y}}"
                     r="14"

@@ -120,12 +120,21 @@ angular.module('mapService', ['gameService', 'variantService'])
         return 'M' + sourceProvince.x + ',' + sourceProvince.y + 'A' + dr + ',' + dr + ' 0 0,1 ' + (targetProvince.x - offsetX) + ',' + (targetProvince.y - offsetY);
     }
 
-    function generateBisectingLine(target, targetOfTarget, sx, sy) {
-        var pathOfTarget = d3.selectAll('g.moveLayer path#' + target + '-' + targetOfTarget + '-link').node(),
-            pathLength = pathOfTarget.getTotalLength(),
-            midpoint = pathOfTarget.getPointAtLength(pathLength / 2);
+    function generateBisectingLine(source, target, targetOfTarget) {
+        /*
+         * In a variety of scenarios, the action being supported may not exist.
+         * Create a temporary path representing the EXPECTED action, and use coordinates from that.
+         * Do not apply this temporary path to the map.
+         */
+        var sourceProvince = variantService.getProvinceInVariant(this.variant, source),
+            theoreticalPathOfTarget = document.createElementNS('http://www.w3.org/2000/svg', 'path'),
+            pathLength,
+            midpoint;
 
-        return 'M' + sx + ',' + sy + 'L' + midpoint.x + ',' + midpoint.y;
+        theoreticalPathOfTarget.setAttributeNS(null, 'd', this.generateArc(target, targetOfTarget));
+        pathLength = theoreticalPathOfTarget.getTotalLength();
+        midpoint = theoreticalPathOfTarget.getPointAtLength(pathLength / 2);
+        return 'M' + sourceProvince.x + ',' + sourceProvince.y + 'L' + midpoint.x + ',' + midpoint.y;
     }
 
     function setCurrentAction(action) {
@@ -331,18 +340,23 @@ angular.module('mapService', ['gameService', 'variantService'])
     }
 
     function buildSupportOrder() {
-        // Source -> target.
-        if (_clickedProvinces.length < 2)
+        // Source -> target -> target of target (optional).
+        if (_clickedProvinces.length < 3)
             return null;
 
         var source = _clickedProvinces.shift(),
-            target = _clickedProvinces.shift();
+            target = _clickedProvinces.shift(),
+            targetOfTarget = _clickedProvinces.shift();
 
         // Source can't support itself. Treat as hold.
         if (source === target)
             return buildDefaultOrder(source);
 
-        return [source, 'Support', target];
+        // A target targeting itself should be treated as supporting a hold.
+        if (target === targetOfTarget)
+            return [source, 'Support', target, 'Hold'];
+        else
+            return [source, 'Support', target, targetOfTarget];
     }
 
     function buildConvoyOrder() {
