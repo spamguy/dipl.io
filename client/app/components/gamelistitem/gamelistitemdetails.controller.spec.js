@@ -10,10 +10,11 @@ describe('Game list item details controller', function() {
         controller;
 
     beforeEach(function() {
-        game = { Members: [] };
-        variant = { };
+        game = { Members: [ ] };
+        variant = { Nations: [ ] };
         phases = [ ];
         mockGameService = {
+            getCurrentUserInGame: function() { return 'Germany'; }
         };
 
         angular.mock.module('gameService', function($provide) {

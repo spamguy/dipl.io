@@ -17,6 +17,7 @@ describe('Game list item directive', function() {
         mockVariantService = {
             getVariant: function() {
                 return {
+                    Nations: [ ]
                 };
             }
         };
@@ -24,7 +25,8 @@ describe('Game list item directive', function() {
             getPhases: sinon.stub().returnsPromise().resolves({ Properties: [{ PhaseOrdinal: 1 }] }),
             getPhaseState: sinon.stub().returnsPromise().resolves({ Properties: [] }),
             getPhaseOrders: sinon.stub().returnsPromise().resolves({ Properties: [] }),
-            isPlayer: function() { return false; }
+            isPlayer: function() { return false; },
+            getCurrentUserInGame: function() { return 'Germany'; }
         };
 
         angular.mock.module('gameService', function($provide) {

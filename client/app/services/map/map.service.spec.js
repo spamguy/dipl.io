@@ -15,7 +15,7 @@ describe('Map service', function() {
     beforeEach(function() {
         mockGameService = {
             isPlayer: function() { return true; },
-            getCurrentUserInGame: function() { return 'Germany'; }
+            getCurrentUserInGame: function() { return { Nation: 'Germany' }; }
         };
 
         angular.mock.module('mapService');
@@ -26,7 +26,7 @@ describe('Map service', function() {
 
         variant = {
             Name: 'Classical',
-            Nations: [{ }, { }, { }, { }],
+            Nations: ['uh oh :(', 'Italy', 'Germany', 'England', 'Russia'],
             Graph: {
                 Nodes: {
                     MUN: {
@@ -97,6 +97,10 @@ describe('Map service', function() {
         expect(ms._ordinal).to.be.undefined;
     });
 
+    it('puts the current user first in the variant\'s list of powers', function() {
+        expect(ms.variant.Nations[0]).to.equal('Germany');
+    });
+
     it('returns the appropriate phase by its ordinal', function() {
         expect(ms.getCurrentPhase().Properties.Season).to.equal('Fall');
 
@@ -128,10 +132,10 @@ describe('Map service', function() {
         it('displays the number of remaining needed players during new games', function() {
             // 'players' for multiple.
             game.Started = false;
-            expect(ms.getStatusDescription()).to.equal('Not started: waiting on 3 more players');
+            expect(ms.getStatusDescription()).to.equal('Not started: waiting on 4 more players');
 
             // 'player' for one.
-            game.Members = [{ }, { }, { }];
+            game.Members = [{ }, { }, { }, { }];
             expect(ms.getStatusDescription()).to.equal('Not started: waiting on 1 more player');
         });
 

@@ -1,5 +1,5 @@
 /* global humanizeDuration */
-angular.module('mapService', ['gameService', 'variantService'])
+angular.module('mapService', ['gameService', 'userService', 'variantService'])
 .service('mapService', ['gameService', '$location', 'variantService', function(gameService, $location, variantService) {
     'use strict';
 
@@ -7,12 +7,21 @@ angular.module('mapService', ['gameService', 'variantService'])
         _clickedProvinces = [],
         _ordinal = 1,
         service = function(variant, game, phases, orders, currentState, ordinal) {
+            var powerOfCurrentPlayer = gameService.getCurrentUserInGame(game);
+
             this.variant = variant;
             this.game = game;
             this.phases = phases;
             this.currentState = currentState;
             this.orders = orders;
             _ordinal = ordinal || this.phases.length;
+
+            // Move current user to start of array for UI convenience.
+            if (!variant || !powerOfCurrentPlayer || this.variant.Nations.indexOf(powerOfCurrentPlayer.Nation) < 0)
+                return;
+            powerOfCurrentPlayer = powerOfCurrentPlayer.Nation;
+            _.pull(this.variant.Nations, powerOfCurrentPlayer);
+            this.variant.Nations.unshift(powerOfCurrentPlayer);
         };
 
     service.prototype.getCurrentPhase = getCurrentPhase;

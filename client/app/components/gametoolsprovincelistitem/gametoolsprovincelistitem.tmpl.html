@@ -1,7 +1,7 @@
 <div ng-class="{'hasFailedOrder': vm.hasFailedOrder()}">
     <div class="order">
         <span class="source">{{vm.province.Province.toUpperCase()}}</span>
-        <span class="orderSymbol">{{vm.renderOrderSymbol()}}</span>
+        <span class="action">{{vm.renderOrderSymbol()}}</span>
         <span class="target">{{vm.renderOrderTarget()}}</span>
         <span class="targetAction">{{vm.renderOrderTargetOfTarget() ? '⇒' : '' }}</span>
         <span class="targetOfTarget">{{vm.renderOrderTargetOfTarget()}}</span>

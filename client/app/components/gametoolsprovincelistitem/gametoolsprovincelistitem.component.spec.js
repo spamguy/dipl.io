@@ -3,7 +3,17 @@ describe('Province list item component', function() {
 
     var el,
         mockGameService,
-        mockMapService,
+        mockMapService = function(bogusOrders) {
+            return {
+                getOrderForProvince: function() {
+                    return {
+                        Properties: {
+                            Parts: bogusOrders
+                        }
+                    };
+                }
+            };
+        },
         compile,
         scope;
 
@@ -11,15 +21,7 @@ describe('Province list item component', function() {
         mockGameService = {
 
         };
-        mockMapService = {
-            getOrderForProvince: function() {
-                return {
-                    Properties: {
-                        Parts: ['mos', 'Move', 'STP']
-                    }
-                };
-            }
-        };
+
         angular.mock.module('diplomacy.constants');
         angular.mock.module('templates');
         angular.mock.module('ui.router');
@@ -36,13 +38,45 @@ describe('Province list item component', function() {
             scope.province = {
                 Province: 'mos'
             };
-            scope.service = mockMapService;
         });
     });
 
     it('contains the source province', function() {
+        scope.service = mockMapService(['mos', 'Move', 'STP']);
         el = compile('<sg-province-list-item province="province" service="service" />')(scope);
         scope.$digest();
         expect($('div.order span.source', el).html()).to.equal('MOS');
+    });
+
+    describe('Move order', function() {
+        beforeEach(function() {
+            scope.service = mockMapService(['mos', 'Move', 'STP']);
+            el = compile('<sg-province-list-item province="province" service="service" />')(scope);
+            scope.$digest();
+        });
+
+        it('contains a tiny arrow symbol', function() {
+            expect($('div.order span.action', el).html()).to.equal('⇒');
+        });
+
+        it('contains the target', function() {
+            expect($('div.order span.target', el).html()).to.equal('STP');
+        });
+    });
+
+    describe('Hold order', function() {
+        beforeEach(function() {
+            scope.service = mockMapService(['ven', 'Hold']);
+            el = compile('<sg-province-list-item province="province" service="service" />')(scope);
+            scope.$digest();
+        });
+
+        it('contains the action', function() {
+            expect($('div.order span.action', el).html()).to.equal('holds');
+        });
+
+        it('has no target', function() {
+            expect($('div.order span.target', el).html()).to.equal('');
+        });
     });
 });

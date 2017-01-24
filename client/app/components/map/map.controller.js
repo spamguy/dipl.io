@@ -1,6 +1,6 @@
 angular.module('map.component')
-.controller('MapController', ['$animate', 'gameService', '$mdBottomSheet', '$scope', '$state', 'variantService',
-function($animate, gameService, $mdBottomSheet, $scope, $state, variantService) {
+.controller('MapController', ['$animate', 'gameService', 'hotkeys', '$mdBottomSheet', '$scope', '$state', 'variantService',
+function($animate, gameService, hotkeys, $mdBottomSheet, $scope, $state, variantService) {
     var vm = this,
         normalisedVariantName = variantService.getNormalisedVariantName(vm.service.game.Variant),
         paths = vm.svg.getElementsByTagName('path'),
@@ -49,11 +49,9 @@ function($animate, gameService, $mdBottomSheet, $scope, $state, variantService) 
     vm.imagePath = 'variants/' + normalisedVariantName + '/' + normalisedVariantName + '.png';
     vm.viewBox = '0 0 ' + getSVGAttribute('width') + ' ' + getSVGAttribute('height');
 
-    // Unstarted games have rendered all they need to.
-    if (!vm.service.game.Started)
-        return;
+    hotkeys = bindHotkeys(hotkeys);
 
-    vm.clickCount = 0;
+    // PRIVATE FUNCTIONS
 
     function getSVGAttribute(attr) {
         return vm.svg.documentElement.getAttribute(attr);
@@ -79,5 +77,36 @@ function($animate, gameService, $mdBottomSheet, $scope, $state, variantService) 
     function addToOrdinal(delta) {
         vm.service.addToOrdinal(delta);
         goToState(vm.service.getCurrentPhase().Properties.PhaseOrdinal);
+    }
+
+    function bindHotkeys(hotkeys) {
+        hotkeys.add({
+            combo: 'h',
+            description: 'Change to \'hold\' action',
+            callback: function() {
+                vm.service.setCurrentAction('Hold');
+            }
+        });
+        hotkeys.add({
+            combo: 'm',
+            description: 'Change to \'move\' action',
+            callback: function() {
+                vm.service.setCurrentAction('Move');
+            }
+        });
+        hotkeys.add({
+            combo: 's',
+            description: 'Change to \'support\' action',
+            callback: function() {
+                vm.service.setCurrentAction('Support');
+            }
+        });
+        hotkeys.add({
+            combo: 'c',
+            description: 'Change to \'convoy\' action',
+            callback: function() {
+                vm.service.setCurrentAction('Convoy');
+            }
+        });
     }
 }]);

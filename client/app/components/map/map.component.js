@@ -1,4 +1,4 @@
-angular.module('map.component', ['mapService', 'timer', 'ngAnimate'])
+angular.module('map.component', ['mapService', 'timer', 'ngAnimate', 'cfp.hotkeys'])
 .component('sgMap', {
     bindings: {
         svg: '=',
