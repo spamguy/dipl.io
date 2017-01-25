@@ -16,11 +16,11 @@ angular.module('diplomacy', [
     'restangular'
 ])
 .config(['CONST', '$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$localStorageProvider', '$mdThemingProvider', '$mdIconProvider', 'RestangularProvider',
-function(CONST, $stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorageProvider, $mdThemingProvider, $mdIconProvider, RestangularProvider) {
-    $urlRouterProvider.otherwise('/main/home');
+    function(CONST, $stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorageProvider, $mdThemingProvider, $mdIconProvider, RestangularProvider) {
+        $urlRouterProvider.otherwise('/main/home');
 
-    // Material design theme definitions.
-    $mdThemingProvider.theme('default')
+        // Material design theme definitions.
+        $mdThemingProvider.theme('default')
         .primaryPalette('indigo', {
             default: '400'
         })
@@ -28,8 +28,8 @@ function(CONST, $stateProvider, $urlRouterProvider, $locationProvider, $httpProv
             default: '900'
         });
 
-    // Icon definitions.
-    $mdIconProvider
+        // Icon definitions.
+        $mdIconProvider
         .icon('menu', '/assets/icons/ic_more_vert_24px.svg', 24)
         .icon('addperson', '/assets/icons/ic_person_add_24px.svg', 24)
         .icon('play', '/assets/icons/ic_play_arrow_24px.svg', 24)
@@ -49,16 +49,17 @@ function(CONST, $stateProvider, $urlRouterProvider, $locationProvider, $httpProv
         .icon('last', '/assets/icons/ic_last_page_black_48px.svg', 48)
         .icon('info', '/assets/icons/ic_help_black_48px.svg', 48);
 
-    // Local storage setup.
-    $localStorageProvider.setKeyPrefix('diplomacy');
+        // Local storage setup.
+        $localStorageProvider.setKeyPrefix('diplomacy');
 
-    // Hide ugly # in URL.
-    $locationProvider.html5Mode(true);
+        // Hide ugly # in URL.
+        $locationProvider.html5Mode(true);
 
-    // Set up default config for communication with Diplicity.
-    RestangularProvider.setBaseUrl(CONST.diplicityEndpoint);
-    RestangularProvider.setDefaultHeaders({ Accept: 'application/json' });
-}])
+        // Set up default config for communication with Diplicity.
+        RestangularProvider.setBaseUrl(CONST.diplicityEndpoint);
+        RestangularProvider.setDefaultHeaders({ Accept: 'application/json' });
+    }
+])
 .run(['Restangular', '$rootScope', 'userService', function(Restangular, $rootScope, userService) {
     Restangular.setErrorInterceptor(userService.apiErrorHandler);
 

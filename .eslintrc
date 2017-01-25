@@ -19,10 +19,14 @@
         "es6": false
     },
     "rules": {
-        "indent": [2, 4],
+        "indent": ["error", 4, { "MemberExpression": 0 }],
         "space-before-function-paren": [2, "never"],
         "one-var": [2, "always"],
         "brace-style": [2, "stroustrup", { "allowSingleLine": true }],
-        "curly": [2, "multi-or-nest", "consistent"]
-    }
+        "curly": [2, "multi-or-nest", "consistent"],
+        "dot-location": ["error", "property"],
+        "no-unneeded-ternary": ["error", { "defaultAssignment": false }],
+        "max-nested-callbacks": ["error", 3]
+    },
+    "plugins": ["promise"]
 }
