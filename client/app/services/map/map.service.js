@@ -36,6 +36,7 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
     service.prototype.generateLine = generateLine;
     service.prototype.generateArc = generateArc;
     service.prototype.generateBisectingLine = generateBisectingLine;
+    service.prototype.generateLineIntersectingHold = generateLineIntersectingHold;
     service.prototype.setCurrentAction = setCurrentAction;
     service.prototype.getCurrentAction = getCurrentAction;
     service.prototype.isInPendingCommand = isInPendingCommand;
@@ -119,7 +120,7 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
     function generateArc(source, target) {
         var sourceProvince = variantService.getProvinceInVariant(this.variant, source),
             targetProvince = variantService.getProvinceInVariant(this.variant, target),
-            LINK_UNIT_PADDING = 20,
+            LINK_UNIT_PADDING = 16,
             dx = targetProvince.x - sourceProvince.x,
             dy = targetProvince.y - sourceProvince.y,
             dr = Math.sqrt(dx * dx + dy * dy),
@@ -144,6 +145,15 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         pathLength = theoreticalPathOfTarget.getTotalLength();
         midpoint = theoreticalPathOfTarget.getPointAtLength(pathLength / 2);
         return 'M' + sourceProvince.x + ',' + sourceProvince.y + 'L' + midpoint.x + ',' + midpoint.y;
+    }
+
+    function generateLineIntersectingHold(source, target) {
+        var sourceProvince = variantService.getProvinceInVariant(this.variant, source),
+            targetProvince = variantService.getProvinceInVariant(this.variant, target),
+            shiftedTargetX = targetProvince.x,
+            shiftedTargetY = targetProvince.y;
+
+        return 'M' + sourceProvince.x + ',' + sourceProvince.y + 'L' + shiftedTargetX + ',' + shiftedTargetY;
     }
 
     function setCurrentAction(action) {
@@ -349,7 +359,7 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
     }
 
     function buildSupportOrder() {
-        // Source -> target -> target of target (optional).
+        // Source -> target -> target of target.
         if (_clickedProvinces.length < 3)
             return null;
 
@@ -361,11 +371,7 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         if (source === target)
             return buildDefaultOrder(source);
 
-        // A target targeting itself should be treated as supporting a hold.
-        if (target === targetOfTarget)
-            return [source, 'Support', target, 'Hold'];
-        else
-            return [source, 'Support', target, targetOfTarget];
+        return [source, 'Support', target, targetOfTarget];
     }
 
     function buildConvoyOrder() {

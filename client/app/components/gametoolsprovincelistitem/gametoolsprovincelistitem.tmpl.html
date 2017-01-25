@@ -3,7 +3,7 @@
         <span class="source">{{vm.province.Province.toUpperCase()}}</span>
         <span class="action">{{vm.renderOrderSymbol()}}</span>
         <span class="target">{{vm.renderOrderTarget()}}</span>
-        <span class="targetAction">{{vm.renderOrderTargetOfTarget() ? '⇒' : '' }}</span>
+        <span class="targetAction">{{vm.renderActionOfTarget()}}</span>
         <span class="targetOfTarget">{{vm.renderOrderTargetOfTarget()}}</span>
     </div>
     <md-tooltip md-direction="left">{{vm.province.Unit.resolution}}</md-tooltip>

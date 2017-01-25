@@ -6,6 +6,7 @@ angular.module('gametoolsprovincelistitem.component')
     vm.hasFailedOrder = hasFailedOrder;
     vm.renderOrderSymbol = renderOrderSymbol;
     vm.renderOrderTarget = renderOrderTarget;
+    vm.renderActionOfTarget = renderActionOfTarget;
     vm.renderOrderTargetOfTarget = renderOrderTargetOfTarget;
 
     // Process only unstripped orders.
@@ -37,19 +38,28 @@ angular.module('gametoolsprovincelistitem.component')
     }
 
     function renderOrderTarget() {
-        if (!order)
-            return '';
-        if (order.length < 3)
+        if (!order || order.length < 3)
             return '';
         return order[2].toUpperCase();
     }
 
     function renderOrderTargetOfTarget() {
-        if (!order)
+        if (!order || order.length < 4)
             return '';
 
-        if (order.length < 4)
+        if (order[2] === order[3])
             return '';
         return order[3].toUpperCase();
+    }
+
+    function renderActionOfTarget() {
+        if (!order || order.length < 4)
+            return '';
+
+        if (!this.renderOrderTargetOfTarget() && order[1] !== 'Support')
+            return '';
+        if (order[2] === order[3])
+            return 'hold';
+        return '⇒';
     }
 }]);

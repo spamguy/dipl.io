@@ -107,18 +107,28 @@
                     id="{{order.Properties.Parts[0].toUpperCase() + '-order'}}"
                     fill-opacity="0"
                     stroke="#000"
-                    stroke-width="4px"
+                    stroke-width="3px"
                     ng-attr-d="{{$ctrl.service.generateArc(order.Properties.Parts[0], order.Properties.Parts[2])}}"
                     ng-attr-marker-end="{{$ctrl.service.generateMarkerEnd(order.Properties.Parts)}}">
                 </path>
 
                 <!-- SUPPORT + MOVE -->
-                <path ng-if="order.Properties.Parts[1] === 'Support' && order.Properties.Parts.length > 3"
+                <path ng-if="order.Properties.Parts[1] === 'Support' && order.Properties.Parts[2] !== order.Properties.Parts[3]"
                     id="{{order.Properties.Parts[0].toUpperCase() + '-order'}}"
                     fill-opacity="0"
                     stroke="#000"
-                    stroke-width="4px"
+                    stroke-width="3px"
                     ng-attr-d="{{$ctrl.service.generateBisectingLine(order.Properties.Parts[0], order.Properties.Parts[2], order.Properties.Parts[3])}}"
+                    ng-attr-marker-end="{{$ctrl.service.generateMarkerEnd(order.Properties.Parts)}}">
+                </path>
+
+                <!-- SUPPORT + HOLD -->
+                <path ng-if="order.Properties.Parts[1] === 'Support' && order.Properties.Parts[2] === order.Properties.Parts[3]"
+                    id="{{order.Properties.Parts[0].toUpperCase() + '-order'}}"
+                    fill-opacity="0"
+                    stroke="#000"
+                    stroke-width="3px"
+                    ng-attr-d="{{$ctrl.service.generateArc(order.Properties.Parts[0], order.Properties.Parts[2])}}"
                     ng-attr-marker-end="{{$ctrl.service.generateMarkerEnd(order.Properties.Parts)}}">
                 </path>
 
@@ -129,7 +139,7 @@
                     ng-attr-cy="{{$ctrl.service.variant.Graph.Nodes[order.Properties.Parts[0].toUpperCase()].y}}"
                     r="14"
                     stroke="#000"
-                    stroke-width="4px"
+                    stroke-width="3px"
                     fill-opacity="0">
                 </circle>
 
