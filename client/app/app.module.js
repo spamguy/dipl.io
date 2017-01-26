@@ -32,7 +32,6 @@ angular.module('diplomacy', [
         $mdIconProvider
         .icon('menu', '/assets/icons/ic_more_vert_24px.svg', 24)
         .icon('addperson', '/assets/icons/ic_person_add_24px.svg', 24)
-        .icon('play', '/assets/icons/ic_play_arrow_24px.svg', 24)
         .icon('eject', '/assets/icons/ic_eject_24px.svg', 24)
         .icon('join', '/assets/icons/ic_call_merge_24px.svg', 24)
         .icon('new', '/assets/icons/ic_add_24px.svg', 24)
@@ -42,12 +41,15 @@ angular.module('diplomacy', [
         .icon('clock', '/assets/icons/ic_query_builder_black_48px.svg', 48)
         .icon('account', '/assets/icons/ic_account_circle_black_48px.svg', 48)
         .icon('calendar', '/assets/icons/ic_date_range_black_48px.svg', 48)
-        .icon('map', '/assets/icons/ic_map_black_48px.svg', 48)
         .icon('first', '/assets/icons/ic_first_page_black_48px.svg', 48)
         .icon('previous', '/assets/icons/ic_chevron_left_black_48px.svg', 48)
         .icon('next', '/assets/icons/ic_chevron_right_black_48px.svg', 48)
         .icon('last', '/assets/icons/ic_last_page_black_48px.svg', 48)
-        .icon('info', '/assets/icons/ic_help_black_48px.svg', 48);
+        .icon('info', '/assets/icons/ic_help_black_48px.svg', 48)
+        .icon('move', '/assets/icons/ic_trending_flat_white_48px.svg', 48)
+        .icon('x', '/assets/icons/ic_clear_black_48px.svg', 48)
+        .icon('convoy', '/assets/icons/ic_directions_boat_white_48px.svg', 48)
+        .icon('hold', '/assets/icons/ic_pan_tool_white_48px.svg', 48);
 
         // Local storage setup.
         $localStorageProvider.setKeyPrefix('diplomacy');

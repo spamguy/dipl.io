@@ -1,11 +1,11 @@
 <md-bottom-sheet class="md-grid">
     <md-list flex layout="row" layout-align="center center">
         <md-button ng-if="vm.service.userCanMove()" ng-click="vm.setCurrentActionInSheet('Hold')" class="md-icon-button" aria-label="Hold">
-            <md-icon md-svg-icon="join" ng-class="{'active': vm.service.getCurrentAction() === 'Hold' }"></md-icon>
+            <md-icon md-svg-icon="hold" ng-class="{'active': vm.service.getCurrentAction() === 'Hold' }"></md-icon>
             <md-tooltip>Hold</md-tooltip>
         </md-button>
         <md-button ng-if="vm.service.userCanMove() || vm.service.userCanRetreat()" ng-click="vm.setCurrentActionInSheet('Move')" class="md-icon-button" aria-label="Move">
-            <md-icon md-svg-icon="join" ng-class="{'active': vm.service.getCurrentAction() === 'Move' }"></md-icon>
+            <md-icon md-svg-icon="move" ng-class="{'active': vm.service.getCurrentAction() === 'Move' }"></md-icon>
             <md-tooltip>Move</md-tooltip>
         </md-button>
         <md-button ng-if="vm.service.userCanMove()" ng-click="vm.setCurrentActionInSheet('Support')" class="md-icon-button" aria-label="Support">
@@ -13,7 +13,7 @@
             <md-tooltip>Support</md-tooltip>
         </md-button>
         <md-button ng-if="vm.service.userCanMove()" ng-click="vm.setCurrentActionInSheet('Convoy')" class="md-icon-button" aria-label="Convoy">
-            <md-icon md-svg-icon="join" ng-class="{'active': vm.service.getCurrentAction() === 'Convoy' }"></md-icon>
+            <md-icon md-svg-icon="convoy" ng-class="{'active': vm.service.getCurrentAction() === 'Convoy' }"></md-icon>
             <md-tooltip>Convoy</md-tooltip>
         </md-button>
         <md-button ng-if="vm.service.userCanAdjust()" ng-click="vm.setCurrentActionInSheet('Build')" class="md-icon-button" aria-label="Build">

@@ -33,6 +33,7 @@ angular.module('gametoolsprovincelistitem.component')
         case 'Move': return '⇒';
         case 'Support': return 'supports';
         case 'Hold': return 'holds';
+        case 'Disband': return 'disbands';
         default: return '';
         }
     }

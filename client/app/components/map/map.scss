@@ -1,4 +1,4 @@
-#mapToolbar md-icon.active
+#mapToolbar md-icon.active svg
 {
     fill: yellow;
 }
@@ -25,28 +25,25 @@
     stroke-width: 30px;
 }
 
-path.link
+g.orderLayer
 {
-    fill: none;
-    stroke-width: 3px;
-}
+    path.move, circle.hold
+    {
+        fill: none;
+        stroke-width: 3px;
+        stroke: #000;
+    }
 
-g.moveLayer .hold
-{
-    stroke-width: 3px;
-    fill: none;
-    stroke: #000;
-}
+    .ok
+    {
+        stroke: #000;
+    }
 
-.ok
-{
-    stroke: #000;
-}
-
-.failed
-{
-    stroke: #f00;
-    stroke-dasharray: 10, 5;
+    .failed
+    {
+        stroke: #f00;
+        stroke-dasharray: 10, 5;
+    }
 }
 
 /* ARROWHEADS
