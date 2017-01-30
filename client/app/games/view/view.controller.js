@@ -8,7 +8,6 @@ angular.module('games')
         orders = orders ? orders.Properties : null;
         phaseState = phaseState ? phaseState.Properties : null;
         var vm = this;
-        vm.updateProvinceData = updateProvinceData;
 
         vm.currentUserInGame = gameService.getCurrentUserInGame(game);
         vm.svg = new DOMParser().parseFromString(svg.data, 'image/svg+xml');
@@ -38,18 +37,16 @@ angular.module('games')
                 .ariaLabel('Game not started')
             );
         }
-
-        function updateProvinceData(p, action, target, targetOfTarget) {
-            // Update local data to reflect DB change.
-            // vm.service.phase.provinces[p].unit.action = action;
-            // if (target)
-            //     vm.service.phase.provinces[p].unit.target = target;
-            // if (targetOfTarget)
-            //     vm.service.phase.provinces[p].unit.targetOfTarget = targetOfTarget;
-            //
-            // vm.$broadcast('orderChange', {
-            //     p: p
-            // });
+        else if (game.Finished) {
+            $mdDialog.show(
+                $mdDialog.alert()
+                .parent(angular.element(document.body))
+                .clickOutsideToClose(true)
+                .title('Game finished')
+                .ok('OK')
+                .textContent('This game has already finished. No further orders are being accepted for this game.')
+                .ariaLabel('Game finished')
+            );
         }
     }
 ]);

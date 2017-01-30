@@ -44,8 +44,6 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
     service.prototype.applyOrderLocally = applyOrderLocally;
     service.prototype.getOrderForProvince = getOrderForProvince;
     service.prototype.userCanPerformAction = userCanPerformAction;
-    service.prototype.retreatExpected = retreatExpected;
-    service.prototype.adjustExpected = adjustExpected;
     service.prototype.addToOrdinal = addToOrdinal;
 
     return service;
@@ -247,35 +245,11 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
     }
 
     function userCanPerformAction(phaseType) {
+        if (!this.game.Started || this.game.Finished)
+            return false;
+
         var phase = this.getCurrentPhase();
         return phase && gameService.isPlayer(this.game) && phase.Properties.Type === phaseType;
-    }
-
-    /**
-     * Whether a player is expected to retreat in an active season.
-     * @param  {String} power The power's letter code.
-     * @return {Boolean}      True if the player is expected to retreat.
-     */
-    function retreatExpected(power) {
-        if (!this.phase)
-            return false;
-
-        return _.isString(_.findKey(this.phase.provinces, function(p) {
-            return p && p.owner === power;
-        }));
-    }
-
-    /**
-     * Whether a player is expected to adjust in an active season.
-     * @param  {String} power The power's letter code.
-     * @return {Boolean}      True if the player is expected to adjust.
-     */
-    function adjustExpected(power) {
-        if (!this.phase)
-            return false;
-
-        // FIXME: Not accurate, obviously.
-        return true;
     }
 
     function getCurrentAction() {
