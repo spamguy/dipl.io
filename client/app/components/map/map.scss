@@ -32,17 +32,12 @@ g.orderLayer
         fill: none;
         stroke-width: 3px;
         stroke: #000;
-    }
 
-    .ok
-    {
-        stroke: #000;
-    }
-
-    .failed
-    {
-        stroke: #f00;
-        stroke-dasharray: 10, 5;
+        &.failed
+        {
+            stroke: #f00;
+            stroke-dasharray: 10, 5;
+        }
     }
 }
 

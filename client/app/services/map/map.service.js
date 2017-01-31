@@ -43,6 +43,7 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
     service.prototype.inputOrder = inputOrder;
     service.prototype.applyOrderLocally = applyOrderLocally;
     service.prototype.getOrderForProvince = getOrderForProvince;
+    service.prototype.orderDidFail = orderDidFail;
     service.prototype.userCanPerformAction = userCanPerformAction;
     service.prototype.addToOrdinal = addToOrdinal;
 
@@ -85,8 +86,8 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
 
     function generateMarkerEnd(order) {
         // See CSS file for why separate markers exist for failed orders.
-        // TODO: Consider failure in generating marker end.
-        var failed = !order ? 'failed' : '';
+        var id = order[0],
+            failed = this.orderDidFail(id) ? 'failed' : '';
         return 'url(' + $location.absUrl() + '#' + failed + order[1].toLowerCase() + ')';
     }
 
@@ -242,6 +243,16 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         return _.find(this.orders, function(o) {
             return o.Properties.Parts[0] === p.toLowerCase();
         });
+    }
+
+    function orderDidFail(id) {
+        var currentPhase = this.getCurrentPhase(),
+            orderResolution;
+
+        if (currentPhase.Properties.Resolutions)
+            orderResolution = _.find(currentPhase.Properties.Resolutions, ['Province', id]);
+
+        return orderResolution && orderResolution.Resolution !== 'OK';
     }
 
     function userCanPerformAction(phaseType) {
