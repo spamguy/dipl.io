@@ -1,11 +1,11 @@
-<div ng-class="{'hasFailedOrder': vm.hasFailedOrder()}">
-    <div class="order">
+<div>
+    <div class="order" ng-class="{'failed': vm.service.orderDidFail(vm.province.Province)}">
         <span class="source">{{vm.province.Province.toUpperCase()}}</span>
         <span class="action">{{vm.renderOrderSymbol()}}</span>
         <span class="target">{{vm.renderOrderTarget()}}</span>
         <span class="targetAction">{{vm.renderActionOfTarget()}}</span>
         <span class="targetOfTarget">{{vm.renderOrderTargetOfTarget()}}</span>
     </div>
-    <md-tooltip md-direction="left">{{vm.province.Unit.resolution}}</md-tooltip>
+    <md-tooltip ng-if="vm.renderResolution()" md-direction="left">{{vm.renderResolution()}}</md-tooltip>
     <md-divider></md-divider>
 </div>

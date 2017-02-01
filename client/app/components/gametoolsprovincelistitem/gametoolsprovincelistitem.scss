@@ -32,15 +32,23 @@ md-list-item
 
     sg-province-list-item
     {
-        span.source, span.target, span.targetOfTarget
+        div.order
         {
-            font-weight: bold;
-        }
+            cursor: default;
+            span.source, span.target, span.targetOfTarget
+            {
+                font-weight: bold;
+            }
 
-        span.failed
-        {
-            color: #f00;
-            text-decoration-style: dotted;
+            // Use dashed underline compatible across browsers. See https://css-tricks.com/styling-underlines-web/.
+            &.failed
+            {
+                color: #f00;
+                background-image: linear-gradient(to right, #f00 50%, transparent 50%);
+                background-position: 0 1.26em;
+                background-repeat: repeat-x;
+                background-size: 8px 2px;
+            }
         }
     }
 }

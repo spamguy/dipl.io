@@ -11,6 +11,9 @@ describe('Province list item component', function() {
                             Parts: bogusOrders
                         }
                     };
+                },
+                getCurrentPhase: function() {
+                    return { Properties: { } };
                 }
             };
         },

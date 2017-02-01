@@ -93,21 +93,24 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
 
     /**
      * Generate a line segment with padding on both ends.
-     * @param  {Number} sx The source unit's x coordinate.
-     * @param  {Number} sy The source unit's y coordinate.
-     * @param  {Number} tx The target unit's x coordinate.
-     * @param  {Number} ty The target unit's y coordinate.
+     * @param  {String} source The source province.
+     * @param  {String} target The target province.
      * @return {String}    An SVG path.
      */
-    function generateLine(sx, sy, tx, ty) {
-        var LINK_UNIT_PADDING = 16,
-            dx = tx - sx,
-            dy = ty - sy,
+    function generateLine(source, target) {
+        var sourceProvince = variantService.getProvinceInVariant(this.variant, source),
+            targetProvince = variantService.getProvinceInVariant(this.variant, target),
+            LINK_UNIT_PADDING = 16,
+            dx = targetProvince.x - sourceProvince.x,
+            dy = targetProvince.y - sourceProvince.y,
             dr = Math.sqrt(dx * dx + dy * dy),
             offsetX = (dx * LINK_UNIT_PADDING) / dr,
             offsetY = (dy * LINK_UNIT_PADDING) / dr;
 
-        return 'M' + (sx + offsetX) + ',' + (sy + offsetY) + 'L' + (tx - offsetX) + ',' + (ty - offsetY);
+        return 'M' + (sourceProvince.x + offsetX) + ',' +
+            (sourceProvince.y + offsetY) + 'L' +
+            (targetProvince.x - offsetX) + ',' +
+            (targetProvince.y - offsetY);
     }
 
     /**
@@ -126,7 +129,10 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
             offsetX = (dx * LINK_UNIT_PADDING) / dr,
             offsetY = (dy * LINK_UNIT_PADDING) / dr;
 
-        return 'M' + sourceProvince.x + ',' + sourceProvince.y + 'A' + dr + ',' + dr + ' 0 0,1 ' + (targetProvince.x - offsetX) + ',' + (targetProvince.y - offsetY);
+        return 'M' + sourceProvince.x + ',' +
+            sourceProvince.y + 'A' + dr + ',' +
+            dr + ' 0 0,1 ' + (targetProvince.x - offsetX) + ',' +
+            (targetProvince.y - offsetY);
     }
 
     function generateBisectingLine(source, target, targetOfTarget) {

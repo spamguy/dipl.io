@@ -3,11 +3,11 @@ angular.module('gametoolsprovincelistitem.component')
     var vm = this,
         order = vm.service.getOrderForProvince(vm.province.Province);
 
-    vm.hasFailedOrder = hasFailedOrder;
     vm.renderOrderSymbol = renderOrderSymbol;
     vm.renderOrderTarget = renderOrderTarget;
     vm.renderActionOfTarget = renderActionOfTarget;
     vm.renderOrderTargetOfTarget = renderOrderTargetOfTarget;
+    vm.renderResolution = renderResolution;
 
     // Process only unstripped orders.
     if (order)
@@ -22,17 +22,16 @@ angular.module('gametoolsprovincelistitem.component')
             order = newOrder;
     });
 
-    function hasFailedOrder() {
-        return false; // TODO: Add failure class.
-    }
-
     function renderOrderSymbol() {
         if (!order)
             return '';
         switch (order[1]) {
-        case 'Move': return '⇒';
+        case 'Move':
+        case 'MoveViaConvoy':
+            return '⇒';
         case 'Support': return 'supports';
         case 'Hold': return 'holds';
+        case 'Convoy': return 'convoys';
         case 'Disband': return 'disbands';
         default: return '';
         }
@@ -62,5 +61,30 @@ angular.module('gametoolsprovincelistitem.component')
         if (order[2] === order[3])
             return 'hold';
         return '⇒';
+    }
+
+    function renderResolution() {
+        var phase = vm.service.getCurrentPhase(),
+            resolution;
+        // Nothing to render.
+        if (!phase.Properties.Resolutions)
+            return null;
+
+        resolution = _.find(phase.Properties.Resolutions, ['Province', vm.province.Province]);
+
+        return null || processResolutionCode(resolution.Resolution);
+    }
+
+    function processResolutionCode(code) {
+        var split;
+        // 'OK' is not worth showing.
+        if (code === 'OK')
+            return null;
+        if (code.indexOf('ErrBounce') > -1) {
+            split = code.split(':');
+            return 'Bounced against ' + split[1].toUpperCase();
+        }
+
+        return code;
     }
 }]);

@@ -128,6 +128,25 @@
                     ng-attr-marker-end="{{$ctrl.service.generateMarkerEnd(order.Properties.Parts)}}">
                 </path>
 
+                <!-- CONVOY -->
+                <g ng-if="order.Properties.Parts[1] === 'Convoy'">
+                    <path id="{{order.Properties.Parts[0].toUpperCase() + '-convoy-1'}}"
+                        class="move"
+                        ng-class="{'failed': $ctrl.service.orderDidFail(order.Properties.Parts[0])}"
+                        ng-attr-d="{{$ctrl.service.generateLine(order.Properties.Parts[0], order.Properties.Parts[2])}}"
+                        ng-attr-marker-start="{{$ctrl.service.generateMarkerEnd(order.Properties.Parts)}}"
+                        ng-attr-marker-end="{{$ctrl.service.generateMarkerEnd(order.Properties.Parts)}}">
+                    </path>
+
+                    <path id="{{order.Properties.Parts[0].toUpperCase() + '-convoy-2'}}"
+                        class="move"
+                        ng-class="{'failed': $ctrl.service.orderDidFail(order.Properties.Parts[0])}"
+                        ng-attr-d="{{$ctrl.service.generateLine(order.Properties.Parts[0], order.Properties.Parts[3])}}"
+                        ng-attr-marker-start="{{$ctrl.service.generateMarkerEnd(order.Properties.Parts)}}"
+                        ng-attr-marker-end="{{$ctrl.service.generateMarkerEnd(order.Properties.Parts)}}">
+                    </path>
+                </g>
+
                 <!-- HOLD -->
                 <circle ng-repeat-end ng-if="order.Properties.Parts[1] === 'Hold'"
                     id="{{order.Properties.Parts[0].toUpperCase() + '-order'}}"
