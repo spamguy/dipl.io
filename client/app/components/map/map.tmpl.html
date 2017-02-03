@@ -58,6 +58,9 @@
                 <marker id="failedconvoy" viewBox="-1 -5 2 10" markerWidth="5" markerHeight="5" orient="auto">
                     <path d="M 0,0 m -1,-5 L 1,-5 L 1,5 L -1,5 Z"></path>
                 </marker>
+                <filter id="new" x="-2" y="-2" width="4" height="4">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="5" />
+                </filter>
             </defs>
             <g class="scLayer" ng-if="$ctrl.service.game.Started">
                 <path xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -78,8 +81,20 @@
                 </path>
             </g>
 
+            <!-- NEW UNIT 'GLOW' -->
+            <g class="glowLayer">
+                <circle ng-repeat="order in $ctrl.service.orders | filter: { Properties.Parts[1] === 'Build' }"
+                    r="13"
+                    fill="yellow"
+                    ng-attr-filter="{{$ctrl.service.generateGlow()}}"
+                    ng-attr-cx="{{$ctrl.service.variant.Graph.Nodes[order.Properties.Parts[0].toUpperCase()].x}}"
+                    ng-attr-cy="{{$ctrl.service.variant.Graph.Nodes[order.Properties.Parts[0].toUpperCase()].y}}">
+                </circle>
+            </g>
+
             <g class="unitLayer">
-                <circle ng-repeat="province in $ctrl.service.getCurrentPhase().Properties.Units | filter: { Unit: { Type: 'Army' } }"
+                <circle ng-repeat-start="province in $ctrl.service.getCurrentPhase().Properties.Units"
+                        ng-if="province.Unit.Type === 'Army'"
                         id="{{province.Province.toUpperCase()}}-army"
                         r="8"
                         stroke="#000"
@@ -89,7 +104,7 @@
                         ng-attr-fill="{{$ctrl.service.variant.Powers[province.Unit.Nation[0]].colour}}">
                 </circle>
 
-                <rect ng-repeat="province in $ctrl.service.getCurrentPhase().Properties.Units | filter: { Unit: { Type: 'Fleet' } }"
+                <rect ng-if="province.Unit.Type === 'Fleet'"
                       id="{{province.Province.toUpperCase()}}-fleet"
                       height="8"
                       width="16"
@@ -99,11 +114,18 @@
                       ng-attr-y="{{$ctrl.service.variant.Graph.Nodes[province.Province.toUpperCase()].y - 8/2}}"
                       ng-attr-fill="{{$ctrl.service.variant.Powers[province.Unit.Nation[0]].colour}}">
                 </rect>
+
+                <path ng-if="$ctrl.service.orderIsDisband(province.Province)"
+                    class="disband"
+                    d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                    ng-attr-transform="{{$ctrl.service.getDisbandTransform($ctrl.service.variant.Graph.Nodes[province.Province.toUpperCase()])}}"
+                    ng-repeat-end>
+                </path>
             </g>
 
             <g class="orderLayer">
                 <!-- MOVE -->
-                <path ng-repeat-start="order in $ctrl.service.orders"
+                <path
                     id="{{order.Properties.Parts[0].toUpperCase() + '-order'}}"
                     ng-if="order.Properties.Parts[1] === 'Move'"
                     class="move"
@@ -116,6 +138,7 @@
                 <path ng-if="order.Properties.Parts[1] === 'Support' && order.Properties.Parts[2] !== order.Properties.Parts[3]"
                     id="{{order.Properties.Parts[0].toUpperCase() + '-order'}}"
                     class="move"
+                    ng-class="{'failed': $ctrl.service.orderDidFail(order.Properties.Parts[0])}"
                     ng-attr-d="{{$ctrl.service.generateBisectingLine(order.Properties.Parts[0], order.Properties.Parts[2], order.Properties.Parts[3])}}"
                     ng-attr-marker-end="{{$ctrl.service.generateMarkerEnd(order.Properties.Parts)}}">
                 </path>
@@ -124,6 +147,7 @@
                 <path ng-if="order.Properties.Parts[1] === 'Support' && order.Properties.Parts[2] === order.Properties.Parts[3]"
                     id="{{order.Properties.Parts[0].toUpperCase() + '-order'}}"
                     class="move"
+                    ng-class="{'failed': $ctrl.service.orderDidFail(order.Properties.Parts[0])}"
                     ng-attr-d="{{$ctrl.service.generateArc(order.Properties.Parts[0], order.Properties.Parts[2])}}"
                     ng-attr-marker-end="{{$ctrl.service.generateMarkerEnd(order.Properties.Parts)}}">
                 </path>
@@ -148,13 +172,36 @@
                 </g>
 
                 <!-- HOLD -->
-                <circle ng-repeat-end ng-if="order.Properties.Parts[1] === 'Hold'"
+                <circle ng-if="order.Properties.Parts[1] === 'Hold'"
                     id="{{order.Properties.Parts[0].toUpperCase() + '-order'}}"
                     ng-attr-cx="{{$ctrl.service.variant.Graph.Nodes[order.Properties.Parts[0].toUpperCase()].x}}"
                     ng-attr-cy="{{$ctrl.service.variant.Graph.Nodes[order.Properties.Parts[0].toUpperCase()].y}}"
                     r="14"
                     class="hold">
                 </circle>
+
+                <!-- NEW UNITS -->
+                <circle ng-if="order.Properties.Parts[1] === 'Build' && order.Properties.Parts[2] === 'Army'"
+                    id="{{order.Properties.Parts[0].toUpperCase()}}-army"
+                    r="8"
+                    stroke="#000"
+                    stroke-width="1px"
+                    ng-attr-cx="{{$ctrl.service.variant.Graph.Nodes[order.Properties.Parts[0].toUpperCase()].x}}"
+                    ng-attr-cy="{{$ctrl.service.variant.Graph.Nodes[order.Properties.Parts[0].toUpperCase()].y}}"
+                    ng-attr-fill="{{$ctrl.service.variant.Powers[order.Properties.Nation[0]].colour}}">
+                </circle>
+
+                <rect ng-if="order.Properties.Parts[1] === 'Build' && order.Properties.Parts[2] === 'Fleet'"
+                      id="{{order.Properties.Parts[0].toUpperCase()}}-fleet"
+                      height="8"
+                      width="16"
+                      stroke="#000"
+                      stroke-width="1px"
+                      ng-attr-x="{{$ctrl.service.variant.Graph.Nodes[order.Properties.Parts[0].toUpperCase()].x - 16/2}}"
+                      ng-attr-y="{{$ctrl.service.variant.Graph.Nodes[order.Properties.Parts[0].toUpperCase()].y - 8/2}}"
+                      ng-attr-fill="{{$ctrl.service.variant.Powers[order.Properties.Nation[0]].colour}}"
+                      ng-repeat-end>
+                </rect>
             </g>
         </svg>
     </div>

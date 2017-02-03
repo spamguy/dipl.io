@@ -31,6 +31,8 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
     service.prototype.getSCTransform = getSCTransform;
     service.prototype.getSCPath = getSCPath;
     service.prototype.getSCFill = getSCFill;
+    service.prototype.getDisbandTransform = getDisbandTransform;
+    service.prototype.generateGlow = generateGlow;
     service.prototype.generateMarkerStart = generateMarkerStart;
     service.prototype.generateMarkerEnd = generateMarkerEnd;
     service.prototype.generateLine = generateLine;
@@ -44,6 +46,7 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
     service.prototype.applyOrderLocally = applyOrderLocally;
     service.prototype.getOrderForProvince = getOrderForProvince;
     service.prototype.orderDidFail = orderDidFail;
+    service.prototype.orderIsDisband = orderIsDisband;
     service.prototype.userCanPerformAction = userCanPerformAction;
     service.prototype.addToOrdinal = addToOrdinal;
 
@@ -74,6 +77,10 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         return sc ? this.variant.Powers[sc.Owner[0]].colour : '#ccc';
     }
 
+    function getDisbandTransform(p) {
+        return 'translate(' + (p.x - 14) + ',' + (p.y - 14) + ') scale(1.2)';
+    }
+
     function generateMarkerStart(d) {
         // See CSS file for why separate markers exist for failed orders.
         var failed = d.source.unit.resolution ? 'failed' : '';
@@ -89,6 +96,10 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         var id = order[0],
             failed = this.orderDidFail(id) ? 'failed' : '';
         return 'url(' + $location.absUrl() + '#' + failed + order[1].toLowerCase() + ')';
+    }
+
+    function generateGlow() {
+        return 'url(' + $location.absUrl() + '#new)';
     }
 
     /**
@@ -249,6 +260,11 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         return _.find(this.orders, function(o) {
             return o.Properties.Parts[0] === p.toLowerCase();
         });
+    }
+
+    function orderIsDisband(id) {
+        var order = this.getOrderForProvince(id);
+        return order && order.Properties.Parts[1] === 'Disband';
     }
 
     function orderDidFail(id) {
