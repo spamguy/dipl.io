@@ -125,7 +125,7 @@
 
             <g class="orderLayer">
                 <!-- MOVE -->
-                <path
+                <path ng-repeat-start="order in $ctrl.service.orders"
                     id="{{order.Properties.Parts[0].toUpperCase() + '-order'}}"
                     ng-if="order.Properties.Parts[1] === 'Move'"
                     class="move"

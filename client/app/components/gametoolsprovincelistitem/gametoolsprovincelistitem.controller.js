@@ -72,7 +72,7 @@ angular.module('gametoolsprovincelistitem.component')
 
         resolution = _.find(phase.Properties.Resolutions, ['Province', vm.province.Province]);
 
-        return null || processResolutionCode(resolution.Resolution);
+        return resolution ? processResolutionCode(resolution.Resolution) : '';
     }
 
     function processResolutionCode(code) {

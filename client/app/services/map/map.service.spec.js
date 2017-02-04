@@ -67,6 +67,10 @@ describe('Map service', function() {
                 DeadlineAt: moment().add({ minutes: 3, seconds: 12, milliseconds: 144 }).toISOString(),
                 Units: [
                     { Properties: { Unit: { Nation: 'Germany' } } }
+                ],
+                Resolutions: [
+                    { Province: 'mun', Resolution: 'OK' },
+                    { Province: 'den', Resolution: 'Aw Hell naw' }
                 ]
             }
         }];
@@ -164,6 +168,11 @@ describe('Map service', function() {
         it('gets a province\'s order', function() {
             expect(ms.getOrderForProvince('MUN').Properties.Parts[0]).to.equal('mun');
             expect(ms.getOrderForProvince('den').Properties.Parts[0]).to.equal('den');
+        });
+
+        it('identifies a failed order', function() {
+            expect(ms.orderDidFail('mun')).to.be.false;
+            expect(ms.orderDidFail('den')).to.be.true;
         });
     });
 });
