@@ -30,7 +30,7 @@
                 <span class="email" hide-sm hide-xs>{{$storage.theUser.Email}}</span>
 
                 <md-menu md-position-mode="target-right target">
-                    <md-icon md-menu-origin md-svg-icon="account" ng-click="$mdOpenMenu($event)" class="svg48px"></md-icon>
+                    <md-icon md-menu-origin md-svg-icon="account" ng-click="$mdMenu.open($event)" class="svg48px"></md-icon>
                     <md-menu-content>
                         <md-menu-item>
                             <md-button ui-sref="profile.games">

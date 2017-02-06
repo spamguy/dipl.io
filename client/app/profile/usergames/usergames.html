@@ -19,4 +19,14 @@
             <h1 class="md-display-1">Nothing here.</h1>
         </div>
     </md-tab>
+    <md-tab label="Finished">
+        <md-list>
+            <md-list-item ng-repeat="game in vm.finished" class="gameItem">
+                <sg-game-list-item game="game" joinable="false" />
+            </md-list-item>
+        </md-list>
+        <div layout="row" layout-align="center center" layout-margin ng-if="!vm.finished.length">
+            <h1 class="md-display-1">Nothing here.</h1>
+        </div>
+    </md-tab>
 </md-tabs>

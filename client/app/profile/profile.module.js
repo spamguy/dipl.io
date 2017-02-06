@@ -18,6 +18,9 @@ angular.module('profile', [
         templateUrl: 'app/profile/usergames/usergames.html',
         controller: 'UserGamesController as vm',
         resolve: {
+            finished: ['gameService', function(gameService) {
+                return gameService.getAllFinishedGamesForCurrentUser();
+            }],
             games: ['gameService', function(gameService) {
                 return gameService.getAllActiveGamesForCurrentUser();
             }],

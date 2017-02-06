@@ -26,6 +26,15 @@ angular.module('gameService', ['userService'])
             return Restangular.all('Games').all('My').customGET('Staging');
         },
 
+        /**
+         * Gets all finished games the logged-in user has joined.
+         * @memberof GameService
+         * @returns {Promise} Diplicity data containing a list of games.
+         */
+        getAllFinishedGamesForCurrentUser: function() {
+            return Restangular.all('Games').all('My').customGET('Finished');
+        },
+
         getGame: function(gameID) {
             return Restangular.one('Game', gameID).get();
         },
