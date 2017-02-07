@@ -60,16 +60,7 @@ angular.module('gameService', ['userService'])
         },
 
         getAllArchivedGames: function() {
-            // return $q(function(resolve) {
-            //     if (userService.isAuthenticated()) {
-            //         socketService.socket.emit('game:listarchives', function(games) {
-            //             resolve(games);
-            //         });
-            //     }
-            //     else {
-            //         return resolve({ });
-            //     }
-            // });
+            return Restangular.all('Games').customGET('Finished');
         },
 
         /**

@@ -123,6 +123,9 @@ angular.module('map.component')
         var o = 0,
             filtered = [];
 
+        if (!orders)
+            return filtered;
+
         for (; o < orders.length; o++) {
             if (orders[o].Properties.Parts[1] === 'Build')
                 filtered.push(orders[o]);

@@ -96,6 +96,18 @@ describe('Game service', function() {
         expect(openGames.Properties).to.have.lengthOf(2);
     });
 
+    it('requests a list of archived games', function() {
+        httpBackend.expectGET('/Games/Finished').respond('{ "Properties": [{ "Desc": "Game 1" }, { "Desc": "Game 2" }] }');
+
+        var games;
+        gameService.getAllArchivedGames()
+        .then(function(o) {
+            games = o;
+        });
+        httpBackend.flush();
+        expect(games.Properties).to.have.lengthOf(2);
+    });
+
     it('creates a game', function() {
         httpBackend.expectPOST('/Game').respond(200);
 
