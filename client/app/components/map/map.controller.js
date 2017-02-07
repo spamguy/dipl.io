@@ -1,6 +1,6 @@
 angular.module('map.component')
-.controller('MapController', ['$animate', 'gameService', 'hotkeys', '$mdBottomSheet', '$scope', '$state', 'variantService',
-    function($animate, gameService, hotkeys, $mdBottomSheet, $scope, $state, variantService) {
+.controller('MapController', ['$animate', 'gameService', 'hotkeys', '$mdBottomSheet', '$mdToast', '$state', 'variantService',
+    function($animate, gameService, hotkeys, $mdBottomSheet, $mdToast, $state, variantService) {
         var vm = this,
             normalisedVariantName = variantService.getNormalisedVariantName(vm.service.game.Variant),
             paths = vm.svg.getElementsByTagName('path'),
@@ -98,6 +98,14 @@ angular.module('map.component')
                 .then(function() {
                     el.removeClass('submit success');
                 });
+            })
+            .catch(function(ex) {
+                return $mdToast.show(
+                    $mdToast.simple()
+                    .textContent(id.toUpperCase() + ' order failed: ' + processOrderError(ex.data))
+                    .hideDelay(3000)
+                    .parent(document.querySelector('#mapContainer'))
+                );
             });
         }
 
@@ -115,6 +123,15 @@ angular.module('map.component')
 
         function filterBuildOrders(order) {
             return order.Properties.Parts[1] === 'Build';
+        }
+
+        function processOrderError(error) {
+            error = error.match(/[^"^\v]+/)[0];
+            switch (error) {
+            case 'ErrIllegalConvoyPath': return 'The convoy is invalid.';
+            case 'ErrMissignConvoyPath': return 'The unit can\'t reach that province.';
+            case 'ErrMissingSupportUnit': return 'No unit to support at that province.';
+            }
         }
     }
 ])

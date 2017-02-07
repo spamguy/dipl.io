@@ -234,11 +234,11 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
             return emptyOrder;
 
         // Making it this far means there is a full set of commands to publish.
-        return gameService.publishOrder(this.game, this.getCurrentPhase(), order)
-        .catch(function(ex) {
-            console.warn('Order submit ' + JSON.stringify(ex.config.data.Parts) + ' failed');
-            return null;
-        });
+        return gameService.publishOrder(this.game, this.getCurrentPhase(), order);
+        // .catch(function(ex) {
+        //     console.warn('Order submit ' + JSON.stringify(ex.config.data.Parts) + ' failed');
+        //     return null;
+        // });
 
         function findUnitOwnedByUserAtProvince(phaseProvinces) {
             return _.find(phaseProvinces, unitIsOwnedByPower);

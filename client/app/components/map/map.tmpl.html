@@ -37,7 +37,7 @@
         </div>
     </md-toolbar>
 
-    <div class="mapContainer" ng-class="{'notStarted': !$ctrl.service.game.Started}" ng-style="{'background-image':'url({{$ctrl.imagePath}})'}">
+    <div id="mapContainer" class="mapContainer" ng-class="{'notStarted': !$ctrl.service.game.Started}" ng-style="{'background-image':'url({{$ctrl.imagePath}})'}">
         <svg width="100%" ng-attr-view_box="{{$ctrl.viewBox}}">
             <defs>
                 <marker id="move" viewBox="0 -5 10 10" markerWidth="5" markerHeight="5" orient="auto">
