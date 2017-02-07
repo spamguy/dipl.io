@@ -6,41 +6,8 @@ angular.module('map.component')
             paths = vm.svg.getElementsByTagName('path'),
             p;
 
-        vm.paths = { };
-        vm.getFormattedDeadline = gameService.getFormattedDeadline;
-        vm.goToOrdinal = goToOrdinal;
-        vm.addToOrdinal = addToOrdinal;
-
-        vm.inputOrder = function(id) {
-            vm.service.inputOrder(id)
-            .then(function(order) {
-                if (!order)
-                    return;
-                vm.service.applyOrderLocally(order);
-
-                // Apply/remote flash CSS.
-                var provinceToAnimate = order[0].toUpperCase(),
-                    el = angular.element(document.querySelector('#' + provinceToAnimate + '-order'));
-                $animate.addClass(el, 'submit success')
-                .then(function() {
-                    el.removeClass('submit success');
-                });
-            });
-        };
-
-        vm.showOrderSheet = function() {
-            $mdBottomSheet.show({
-                templateUrl: 'app/components/map/ordersheet/ordersheet.tmpl.html',
-                controller: 'OrderSheetController',
-                controllerAs: 'vm',
-                clickOutsideToClose: true,
-                locals: {
-                    service: vm.service
-                }
-            }).then(vm.service.setCurrentAction);
-        };
-
         // Fill out province paths only if the vm.service.phase is active.
+        vm.paths = { };
         if (!vm.readonly) {
             for (p = 0; p < paths.length; p++)
                 vm.paths[paths[p].id.toUpperCase()] = paths[p].getAttribute('d');
@@ -50,6 +17,13 @@ angular.module('map.component')
         vm.viewBox = '0 0 ' + getSVGAttribute('width') + ' ' + getSVGAttribute('height');
 
         hotkeys = bindHotkeys(hotkeys);
+
+        vm.getFormattedDeadline = gameService.getFormattedDeadline;
+        vm.goToOrdinal = goToOrdinal;
+        vm.addToOrdinal = addToOrdinal;
+        vm.buildOrders = filterBuildOrders;
+        vm.inputOrder = inputOrder;
+        vm.showOrderSheet = showOrderSheet;
 
         // PRIVATE FUNCTIONS
 
@@ -109,5 +83,51 @@ angular.module('map.component')
                 }
             });
         }
+
+        function inputOrder(id) {
+            vm.service.inputOrder(id)
+            .then(function(order) {
+                if (!order)
+                    return;
+                vm.service.applyOrderLocally(order);
+
+                // Apply/remote flash CSS.
+                var provinceToAnimate = order[0].toUpperCase(),
+                    el = angular.element(document.querySelector('#' + provinceToAnimate + '-order'));
+                $animate.addClass(el, 'submit success')
+                .then(function() {
+                    el.removeClass('submit success');
+                });
+            });
+        }
+
+        function showOrderSheet() {
+            $mdBottomSheet.show({
+                templateUrl: 'app/components/map/ordersheet/ordersheet.tmpl.html',
+                controller: 'OrderSheetController',
+                controllerAs: 'vm',
+                clickOutsideToClose: true,
+                locals: {
+                    service: vm.service
+                }
+            }).then(vm.service.setCurrentAction);
+        }
+
+        function filterBuildOrders(order) {
+            return order.Properties.Parts[1] === 'Build';
+        }
     }
-]);
+])
+.filter('buildOrders', function() {
+    return function(orders) {
+        var o = 0,
+            filtered = [];
+
+        for (; o < orders.length; o++) {
+            if (orders[o].Properties.Parts[1] === 'Build')
+                filtered.push(orders[o]);
+        }
+
+        return filtered;
+    };
+});

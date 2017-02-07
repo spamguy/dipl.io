@@ -83,7 +83,7 @@
 
             <!-- NEW UNIT 'GLOW' -->
             <g class="glowLayer">
-                <circle ng-repeat="order in $ctrl.service.orders | filter: { Properties.Parts[1] === 'Build' }"
+                <circle ng-repeat="order in $ctrl.service.orders | buildOrders"
                     r="13"
                     fill="yellow"
                     ng-attr-filter="{{$ctrl.service.generateGlow()}}"
