@@ -31,7 +31,7 @@ angular.module('gamelistitem.component')
             phases = phases.Properties;
             phaseState = phaseState ? phaseState.Properties : null;
             orders = orders ? orders.Properties : null;
-            vm.service = new MapService(variant, vm.game, phases, orders, phaseState);
+            vm.service = new MapService(variant, vm.game, phases, orders, null, phaseState);
         }
 
         function reasonForNoJoin() {

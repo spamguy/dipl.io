@@ -5,7 +5,7 @@
             <div class="md-caption">{{$ctrl.service.getReadableDeadline()}}</div>
         </div>
         <span flex></span>
-        <div ng-if="!$ctrl.readonly">
+        <div ng-if="!$ctrl.readonly && $ctrl.service.isUserInputExpected()">
             <md-button class="md-icon-button" aria-label="Change action" hide-gt-sm ng-click="$ctrl.showOrderSheet()">
                 <md-icon md-svg-icon="{{$ctrl.service.getCurrentAction().toLowerCase()}}"></md-icon>
                 <md-tooltip>Change action</md-tooltip>

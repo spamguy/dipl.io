@@ -75,7 +75,7 @@ angular.module('games', [
                 return gameService.getPhases($stateParams.id);
             }],
             phaseState: ['game', 'gameService', 'mapService', 'phases', '$stateParams', function(game, gameService, MapService, phases, $stateParams) {
-                var mapService = new MapService(null, game, phases.Properties, null, null, $stateParams.ordinal),
+                var mapService = new MapService(null, game, phases.Properties, null, null, null, $stateParams.ordinal),
                     phase = mapService.getCurrentPhase();
 
                 // No phase? No phase state.
@@ -84,8 +84,13 @@ angular.module('games', [
                 else
                     return null;
             }],
+            options: ['game', 'gameService', 'mapService', 'phases', '$stateParams', function(game, gameService, MapService, phases, $stateParams) {
+                var mapService = new MapService(null, game, phases.Properties, null, null, null, $stateParams.ordinal),
+                    phase = mapService.getCurrentPhase();
+                return gameService.getUserOptionsForPhase(game.Properties, phase.Properties);
+            }],
             orders: ['game', 'gameService', 'mapService', 'phases', '$stateParams', function(game, gameService, MapService, phases, $stateParams) {
-                var mapService = new MapService(null, game, phases.Properties, null, null, $stateParams.ordinal),
+                var mapService = new MapService(null, game, phases.Properties, null, null, null, $stateParams.ordinal),
                     phase = mapService.getCurrentPhase();
 
                 // No phase? No orders.

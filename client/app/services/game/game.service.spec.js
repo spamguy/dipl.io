@@ -179,4 +179,13 @@ describe('Game service', function() {
         });
         httpBackend.flush();
     });
+
+    it('gets a phase\'s order options for the user', function() {
+        httpBackend.expectGET(/Game\/.+?\/Phase\/\d+\/Options/).respond(200);
+
+        gameService.getUserOptionsForPhase({ ID: 123 }, { PhaseOrdinal: 241 })
+        .then(function(o) {
+        });
+        httpBackend.flush();
+    });
 });

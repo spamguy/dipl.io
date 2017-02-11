@@ -4,6 +4,7 @@ describe('Map service', function() {
     var variant,
         game,
         phases,
+        options,
         orders,
         currentState,
         mockGameService,
@@ -75,6 +76,7 @@ describe('Map service', function() {
             }
         }];
         currentState = { };
+        options = { por: { } };
         orders = [{
             Properties: {
                 Parts: ['mun', 'Move', 'ber']
@@ -88,16 +90,19 @@ describe('Map service', function() {
         inject(function(_mapService_, _$location_) {
             location = _$location_;
             MapService = _mapService_;
-            ms = new MapService(variant, game, phases, orders, currentState);
+            ms = new MapService(variant, game, phases, orders, currentState, options);
         });
     });
 
-    it('exposes variant/game/phase data, but not ordinal', function() {
+    it('exposes public data, but not private', function() {
         expect(ms.variant).to.not.be.undefined;
         expect(ms.game).to.not.be.undefined;
         expect(ms.phases).to.be.an('Array');
         expect(ms.currentState).to.not.be.undefined;
         expect(ms.orders).to.be.an('Array');
+
+        // Private stuff.
+        expect(ms._options).to.be.undefined;
         expect(ms._ordinal).to.be.undefined;
     });
 
@@ -108,13 +113,17 @@ describe('Map service', function() {
     it('returns the appropriate phase by its ordinal', function() {
         expect(ms.getCurrentPhase().Properties.Season).to.equal('Fall');
 
-        ms = new MapService(variant, game, phases, orders, currentState, 2);
+        ms = new MapService(variant, game, phases, orders, currentState, options, 2);
         expect(ms.getCurrentPhase().Properties.Season).to.equal('Summer');
     });
 
     it('determines if the user can submit phase-appropriate orders', function() {
         expect(ms.userCanPerformAction('Movement')).to.be.true;
         expect(ms.userCanPerformAction('Retreat')).to.be.false;
+    });
+
+    it('indicates if input is expected from the user', function() {
+        expect(ms.isUserInputExpected()).to.be.true;
     });
 
     describe('SC generation', function() {

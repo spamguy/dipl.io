@@ -6,7 +6,8 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
     var _currentAction = 'Hold',
         _clickedProvinces = [],
         _ordinal = 1,
-        service = function(variant, game, phases, orders, currentState, ordinal) {
+        _options = { Properties: { } },
+        service = function(variant, game, phases, orders, currentState, options, ordinal) {
             var powerOfCurrentPlayer = gameService.getCurrentUserInGame(game);
 
             this.variant = variant;
@@ -14,6 +15,7 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
             this.phases = phases;
             this.currentState = currentState;
             this.orders = orders;
+            _options = options;
             _ordinal = ordinal || this.phases.length;
 
             // Move current user to start of array for UI convenience.
@@ -48,6 +50,7 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
     service.prototype.orderDidFail = orderDidFail;
     service.prototype.orderIsDisband = orderIsDisband;
     service.prototype.userCanPerformAction = userCanPerformAction;
+    service.prototype.isUserInputExpected = isUserInputExpected;
     service.prototype.addToOrdinal = addToOrdinal;
 
     return service;
@@ -235,10 +238,6 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
 
         // Making it this far means there is a full set of commands to publish.
         return gameService.publishOrder(this.game, this.getCurrentPhase(), order);
-        // .catch(function(ex) {
-        //     console.warn('Order submit ' + JSON.stringify(ex.config.data.Parts) + ' failed');
-        //     return null;
-        // });
 
         function findUnitOwnedByUserAtProvince(phaseProvinces) {
             return _.find(phaseProvinces, unitIsOwnedByPower);
@@ -329,6 +328,10 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         else {
             return '';
         }
+    }
+
+    function isUserInputExpected() {
+        return _.keys(_options).length !== 0;
     }
 
     function addToOrdinal(delta) {

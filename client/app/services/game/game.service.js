@@ -49,6 +49,16 @@ angular.module('gameService', ['userService'])
             return Restangular.one('Game', gameID).one('Phase', phase.PhaseOrdinal).customGET('PhaseStates');
         },
 
+        /**
+         * Gets all possible moves for the current user in a given phase.
+         * @param  {String} game The game.
+         * @param  {Object} phase  The phase.
+         * @return {Promise}       A deeply nested object representing a decision tree, or { } if there are no legal moves.
+         */
+        getUserOptionsForPhase: function(game, phase) {
+            return Restangular.one('Game', game.ID).one('Phase', phase.PhaseOrdinal).customGET('Options');
+        },
+
         getPhaseOrders: function(gameID, phase) {
             if (!phase)
                 return Promise.resolve(null);

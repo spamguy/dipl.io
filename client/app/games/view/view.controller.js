@@ -1,17 +1,18 @@
 'use strict';
 
 angular.module('games')
-.controller('ViewController', ['$state', 'userService', 'gameService', 'mapService', 'game', 'orders', 'phases', 'phaseState', 'svg', 'variant', '$mdDialog', '$stateParams',
-    function($state, userService, gameService, MapService, game, orders, phases, phaseState, svg, variant, $mdDialog, $stateParams) {
+.controller('ViewController', ['game', 'gameService', 'mapService', '$mdDialog', 'options', 'orders', 'phases', 'phaseState', '$state', '$stateParams', 'svg', 'userService', 'variant',
+    function(game, gameService, MapService, $mdDialog, options, orders, phases, phaseState, $state, $stateParams, svg, userService, variant) {
         game = game.Properties;
         phases = phases.Properties;
         orders = orders ? orders.Properties : null;
         phaseState = phaseState ? phaseState.Properties : null;
+        options = options ? options.Properties : null;
         var vm = this;
 
         vm.currentUserInGame = gameService.getCurrentUserInGame(game);
         vm.svg = new DOMParser().parseFromString(svg.data, 'image/svg+xml');
-        vm.service = new MapService(variant, game, phases, orders, phaseState, $stateParams.ordinal);
+        vm.service = new MapService(variant, game, phases, orders, phaseState, options, $stateParams.ordinal);
 
         // When the ordinal changes, get new data corresponding to the phase.
         this.uiOnParamsChanged = function(params) {

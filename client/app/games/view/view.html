@@ -3,7 +3,7 @@
     <h1 class="md-headline typewriter" ng-if="vm.currentUserInGame.Nation">Playing as {{vm.currentUserInGame.Nation}}</h1>
 </div>
 
-<div layout-gt-xs="row" layout-xs="column" layout-margin>
+<div id="viewContainer" layout-gt-xs="row" layout-xs="column" layout-margin>
     <div flex="65" flex-xs="100">
         <sg-map service="vm.service" arrows="true" header="true" svg="vm.svg" />
     </div>
