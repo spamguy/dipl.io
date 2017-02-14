@@ -25,10 +25,12 @@ angular.module('gametoolsprovincelistitem.component')
     function renderOrderSymbol() {
         if (!order)
             return '';
+        // if (unitIsDislodged())
+        //     return 'dislodged';
+
         switch (order[1]) {
         case 'Move':
-        case 'MoveViaConvoy':
-            return '⇒';
+        case 'MoveViaConvoy': return '⇒';
         case 'Support': return 'supports';
         case 'Hold': return 'holds';
         case 'Convoy': return 'convoys';
@@ -86,5 +88,9 @@ angular.module('gametoolsprovincelistitem.component')
         }
 
         return code;
+    }
+
+    function unitIsDislodged() {
+        return _.some(vm.service.getCurrentPhase().Properties.Dislodgeds, { Province: vm.province.Province });
     }
 }]);

@@ -94,25 +94,21 @@
 
             <g class="unitLayer">
                 <circle ng-repeat-start="province in $ctrl.service.getCurrentPhase().Properties.Units"
-                        ng-if="province.Unit.Type === 'Army'"
-                        id="{{province.Province.toUpperCase()}}-army"
-                        r="8"
-                        stroke="#000"
-                        stroke-width="1px"
-                        ng-attr-cx="{{$ctrl.service.variant.Graph.Nodes[province.Province.toUpperCase()].x}}"
-                        ng-attr-cy="{{$ctrl.service.variant.Graph.Nodes[province.Province.toUpperCase()].y}}"
-                        ng-attr-fill="{{$ctrl.service.variant.Powers[province.Unit.Nation[0]].colour}}">
+                    ng-if="province.Unit.Type === 'Army'"
+                    id="{{province.Province.toUpperCase()}}-army"
+                    r="8"
+                    ng-attr-cx="{{$ctrl.service.variant.Graph.Nodes[province.Province.toUpperCase()].x}}"
+                    ng-attr-cy="{{$ctrl.service.variant.Graph.Nodes[province.Province.toUpperCase()].y}}"
+                    ng-attr-fill="{{$ctrl.service.variant.Powers[province.Unit.Nation[0]].colour}}">
                 </circle>
 
                 <rect ng-if="province.Unit.Type === 'Fleet'"
-                      id="{{province.Province.toUpperCase()}}-fleet"
-                      height="8"
-                      width="16"
-                      stroke="#000"
-                      stroke-width="1px"
-                      ng-attr-x="{{$ctrl.service.variant.Graph.Nodes[province.Province.toUpperCase()].x - 16/2}}"
-                      ng-attr-y="{{$ctrl.service.variant.Graph.Nodes[province.Province.toUpperCase()].y - 8/2}}"
-                      ng-attr-fill="{{$ctrl.service.variant.Powers[province.Unit.Nation[0]].colour}}">
+                    id="{{province.Province.toUpperCase()}}-fleet"
+                    height="8"
+                    width="16"
+                    ng-attr-x="{{$ctrl.service.variant.Graph.Nodes[province.Province.toUpperCase()].x - 16/2}}"
+                    ng-attr-y="{{$ctrl.service.variant.Graph.Nodes[province.Province.toUpperCase()].y - 8/2}}"
+                    ng-attr-fill="{{$ctrl.service.variant.Powers[province.Unit.Nation[0]].colour}}">
                 </rect>
 
                 <path ng-if="$ctrl.service.orderIsDisband(province.Province)"
@@ -121,6 +117,28 @@
                     ng-attr-transform="{{$ctrl.service.getDisbandTransform($ctrl.service.variant.Graph.Nodes[province.Province.toUpperCase()])}}"
                     ng-repeat-end>
                 </path>
+
+                <circle ng-repeat-start="province in $ctrl.service.getCurrentPhase().Properties.Dislodgeds"
+                    ng-if="province.Dislodged.Type === 'Army'"
+                    class="dislodged"
+                    id="{{province.Province.toUpperCase()}}-army-dislodged"
+                    r="8"
+                    ng-attr-cx="{{$ctrl.service.variant.Graph.Nodes[province.Province.toUpperCase()].x + 10}}"
+                    ng-attr-cy="{{$ctrl.service.variant.Graph.Nodes[province.Province.toUpperCase()].y + 10}}"
+                    ng-attr-fill="{{$ctrl.service.variant.Powers[province.Dislodged.Nation[0]].colour}}">
+                </circle>
+
+                <rect ng-if="province.Dislodged.Type === 'Fleet'"
+                    id="{{province.Province.toUpperCase()}}-fleet-dislodged"
+                    class="dislodged"
+                    height="8"
+                    width="16"
+                    ng-attr-x="{{$ctrl.service.variant.Graph.Nodes[province.Province.toUpperCase()].x - 16/2 + 10}}"
+                    ng-attr-y="{{$ctrl.service.variant.Graph.Nodes[province.Province.toUpperCase()].y - 8/2 + 10}}"
+                    ng-attr-fill="{{$ctrl.service.variant.Powers[province.Dislodged.Nation[0]].colour}}"
+                    ng-repeat-end>
+                </rect>
+
             </g>
 
             <g class="orderLayer">

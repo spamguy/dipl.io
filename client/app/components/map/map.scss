@@ -25,11 +25,23 @@
     stroke-width: 30px;
 }
 
-.disband
+g.unitLayer
 {
-    stroke-width: 2px;
-    stroke: red;
-    opacity: 0.8;
+    stroke: #000;
+    stroke-width: 1px;
+
+    .disband
+    {
+        stroke-width: 2px;
+        stroke: #f00;
+        opacity: 0.8;
+    }
+
+    .dislodged
+    {
+        stroke-width: 3px;
+        stroke: #f00;
+    }
 }
 
 g.orderLayer
