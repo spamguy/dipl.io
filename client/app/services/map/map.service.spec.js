@@ -137,27 +137,6 @@ describe('Map service', function() {
         });
     });
 
-    describe('Status description', function() {
-        it('displays the correct phase, phase type, and year during active games', function() {
-            expect(ms.getStatusDescription()).to.equal('Fall Movement 1901');
-        });
-
-        it('displays the number of remaining needed players during new games', function() {
-            // 'players' for multiple.
-            game.Started = false;
-            expect(ms.getStatusDescription()).to.equal('Not started: waiting on 4 more players');
-
-            // 'player' for one.
-            game.Members = [{ }, { }, { }, { }];
-            expect(ms.getStatusDescription()).to.equal('Not started: waiting on 1 more player');
-        });
-
-        it('displays a completion message if the game is completed', function() {
-            game.Finished = true;
-            expect(ms.getStatusDescription()).to.equal('Finished');
-        });
-    });
-
     describe('Readable deadline', function() {
         it('rounds off seconds in deadline', function() {
             expect(ms.getReadableDeadline()).to.equal('3 minutes');

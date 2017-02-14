@@ -23,10 +23,11 @@ angular.module('gametoolsprovincelistitem.component')
     });
 
     function renderOrderSymbol() {
+        // FIXME: This should be info to the side and not override existing orders.
+        if (unitIsDislodged())
+            return 'dislodged';
         if (!order)
             return '';
-        // if (unitIsDislodged())
-        //     return 'dislodged';
 
         switch (order[1]) {
         case 'Move':

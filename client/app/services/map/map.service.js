@@ -27,7 +27,6 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         };
 
     service.prototype.getCurrentPhase = getCurrentPhase;
-    service.prototype.getStatusDescription = getStatusDescription;
     service.prototype.getReadableDeadline = getReadableDeadline;
     service.prototype.getAllSCs = getAllSCs;
     service.prototype.getSCTransform = getSCTransform;
@@ -290,24 +289,6 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
 
     function isInPendingCommand(id) {
         return _clickedProvinces.indexOf(id.toLowerCase()) >= 0;
-    }
-
-    function getStatusDescription() {
-        var currentPhase = this.getCurrentPhase(),
-            playersNeeded;
-
-        if (!this.game.Finished) {
-            if (!this.game.Started) {
-                playersNeeded = this.variant.Nations.length - this.game.Members.length;
-                return 'Not started: waiting on ' + playersNeeded + ' more ' + pluralize('player', playersNeeded);
-            }
-            else if (this.game.Started && currentPhase) {
-                return currentPhase.Properties.Season + ' ' + currentPhase.Properties.Type + ' ' + currentPhase.Properties.Year;
-            }
-        }
-        else {
-            return 'Finished';
-        }
     }
 
     function getReadableDeadline() {

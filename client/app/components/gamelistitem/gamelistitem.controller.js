@@ -5,6 +5,7 @@ angular.module('gamelistitem.component')
         var vm = this;
 
         vm.reasonForNoJoin = reasonForNoJoin;
+        vm.getStatusDescription = getStatusDescription;
         vm.showJoinDialog = showJoinDialog;
         vm.goToGame = goToGame;
         vm.showDetailsDialog = showDetailsDialog;
@@ -15,23 +16,45 @@ angular.module('gamelistitem.component')
             gameService.getPhases(vm.game.ID)
         ])
         .spread(function(variant, phases) {
-            var currentPhase = _.last(phases);
+            vm.phases = phases.Properties;
+            var currentPhase = _.last(vm.phases).Properties;
             return Promise.all([
                 Promise.resolve(variant),
-                Promise.resolve(phases),
+                Promise.resolve(currentPhase),
                 gameService.getPhaseState(vm.game.ID, currentPhase),
                 gameService.getPhaseOrders(vm.game.ID, currentPhase)
             ])
-            .spread(buildMapService);
+            .spread(applyData);
         });
 
         // PRIVATE FUNCTIONS
 
-        function buildMapService(variant, phases, phaseState, orders) {
-            phases = phases.Properties;
-            phaseState = phaseState ? phaseState.Properties : null;
-            orders = orders ? orders.Properties : null;
-            vm.service = new MapService(variant, vm.game, phases, orders, null, phaseState);
+        /*
+         * A MapService would be great here, but as a singleton, it would produce odd results
+         * when shared between multiple list items.
+         */
+        function applyData(variant, currentPhase, phaseState, orders) {
+            vm.currentPhase = currentPhase;
+            vm.phaseState = phaseState ? phaseState.Properties : null;
+            vm.orders = orders ? orders.Properties : null;
+            vm.variant = variant;
+        }
+
+        function getStatusDescription() {
+            var playersNeeded;
+
+            if (!vm.game.Finished) {
+                if (!vm.game.Started) {
+                    playersNeeded = vm.variant.Nations.length - vm.game.Members.length;
+                    return 'Not started: waiting on ' + playersNeeded + ' more ' + pluralize('player', playersNeeded);
+                }
+                else if (vm.game.Started && vm.currentPhase) {
+                    return vm.currentPhase.Season + ' ' + vm.currentPhase.Type + ' ' + vm.currentPhase.Year;
+                }
+            }
+            else {
+                return 'Finished';
+            }
         }
 
         function reasonForNoJoin() {
@@ -76,7 +99,7 @@ angular.module('gamelistitem.component')
                 clickOutsideToClose: true,
                 fullscreen: false,
                 locals: {
-                    service: vm.service,
+                    service: new MapService(vm.variant, vm.game, vm.phases, vm.orders, vm.currentState),
                     svg: variantService.getVariantSVG(vm.game.Variant),
                     status: vm.phaseDescription
                 }

@@ -13,7 +13,15 @@ describe('Province list item component', function() {
                     };
                 },
                 getCurrentPhase: function() {
-                    return { Properties: { } };
+                    return { Properties: {
+                        Dislodgeds: [{
+                            Province: 'arm',
+                            Unit: {
+                                Type: 'Army',
+                                Nation: 'Turkey'
+                            }
+                        }]
+                    } };
                 }
             };
         },
@@ -81,5 +89,13 @@ describe('Province list item component', function() {
         it('has no target', function() {
             expect($('div.order span.target', el).html()).to.equal('');
         });
+    });
+
+    it('shows dislodged status', function() {
+        scope.province.Province = 'arm';
+        scope.service = mockMapService(['ven', 'Hold']);
+        el = compile('<sg-province-list-item province="province" service="service" />')(scope);
+        scope.$digest();
+        expect($('div.order span.action', el).html()).to.equal('dislodged');
     });
 });

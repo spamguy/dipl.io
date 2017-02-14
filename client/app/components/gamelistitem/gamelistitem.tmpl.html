@@ -8,7 +8,7 @@
                 <h1 class="md-title typewriter" ui-sref="games.view({ id: '{{$ctrl.game.ID}}' })">{{$ctrl.game.Desc}}</h1>
             </div>
             <div class="gameDetails">
-                <h1 class="md-subhead" id="phaseDescription">{{$ctrl.service.getStatusDescription()}}</h1>
+                <h1 class="md-subhead" id="statusDescription">{{$ctrl.getStatusDescription()}}</h1>
                 <span>{{$ctrl.readableTimer}}</span>
             </div>
         </div>
