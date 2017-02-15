@@ -8,6 +8,7 @@ angular.module('gametoolsprovincelistitem.component')
     vm.renderActionOfTarget = renderActionOfTarget;
     vm.renderOrderTargetOfTarget = renderOrderTargetOfTarget;
     vm.renderResolution = renderResolution;
+    vm.renderExtraInfo = renderExtraInfo;
 
     // Process only unstripped orders.
     if (order)
@@ -23,9 +24,6 @@ angular.module('gametoolsprovincelistitem.component')
     });
 
     function renderOrderSymbol() {
-        // FIXME: This should be info to the side and not override existing orders.
-        if (unitIsDislodged())
-            return 'dislodged';
         if (!order)
             return '';
 
@@ -92,6 +90,16 @@ angular.module('gametoolsprovincelistitem.component')
     }
 
     function unitIsDislodged() {
-        return _.some(vm.service.getCurrentPhase().Properties.Dislodgeds, { Province: vm.province.Province });
+        var currentPhase = vm.service.getCurrentPhase().Properties;
+        return currentPhase.Type === 'Movement' && _.some(currentPhase.Dislodgeds, { Province: vm.province.Province });
+    }
+
+    function renderExtraInfo() {
+        var thingsToNote = [];
+
+        if (unitIsDislodged())
+            thingsToNote.push('dislodged');
+
+        return thingsToNote.length ? '(' + thingsToNote.join(', ') + ')' : '';
     }
 }]);

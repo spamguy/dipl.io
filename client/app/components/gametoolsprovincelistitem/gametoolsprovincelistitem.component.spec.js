@@ -14,6 +14,7 @@ describe('Province list item component', function() {
                 },
                 getCurrentPhase: function() {
                     return { Properties: {
+                        Type: 'Movement',
                         Dislodgeds: [{
                             Province: 'arm',
                             Unit: {
@@ -91,11 +92,11 @@ describe('Province list item component', function() {
         });
     });
 
-    it('shows dislodged status', function() {
+    it('shows dislodged status during movement phases', function() {
         scope.province.Province = 'arm';
-        scope.service = mockMapService(['ven', 'Hold']);
+        scope.service = mockMapService(['arm', 'Hold']);
         el = compile('<sg-province-list-item province="province" service="service" />')(scope);
         scope.$digest();
-        expect($('div.order span.action', el).html()).to.equal('dislodged');
+        expect($('div.order span.extraInfo', el).html()).to.equal('(dislodged)');
     });
 });
