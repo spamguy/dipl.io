@@ -17,7 +17,10 @@ angular.module('gamelistitem.component')
         ])
         .spread(function(variant, phases) {
             vm.phases = phases.Properties;
-            var currentPhase = _.last(vm.phases).Properties;
+            var currentPhase = _.last(vm.phases);
+
+            if (currentPhase)
+                currentPhase = currentPhase.Properties;
             return Promise.all([
                 Promise.resolve(variant),
                 Promise.resolve(currentPhase),
@@ -44,7 +47,7 @@ angular.module('gamelistitem.component')
             var playersNeeded;
 
             if (!vm.game.Finished) {
-                if (!vm.game.Started) {
+                if (!vm.game.Started && vm.variant) {
                     playersNeeded = vm.variant.Nations.length - vm.game.Members.length;
                     return 'Not started: waiting on ' + playersNeeded + ' more ' + pluralize('player', playersNeeded);
                 }
