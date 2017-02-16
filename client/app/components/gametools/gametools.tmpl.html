@@ -21,8 +21,8 @@
             </md-tab-body>
         </md-tab>
 
-        <md-tab ng-disabled="$ctrl.service.game.Finished || !$ctrl.service.game.Started || !$ctrl.service.isPlayer($ctrl.service.game)">
-            <md-tab-label>Actions</md-tab-label>
+        <md-tab md-on-select="$ctrl.refreshPress()">
+            <md-tab-label>Press</md-tab-label>
             <md-tab-body>
             </md-tab-body>
         </md-tab>

@@ -116,6 +116,10 @@ angular.module('gameService', ['userService'])
             });
         },
 
+        getPressChannels: function(game) {
+            return Restangular.one('Game', game.ID).customGET('Channels');
+        },
+
         getCurrentUserInGame: function(game) {
             return _.find(game.Members, ['User.Id', userService.getCurrentUserID()]);
         },
