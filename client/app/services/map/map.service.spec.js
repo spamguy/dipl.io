@@ -75,7 +75,7 @@ describe('Map service', function() {
                 ]
             }
         }];
-        currentState = { };
+        currentState = [{ Properties: { } }];
         options = { por: { } };
         orders = [{
             Properties: {
@@ -98,7 +98,7 @@ describe('Map service', function() {
         expect(ms.variant).to.not.be.undefined;
         expect(ms.game).to.not.be.undefined;
         expect(ms.phases).to.be.an('Array');
-        expect(ms.currentState).to.not.be.undefined;
+        expect(ms.phaseState).to.not.be.undefined;
         expect(ms.orders).to.be.an('Array');
 
         // Private stuff.
