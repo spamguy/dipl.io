@@ -102,7 +102,13 @@ angular.module('gamelistitem.component')
                 clickOutsideToClose: true,
                 fullscreen: false,
                 locals: {
-                    service: new MapService(vm.variant, vm.game, vm.phases, vm.orders, vm.currentState),
+                    service: new MapService({
+                        variant: vm.variant,
+                        game: vm.game,
+                        phases: vm.phases,
+                        orders: vm.orders,
+                        phaseState: vm.currentState
+                    }),
                     svg: variantService.getVariantSVG(vm.game.Variant),
                     status: vm.phaseDescription
                 }

@@ -7,7 +7,15 @@ angular.module('games')
 
         vm.currentUserInGame = gameService.getCurrentUserInGame(game);
         vm.svg = new DOMParser().parseFromString(svg.data, 'image/svg+xml');
-        vm.service = new MapService(variant, game, phases, orders, phaseState, options, $stateParams.ordinal);
+        vm.service = new MapService({
+            variant: variant,
+            game: game,
+            phases: phases,
+            orders: orders,
+            phaseState: phaseState,
+            options: options,
+            ordinal: $stateParams.ordinal
+        });
 
         // When the ordinal changes, get new data corresponding to the phase.
         this.uiOnParamsChanged = function(params) {

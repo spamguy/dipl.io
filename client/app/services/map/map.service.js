@@ -6,20 +6,20 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
     var _currentAction = 'Hold',
         _clickedProvinces = [],
         _ordinal = 1,
-        _options = { Properties: { } },
-        service = function(variant, game, phases, orders, phaseState, options, ordinal) {
-            var powerOfCurrentPlayer = gameService.getCurrentUserInGame(game);
+        _options = { },
+        service = function(data) { // variant, game, phases, orders, phaseState, options, ordinal) {
+            var powerOfCurrentPlayer = gameService.getCurrentUserInGame(data.game);
 
-            this.variant = variant;
-            this.game = game;
-            this.phases = phases;
-            this.phaseState = phaseState ? phaseState[0].Properties : null;
-            this.orders = orders;
-            _options = options;
-            _ordinal = ordinal || this.phases.length;
+            this.variant = data.variant;
+            this.game = data.game;
+            this.phases = data.phases;
+            this.phaseState = data.phaseState ? data.phaseState[0].Properties : null;
+            this.orders = data.orders;
+            _options = data.options;
+            _ordinal = data.ordinal || this.phases.length;
 
             // Move current user to start of array for UI convenience.
-            if (!variant || !powerOfCurrentPlayer || this.variant.Nations.indexOf(powerOfCurrentPlayer.Nation) < 0)
+            if (!data.variant || !powerOfCurrentPlayer || this.variant.Nations.indexOf(powerOfCurrentPlayer.Nation) < 0)
                 return;
             powerOfCurrentPlayer = powerOfCurrentPlayer.Nation;
             _.pull(this.variant.Nations, powerOfCurrentPlayer);

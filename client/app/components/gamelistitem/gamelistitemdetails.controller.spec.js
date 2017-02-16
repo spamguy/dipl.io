@@ -29,7 +29,11 @@ describe('Game list item details controller', function() {
             mdDialog = _$mdDialog_;
             sinon.spy(mdDialog, 'hide');
             controller = _$controller_('GameListItemDetailsController', {
-                service: new MapService(variant, game, phases),
+                service: new MapService({
+                    variant: variant,
+                    game: game,
+                    phases: phases
+                }),
                 svg: { }
             });
         });

@@ -90,7 +90,14 @@ describe('Map service', function() {
         inject(function(_mapService_, _$location_) {
             location = _$location_;
             MapService = _mapService_;
-            ms = new MapService(variant, game, phases, orders, currentState, options);
+            ms = new MapService({
+                variant: variant,
+                game: game,
+                phases: phases,
+                orders: orders,
+                phaseState: currentState,
+                options: options
+            });
         });
     });
 
@@ -113,7 +120,15 @@ describe('Map service', function() {
     it('returns the appropriate phase by its ordinal', function() {
         expect(ms.getCurrentPhase().Season).to.equal('Fall');
 
-        ms = new MapService(variant, game, phases, orders, currentState, options, 2);
+        ms = new MapService({
+            variant: variant,
+            game: game,
+            phases: phases,
+            orders: orders,
+            phaseState: currentState,
+            options: options,
+            ordinal: 2
+        });
         expect(ms.getCurrentPhase().Season).to.equal('Summer');
     });
 
