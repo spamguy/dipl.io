@@ -7,13 +7,13 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         _clickedProvinces = [],
         _ordinal = 1,
         _options = { Properties: { } },
-        service = function(variant, game, phases, orders, currentState, options, ordinal) {
+        service = function(variant, game, phases, orders, phaseState, options, ordinal) {
             var powerOfCurrentPlayer = gameService.getCurrentUserInGame(game);
 
             this.variant = variant;
             this.game = game;
             this.phases = phases;
-            this.currentState = currentState;
+            this.phaseState = phaseState ? phaseState[0].Properties : null;
             this.orders = orders;
             _options = options;
             _ordinal = ordinal || this.phases.length;

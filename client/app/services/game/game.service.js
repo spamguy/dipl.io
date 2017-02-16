@@ -49,6 +49,12 @@ angular.module('gameService', ['userService'])
             return Restangular.one('Game', gameID).one('Phase', phase.PhaseOrdinal).customGET('PhaseStates');
         },
 
+        setPhaseState: function(game, phase, phaseState) {
+            var player = this.getCurrentUserInGame(game),
+                nationOfPlayer = player ? player.Nation : null;
+            return Restangular.one('Game', game.ID).one('Phase', phase.PhaseOrdinal).all('PhaseState').all(nationOfPlayer).customPUT(phaseState);
+        },
+
         /**
          * Gets all possible moves for the current user in a given phase.
          * @param  {String} game The game.

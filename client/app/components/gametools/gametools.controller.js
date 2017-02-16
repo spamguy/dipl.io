@@ -5,7 +5,7 @@ angular.module('gametools.component')
 
     vm.gameService = gameService;
     vm.powerOwnsUnitInProvince = powerOwnsUnitInProvince;
-    vm.setReadyState = setReadyState;
+    vm.setPhaseState = setPhaseState;
     vm.currentUserInGame = gameService.getCurrentUserInGame(vm.service.game);
     vm.getPowerHeader = getPowerHeader;
 
@@ -31,8 +31,8 @@ angular.module('gametools.component')
         return province.unit && province.unit.owner === code;
     }
 
-    function setReadyState() {
-        gameService.setReadyState(vm.service.game, gameService.getCurrentUserInGame(vm.service.game).isReady);
+    function setPhaseState() {
+        gameService.setPhaseState(vm.service.game, vm.service.getCurrentPhase().Properties, vm.service.phaseState);
     }
 
     function getPowerHeader(code, power) {
