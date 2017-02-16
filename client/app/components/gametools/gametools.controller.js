@@ -32,7 +32,7 @@ angular.module('gametools.component')
     }
 
     function setPhaseState() {
-        gameService.setPhaseState(vm.service.game, vm.service.getCurrentPhase().Properties, vm.service.phaseState);
+        gameService.setPhaseState(vm.service.game, vm.service.getCurrentPhase(), vm.service.phaseState);
     }
 
     function getPowerHeader(code, power) {

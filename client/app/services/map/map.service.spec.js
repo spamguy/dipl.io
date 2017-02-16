@@ -111,10 +111,10 @@ describe('Map service', function() {
     });
 
     it('returns the appropriate phase by its ordinal', function() {
-        expect(ms.getCurrentPhase().Properties.Season).to.equal('Fall');
+        expect(ms.getCurrentPhase().Season).to.equal('Fall');
 
         ms = new MapService(variant, game, phases, orders, currentState, options, 2);
-        expect(ms.getCurrentPhase().Properties.Season).to.equal('Summer');
+        expect(ms.getCurrentPhase().Season).to.equal('Summer');
     });
 
     it('determines if the user can submit phase-appropriate orders', function() {

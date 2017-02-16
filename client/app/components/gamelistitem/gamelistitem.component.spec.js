@@ -22,9 +22,9 @@ describe('Game list item directive', function() {
             }
         };
         mockGameService = {
-            getPhases: sinon.stub().returnsPromise().resolves({ Properties: [{ PhaseOrdinal: 1 }] }),
-            getPhaseState: sinon.stub().returnsPromise().resolves({ Properties: [] }),
-            getPhaseOrders: sinon.stub().returnsPromise().resolves({ Properties: [] }),
+            getPhases: sinon.stub().returnsPromise().resolves([{ PhaseOrdinal: 1 }]),
+            getPhaseState: sinon.stub().returnsPromise().resolves([]),
+            getPhaseOrders: sinon.stub().returnsPromise().resolves([]),
             isPlayer: function() { return false; },
             getCurrentUserInGame: function() { return 'Germany'; }
         };
@@ -46,12 +46,10 @@ describe('Game list item directive', function() {
             httpBackend.whenGET(/\/icons\//).respond(200);
 
             scope.game = {
-                Properties: {
-                    Desc: 'Test Game',
-                    Variant: 'Classical',
-                    Members: [ { }, { } ],
-                    Started: true
-                }
+                Desc: 'Test Game',
+                Variant: 'Classical',
+                Members: [ { }, { } ],
+                Started: true
             };
             scope.variant = { name: 'Standard' };
         });

@@ -8,21 +8,19 @@ describe('Open game list controller', function() {
     beforeEach(function() {
         mockGameService = {
         };
-        games = {
-            Properties: [{
-                name: 'Game 1',
-                variant: 'Classical'
-            }, {
-                name: 'Game 2',
-                variant: 'Classical'
-            }, {
-                name: 'Game 3',
-                variant: 'Classical'
-            }, {
-                name: 'Chromatic Game',
-                variant: 'Chromatic'
-            }]
-        };
+        games = [{
+            name: 'Game 1',
+            variant: 'Classical'
+        }, {
+            name: 'Game 2',
+            variant: 'Classical'
+        }, {
+            name: 'Game 3',
+            variant: 'Classical'
+        }, {
+            name: 'Chromatic Game',
+            variant: 'Chromatic'
+        }];
 
         angular.mock.module('games');
         angular.mock.module('gameService', function($provide) {

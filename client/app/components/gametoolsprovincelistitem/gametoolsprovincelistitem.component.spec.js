@@ -13,7 +13,7 @@ describe('Province list item component', function() {
                     };
                 },
                 getCurrentPhase: function() {
-                    return { Properties: {
+                    return {
                         Type: 'Movement',
                         Dislodgeds: [{
                             Province: 'arm',
@@ -22,7 +22,7 @@ describe('Province list item component', function() {
                                 Nation: 'Turkey'
                             }
                         }]
-                    } };
+                    };
                 }
             };
         },

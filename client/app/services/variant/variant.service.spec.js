@@ -39,7 +39,7 @@ describe('Variant service', function() {
     });
 
     it('requests a list of variants', function() {
-        httpBackend.expectGET('/Variants').respond('{ "Properties": [{ "Name": "Classical" }, { "Name": "Fleet Rome" }] }');
+        httpBackend.expectGET('/Variants').respond('[{ "Name": "Classical" }, { "Name": "Fleet Rome" }]');
 
         var variants;
         variantService.getAllVariants()
@@ -47,12 +47,12 @@ describe('Variant service', function() {
             variants = vr;
         });
         httpBackend.flush();
-        expect(variants.Properties).to.have.lengthOf(2);
+        expect(variants).to.have.lengthOf(2);
     });
 
     // FIXME: WHY WON'T THIS TEST WORK?!
     xit('fetches an individual variant with power and coordinate data', function(done) {
-        httpBackend.expectGET('/Variants').respond('{ "Properties": [{ "Name": "Classical", "Graph": { "Nodes": { "mun": { "Subs": { } } } } }] }');
+        httpBackend.expectGET('/Variants').respond('[{ "Name": "Classical", "Graph": { "Nodes": { "mun": { "Subs": { } } } } }]');
         httpBackend.expectGET('variants/classical/classical.json').respond('{ "provinces": { "mun": { "x": 10, "y": 20 } }, "powers": { "A": { } } }');
 
         variantService.getVariant('Classical')

@@ -57,7 +57,8 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
     // PRIVATE FUNCTIONS
 
     function getCurrentPhase() {
-        return this.phases[_ordinal - 1];
+        var phase = this.phases[_ordinal - 1];
+        return phase ? phase.Properties : null;
     }
 
     function getAllSCs() {
@@ -75,7 +76,7 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
     }
 
     function getSCFill(p) {
-        var sc = _.find(this.getCurrentPhase().Properties.SCs, ['Province', p.Name]);
+        var sc = _.find(this.getCurrentPhase().SCs, ['Province', p.Name]);
         return sc ? this.variant.Powers[sc.Owner[0]].colour : '#ccc';
     }
 
@@ -197,11 +198,11 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
          * The first click in a queue indicates the unit receiving the order.
          * No unit or ownership at that click = stop.
          */
-        if (!_clickedProvinces.length && !findUnitOwnedByUserAtProvince(this.getCurrentPhase().Properties.Units))
+        if (!_clickedProvinces.length && !findUnitOwnedByUserAtProvince(this.getCurrentPhase().Units))
             return emptyOrder;
 
         // Resolved phases don't receive orders at all.
-        if (this.getCurrentPhase().Properties.Resolved)
+        if (this.getCurrentPhase().Resolved)
             return emptyOrder;
 
         _clickedProvinces.push(id);
@@ -269,8 +270,8 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         var currentPhase = this.getCurrentPhase(),
             orderResolution;
 
-        if (currentPhase.Properties.Resolutions)
-            orderResolution = _.find(currentPhase.Properties.Resolutions, ['Province', id]);
+        if (currentPhase.Resolutions)
+            orderResolution = _.find(currentPhase.Resolutions, ['Province', id]);
 
         return orderResolution && orderResolution.Resolution !== 'OK';
     }
@@ -280,7 +281,7 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
             return false;
 
         var phase = this.getCurrentPhase();
-        return phase && gameService.isPlayer(this.game) && phase.Properties.Type === phaseType;
+        return phase && gameService.isPlayer(this.game) && phase.Type === phaseType;
     }
 
     function getCurrentAction() {
@@ -296,7 +297,7 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
             timeUntilDeadline;
         if (!this.game.Finished) {
             if (this.game.Started && currentPhase) {
-                timeUntilDeadline = new Date(currentPhase.Properties.DeadlineAt).getTime() - new Date().getTime();
+                timeUntilDeadline = new Date(currentPhase.DeadlineAt).getTime() - new Date().getTime();
                 return humanizeDuration(timeUntilDeadline, {
                     largest: 2,
                     round: true,

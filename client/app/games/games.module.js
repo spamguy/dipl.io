@@ -75,35 +75,35 @@ angular.module('games', [
                 return gameService.getPhases($stateParams.id);
             }],
             phaseState: ['game', 'gameService', 'mapService', 'phases', '$stateParams', function(game, gameService, MapService, phases, $stateParams) {
-                var mapService = new MapService(null, game, phases.Properties, null, null, null, $stateParams.ordinal),
+                var mapService = new MapService(null, game, phases, null, null, null, $stateParams.ordinal),
                     phase = mapService.getCurrentPhase();
 
                 // No phase? No phase state.
                 if (phase)
-                    return gameService.getPhaseState($stateParams.id, phase.Properties);
+                    return gameService.getPhaseState($stateParams.id, phase);
                 else
                     return null;
             }],
             options: ['game', 'gameService', 'mapService', 'phases', '$stateParams', function(game, gameService, MapService, phases, $stateParams) {
-                var mapService = new MapService(null, game, phases.Properties, null, null, null, $stateParams.ordinal),
+                var mapService = new MapService(null, game, phases, null, null, null, $stateParams.ordinal),
                     phase = mapService.getCurrentPhase();
-                return gameService.getUserOptionsForPhase(game.Properties, phase.Properties);
+                return gameService.getUserOptionsForPhase(game, phase);
             }],
             orders: ['game', 'gameService', 'mapService', 'phases', '$stateParams', function(game, gameService, MapService, phases, $stateParams) {
-                var mapService = new MapService(null, game, phases.Properties, null, null, null, $stateParams.ordinal),
+                var mapService = new MapService(null, game, phases, null, null, null, $stateParams.ordinal),
                     phase = mapService.getCurrentPhase();
 
                 // No phase? No orders.
                 if (phase)
-                    return gameService.getPhaseOrders($stateParams.id, phase.Properties);
+                    return gameService.getPhaseOrders($stateParams.id, phase);
                 else
                     return null;
             }],
             variant: ['variantService', 'game', function(variantService, game) {
-                return variantService.getVariant(game.Properties.Variant);
+                return variantService.getVariant(game.Variant);
             }],
             svg: ['variantService', 'game', function(variantService, game) {
-                return variantService.getVariantSVG(game.Properties.Variant);
+                return variantService.getVariantSVG(game.Variant);
             }]
         },
         onEnter: ['userService', '$state', function(userService, $state) {

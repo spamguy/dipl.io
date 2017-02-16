@@ -40,5 +40,5 @@ angular.module('games')
         }
     });
 
-    vm.variants = _.map(variants.Properties, 'Name');
+    vm.variants = _.map(variants, 'Name');
 }]);

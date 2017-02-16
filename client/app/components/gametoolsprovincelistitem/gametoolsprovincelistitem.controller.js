@@ -68,10 +68,10 @@ angular.module('gametoolsprovincelistitem.component')
         var phase = vm.service.getCurrentPhase(),
             resolution;
         // Nothing to render.
-        if (!phase.Properties.Resolutions)
+        if (!phase.Resolutions)
             return null;
 
-        resolution = _.find(phase.Properties.Resolutions, ['Province', vm.province.Province]);
+        resolution = _.find(phase.Resolutions, ['Province', vm.province.Province]);
 
         return resolution ? processResolutionCode(resolution.Resolution) : '';
     }
@@ -90,7 +90,7 @@ angular.module('gametoolsprovincelistitem.component')
     }
 
     function unitIsDislodged() {
-        var currentPhase = vm.service.getCurrentPhase().Properties;
+        var currentPhase = vm.service.getCurrentPhase();
         return currentPhase.Type === 'Movement' && _.some(currentPhase.Dislodgeds, { Province: vm.province.Province });
     }
 

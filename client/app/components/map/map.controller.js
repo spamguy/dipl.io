@@ -50,7 +50,7 @@ angular.module('map.component')
 
         function addToOrdinal(delta) {
             vm.service.addToOrdinal(delta);
-            goToState(vm.service.getCurrentPhase().Properties.PhaseOrdinal);
+            goToState(vm.service.getCurrentPhase().PhaseOrdinal);
         }
 
         function bindHotkeys(hotkeys) {

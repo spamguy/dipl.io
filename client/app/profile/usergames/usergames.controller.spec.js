@@ -10,7 +10,7 @@ describe('User games controller', function() {
     beforeEach(function() {
         mockGameService = {
         };
-        games = { Properties: [{
+        games = [{
             name: 'Game 1',
             variant: 'Classical'
         }, {
@@ -22,18 +22,18 @@ describe('User games controller', function() {
         }, {
             name: 'Chromatic Game',
             variant: 'Chromatic'
-        }] };
-        waiting = { Properties: [{
+        }];
+        waiting = [{
             name: 'Inactive Game 1',
             variant: 'Classical'
-        }] };
-        finished = { Properties: [{
+        }];
+        finished = [{
             name: 'Finished Game 1',
             variant: 'Classical'
         }, {
             name: 'Finished Game 2',
             variant: 'Fleet Rome'
-        }] };
+        }];
 
         angular.mock.module('profile');
         angular.mock.module('gameService', function($provide) {

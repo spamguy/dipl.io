@@ -19,14 +19,12 @@ angular.module('variantService', [])
             else {
                 return this.getAllVariants()
                 .then(function(variants) {
-                    variants = variants.Properties;
-                    variant = _.find(variants, 'Name', variantName);
+                    variant = _.find(variants, 'Properties.Name', variantName).Properties;
                     return $http.get('variants/' + normalisedVariantName + '/' + normalisedVariantName + '.json');
                 })
                 .then(function(variantCoordinates) {
                     var key,
                         province;
-                    variant = variant.Properties;
 
                     // Convert all keys in diplicity variant definition to uppercase.
                     for (key in variant.Graph.Nodes) {
@@ -51,7 +49,7 @@ angular.module('variantService', [])
          * @return {[type]} [description]
          */
         getAllVariants: function() {
-            return Restangular.all('Variants').customGET();
+            return Restangular.all('Variants').getList();
         },
 
         getVariantSVG: function(variantName) {

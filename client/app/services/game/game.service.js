@@ -14,7 +14,7 @@ angular.module('gameService', ['userService'])
          * @returns {Promise} Diplicity data containing a list of games.
          */
         getAllActiveGamesForCurrentUser: function() {
-            return Restangular.all('Games').all('My').customGET('Started');
+            return Restangular.all('Games').all('My').all('Started').getList();
         },
 
         /**
@@ -23,7 +23,7 @@ angular.module('gameService', ['userService'])
          * @returns {Promise} Diplicity data containing a list of games.
          */
         getAllInactiveGamesForCurrentUser: function() {
-            return Restangular.all('Games').all('My').customGET('Staging');
+            return Restangular.all('Games').all('My').all('Staging').getList();
         },
 
         /**
@@ -32,7 +32,7 @@ angular.module('gameService', ['userService'])
          * @returns {Promise} Diplicity data containing a list of games.
          */
         getAllFinishedGamesForCurrentUser: function() {
-            return Restangular.all('Games').all('My').customGET('Finished');
+            return Restangular.all('Games').all('My').all('Finished').getList();
         },
 
         getGame: function(gameID) {
@@ -40,19 +40,21 @@ angular.module('gameService', ['userService'])
         },
 
         getPhases: function(gameID) {
-            return Restangular.one('Game', gameID).customGET('Phases');
+            return Restangular.one('Game', gameID).all('Phases').getList();
         },
 
         getPhaseState: function(gameID, phase) {
-            if (!phase)
-                return Promise.resolve(null);
-            return Restangular.one('Game', gameID).one('Phase', phase.PhaseOrdinal).customGET('PhaseStates');
+            return phase
+                ? Restangular.one('Game', gameID).one('Phase', phase.PhaseOrdinal).all('PhaseStates').getList()
+                : Promise.resolve(null);
         },
 
         setPhaseState: function(game, phase, phaseState) {
             var player = this.getCurrentUserInGame(game),
                 nationOfPlayer = player ? player.Nation : null;
-            return Restangular.one('Game', game.ID).one('Phase', phase.PhaseOrdinal).all('PhaseState').all(nationOfPlayer).customPUT(phaseState);
+            return phase
+                ? Restangular.one('Game', game.ID).one('Phase', phase.PhaseOrdinal).all('PhaseState').one(nationOfPlayer).put(phaseState)
+                : Promise.resolve(null);
         },
 
         /**
@@ -62,21 +64,23 @@ angular.module('gameService', ['userService'])
          * @return {Promise}       A deeply nested object representing a decision tree, or { } if there are no legal moves.
          */
         getUserOptionsForPhase: function(game, phase) {
-            return Restangular.one('Game', game.ID).one('Phase', phase.PhaseOrdinal).customGET('Options');
+            return phase
+                ? Restangular.one('Game', game.ID).one('Phase', phase.PhaseOrdinal).one('Options').get()
+                : Promise.resolve(null);
         },
 
         getPhaseOrders: function(gameID, phase) {
-            if (!phase)
-                return Promise.resolve(null);
-            return Restangular.one('Game', gameID).one('Phase', phase.PhaseOrdinal).customGET('Orders');
+            return phase
+                ? Restangular.one('Game', gameID).one('Phase', phase.PhaseOrdinal).all('Orders').getList()
+                : Promise.resolve(null);
         },
 
         getAllOpenGames: function() {
-            return Restangular.all('Games').customGET('Open');
+            return Restangular.all('Games').all('Open').getList();
         },
 
         getAllArchivedGames: function() {
-            return Restangular.all('Games').customGET('Finished');
+            return Restangular.all('Games').all('Finished').getList();
         },
 
         /**
@@ -106,7 +110,7 @@ angular.module('gameService', ['userService'])
          * @param  {Function} callback The callback to execute after completion.
          */
         publishOrder: function(game, phase, order) {
-            return Restangular.one('Game', game.ID).one('Phase', phase.Properties.PhaseOrdinal).customPOST({ Parts: order }, 'Order')
+            return Restangular.one('Game', game.ID).one('Phase', phase.PhaseOrdinal).customPOST({ Parts: order }, 'Order')
             .then(function() {
                 return order;
             });

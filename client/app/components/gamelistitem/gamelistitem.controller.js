@@ -1,7 +1,6 @@
 angular.module('gamelistitem.component')
 .controller('GameListItemController', ['gameService', 'mapService', '$mdDialog', '$mdPanel', '$state', 'variantService',
     function(gameService, MapService, $mdDialog, $mdPanel, $state, variantService) {
-        this.game = this.game.Properties;
         var vm = this;
 
         vm.reasonForNoJoin = reasonForNoJoin;
@@ -16,7 +15,8 @@ angular.module('gamelistitem.component')
             gameService.getPhases(vm.game.ID)
         ])
         .spread(function(variant, phases) {
-            vm.phases = phases.Properties;
+            // Do not use a MapService, no matter how reasonable that sounds. See below.
+            vm.phases = phases;
             var currentPhase = _.last(vm.phases);
 
             if (currentPhase)
@@ -38,8 +38,8 @@ angular.module('gamelistitem.component')
          */
         function applyData(variant, currentPhase, phaseState, orders) {
             vm.currentPhase = currentPhase;
-            vm.phaseState = phaseState ? phaseState.Properties : null;
-            vm.orders = orders ? orders.Properties : null;
+            vm.phaseState = phaseState;
+            vm.orders = orders;
             vm.variant = variant;
         }
 

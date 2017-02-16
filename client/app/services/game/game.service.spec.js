@@ -37,7 +37,7 @@ describe('Game service', function() {
     });
 
     it('gets a list of user\'s active games', function() {
-        httpBackend.expectGET('/Games/My/Started').respond('{ "Properties": [{ "Desc": "Game 1" }, { "Desc": "Game 2" }] }');
+        httpBackend.expectGET('/Games/My/Started').respond('[{ "Desc": "Game 1" }, { "Desc": "Game 2" }]');
 
         var openGames;
         gameService.getAllActiveGamesForCurrentUser()
@@ -45,11 +45,11 @@ describe('Game service', function() {
             openGames = o;
         });
         httpBackend.flush();
-        expect(openGames.Properties).to.have.lengthOf(2);
+        expect(openGames).to.have.lengthOf(2);
     });
 
     it('gets a list of user\'s active games', function() {
-        httpBackend.expectGET('/Games/My/Started').respond('{ "Properties": [{ "Desc": "Game 1" }, { "Desc": "Game 2" }] }');
+        httpBackend.expectGET('/Games/My/Started').respond('[{ "Desc": "Game 1" }, { "Desc": "Game 2" }]');
 
         var games;
         gameService.getAllActiveGamesForCurrentUser()
@@ -57,11 +57,11 @@ describe('Game service', function() {
             games = o;
         });
         httpBackend.flush();
-        expect(games.Properties).to.have.lengthOf(2);
+        expect(games).to.have.lengthOf(2);
     });
 
     it('gets a list of user\'s inactive games', function() {
-        httpBackend.expectGET('/Games/My/Staging').respond('{ "Properties": [{ "Desc": "Game 1" }, { "Desc": "Game 2" }, { "Desc": "Game 3" }] }');
+        httpBackend.expectGET('/Games/My/Staging').respond('[{ "Desc": "Game 1" }, { "Desc": "Game 2" }, { "Desc": "Game 3" }]');
 
         var games;
         gameService.getAllInactiveGamesForCurrentUser()
@@ -69,11 +69,11 @@ describe('Game service', function() {
             games = o;
         });
         httpBackend.flush();
-        expect(games.Properties).to.have.lengthOf(3);
+        expect(games).to.have.lengthOf(3);
     });
 
     it('gets a list of user\'s finished games', function() {
-        httpBackend.expectGET('/Games/My/Finished').respond('{ "Properties": [{ "Desc": "Game 1" }, { "Desc": "Game 2" }] }');
+        httpBackend.expectGET('/Games/My/Finished').respond('[{ "Desc": "Game 1" }, { "Desc": "Game 2" }]');
 
         var games;
         gameService.getAllFinishedGamesForCurrentUser()
@@ -81,11 +81,11 @@ describe('Game service', function() {
             games = o;
         });
         httpBackend.flush();
-        expect(games.Properties).to.have.lengthOf(2);
+        expect(games).to.have.lengthOf(2);
     });
 
     it('requests a list of open games', function() {
-        httpBackend.expectGET('/Games/Open').respond('{ "Properties": [{ "Desc": "Game 1" }, { "Desc": "Game 2" }] }');
+        httpBackend.expectGET('/Games/Open').respond('[{ "Desc": "Game 1" }, { "Desc": "Game 2" }]');
 
         var openGames;
         gameService.getAllOpenGames()
@@ -93,11 +93,11 @@ describe('Game service', function() {
             openGames = o;
         });
         httpBackend.flush();
-        expect(openGames.Properties).to.have.lengthOf(2);
+        expect(openGames).to.have.lengthOf(2);
     });
 
     it('requests a list of archived games', function() {
-        httpBackend.expectGET('/Games/Finished').respond('{ "Properties": [{ "Desc": "Game 1" }, { "Desc": "Game 2" }] }');
+        httpBackend.expectGET('/Games/Finished').respond('[{ "Desc": "Game 1" }, { "Desc": "Game 2" }]');
 
         var games;
         gameService.getAllArchivedGames()
@@ -105,7 +105,7 @@ describe('Game service', function() {
             games = o;
         });
         httpBackend.flush();
-        expect(games.Properties).to.have.lengthOf(2);
+        expect(games).to.have.lengthOf(2);
     });
 
     it('creates a game', function() {

@@ -64,6 +64,7 @@ angular.module('diplomacy', [
 ])
 .run(['Restangular', '$rootScope', 'userService', function(Restangular, $rootScope, userService) {
     Restangular.setErrorInterceptor(userService.apiErrorHandler);
+    Restangular.addResponseInterceptor(stripMetadata);
 
     // Tie Bluebird to Angular digest cycle.
     Promise.setScheduler(function(cb) {
@@ -105,4 +106,9 @@ angular.module('diplomacy', [
             console.log('Message received: ' + payload.toString());
         });
     });
+
+    // Diplicity data has significant metadata, but it breaks Restangular. Focus on what's in the Properties property.
+    function stripMetadata(data) {
+        return data.Properties;
+    }
 }]);

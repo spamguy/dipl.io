@@ -1,7 +1,7 @@
 <div class="md-whiteframe-2dp">
     <md-toolbar class="md-toolbar-tools" id="mapToolbar" ng-if="$ctrl.header">
         <div layout="column" layout-align="center center">
-            <div class="md-title">{{$ctrl.service.getCurrentPhase().Properties.Season + ' ' + $ctrl.service.getCurrentPhase().Properties.Type + ' ' + $ctrl.service.getCurrentPhase().Properties.Year}}</div>
+            <div class="md-title">{{$ctrl.service.getCurrentPhase().Season + ' ' + $ctrl.service.getCurrentPhase().Type + ' ' + $ctrl.service.getCurrentPhase().Year}}</div>
             <div class="md-caption">{{$ctrl.service.getReadableDeadline()}}</div>
         </div>
         <span flex></span>
@@ -93,7 +93,7 @@
             </g>
 
             <g class="unitLayer">
-                <circle ng-repeat-start="province in $ctrl.service.getCurrentPhase().Properties.Units"
+                <circle ng-repeat-start="province in $ctrl.service.getCurrentPhase().Units"
                     ng-if="province.Unit.Type === 'Army'"
                     id="{{province.Province.toUpperCase()}}-army"
                     r="8"
@@ -118,7 +118,7 @@
                     ng-repeat-end>
                 </path>
 
-                <circle ng-repeat-start="province in $ctrl.service.getCurrentPhase().Properties.Dislodgeds"
+                <circle ng-repeat-start="province in $ctrl.service.getCurrentPhase().Dislodgeds"
                     ng-if="province.Dislodged.Type === 'Army'"
                     class="dislodged"
                     id="{{province.Province.toUpperCase()}}-army-dislodged"

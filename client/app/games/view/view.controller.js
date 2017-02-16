@@ -3,11 +3,6 @@
 angular.module('games')
 .controller('ViewController', ['game', 'gameService', 'mapService', '$mdDialog', 'options', 'orders', 'phases', 'phaseState', '$state', '$stateParams', 'svg', 'userService', 'variant',
     function(game, gameService, MapService, $mdDialog, options, orders, phases, phaseState, $state, $stateParams, svg, userService, variant) {
-        game = game.Properties;
-        phases = phases.Properties;
-        orders = orders ? orders.Properties : null;
-        phaseState = phaseState ? phaseState.Properties : null;
-        options = options ? options.Properties : null;
         var vm = this;
 
         vm.currentUserInGame = gameService.getCurrentUserInGame(game);
@@ -21,12 +16,13 @@ angular.module('games')
                 gameService.getPhaseOrders(vm.service.game.ID, vm.service.getCurrentPhase().Properties)
             ])
             .spread(function(state, orders) {
-                vm.service.currentState = state.Properties;
-                vm.service.orders = orders.Properties;
+                vm.service.currentState = state;
+                vm.service.orders = orders;
             });
         };
 
         // Point out games that haven't started yet.
+        // TODO: Popups are annoying. Convert to toasts.
         if (!game.Started) {
             $mdDialog.show(
                 $mdDialog.alert()

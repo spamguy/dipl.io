@@ -3,6 +3,6 @@
 angular.module('games')
 .controller('GameListController', ['games', 'gameService', function(games, gameService) {
     var vm = this;
-    vm.games = games.Properties;
+    vm.games = games;
     vm.service = gameService;
 }]);
