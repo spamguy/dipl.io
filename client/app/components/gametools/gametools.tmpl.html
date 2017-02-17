@@ -11,7 +11,6 @@
 
                 <section ng-if="$ctrl.service.game.Started" ng-repeat="nation in $ctrl.service.variant.Nations" class="section-{{code}}">
                     <md-subheader>{{nation}}</md-subheader>
-                    <md-divider></md-divider>
                     <md-list>
                         <md-list-item id="{{province.Province.toUpperCase() + '-order'}}" ng-repeat="province in $ctrl.service.getCurrentPhase().Units" ng-if="province.Unit.Nation === nation">
                             <sg-province-list-item province="province" service="$ctrl.service" />
@@ -24,17 +23,28 @@
         <md-tab md-on-select="$ctrl.refreshPress()">
             <md-tab-label>Press</md-tab-label>
             <md-tab-body>
-                <div layout="row" layout-align="center">
-                    <md-button class="md-primary md-raised" aria-label="Compose new press">Compose new press</md-button>
+                <md-subheader>Compose New Press</md-subheader>
+                <div layout="row" layout-margin>
+                    <md-chips ng-model="$ctrl.selectedNations"
+                        removable="true"
+                        placeholder="To:"
+                        md-require-match="true"
+                        md-autocomplete-snap>
+                        <md-autocomplete md-selected-item="$ctrl.selectedNation"
+                            md-search-text="$ctrl.nationSearchText"
+                            md-items="nation in $ctrl.searchNations($ctrl.nationSearchText)"
+                            md-item-text="nation"
+                            placeholder="To:">
+                            <span md-highlight-text="$ctrl.nationSearchText">{{nation}}</span>
+                        </md-autocomplete>
+                    </md-chips>
+                    <md-button class="md-primary" aria-label="Compose new press">Go</md-button>
                 </div>
 
-                <md-divider></md-divider>
-
                 <md-subheader>Current Channels</md-subheader>
-                <md-divider></md-divider>
                 <md-list>
-                    <md-list-item ng-repeat="channel in $ctrl.channels">
-                        <sg-press-channel channel="channel" />
+                    <md-list-item ng-repeat="channel in $ctrl.channels" layout="row">
+                        <sg-press-channel channel="channel" layout="row" flex />
                     </md-list-item>
                 </md-list>
             </md-tab-body>
