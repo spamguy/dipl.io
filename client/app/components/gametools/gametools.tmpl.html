@@ -24,6 +24,19 @@
         <md-tab md-on-select="$ctrl.refreshPress()">
             <md-tab-label>Press</md-tab-label>
             <md-tab-body>
+                <div layout="row" layout-align="center">
+                    <md-button class="md-primary md-raised" aria-label="Compose new press">Compose new press</md-button>
+                </div>
+
+                <md-divider></md-divider>
+
+                <md-subheader>Current Channels</md-subheader>
+                <md-divider></md-divider>
+                <md-list>
+                    <md-list-item ng-repeat="channel in $ctrl.channels">
+                        <sg-press-channel channel="channel" />
+                    </md-list-item>
+                </md-list>
             </md-tab-body>
         </md-tab>
     </md-tabs>

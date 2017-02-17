@@ -13,7 +13,7 @@ angular.module('gametools.component')
     function refreshPress() {
         return gameService.getPressChannels(vm.service.game)
         .then(function(channels) {
-            console.log(channels.Properties);
+            vm.channels = channels;
         });
     }
 }]);
