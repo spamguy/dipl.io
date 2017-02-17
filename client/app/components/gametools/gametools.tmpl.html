@@ -24,21 +24,25 @@
             <md-tab-label>Press</md-tab-label>
             <md-tab-body>
                 <md-subheader>Compose New Press</md-subheader>
-                <div layout="row" layout-margin>
-                    <md-chips ng-model="$ctrl.selectedNations"
-                        removable="true"
-                        placeholder="To:"
-                        md-require-match="true"
-                        md-autocomplete-snap>
-                        <md-autocomplete md-selected-item="$ctrl.selectedNation"
-                            md-search-text="$ctrl.nationSearchText"
-                            md-items="nation in $ctrl.searchNations($ctrl.nationSearchText)"
-                            md-item-text="nation"
-                            placeholder="To:">
-                            <span md-highlight-text="$ctrl.nationSearchText">{{nation}}</span>
-                        </md-autocomplete>
-                    </md-chips>
-                    <md-button class="md-primary" aria-label="Compose new press">Go</md-button>
+                <div layout="column" layout-padding>
+                    <div>
+                        <md-chips ng-model="$ctrl.selectedNations"
+                            removable="true"
+                            placeholder="To:"
+                            md-require-match="true"
+                            md-autocomplete-snap>
+                            <md-autocomplete md-selected-item="$ctrl.selectedNation"
+                                md-search-text="$ctrl.nationSearchText"
+                                md-items="nation in $ctrl.searchNations($ctrl.nationSearchText)"
+                                md-item-text="nation"
+                                placeholder="To:">
+                                <span md-highlight-text="$ctrl.nationSearchText">{{nation}}</span>
+                            </md-autocomplete>
+                        </md-chips>
+                    </div>
+                    <div layout="row" layout-align="center center">
+                        <md-button class="md-accent md-raised" aria-label="Compose new press">Go</md-button>
+                    </div>
                 </div>
 
                 <md-subheader>Current Channels</md-subheader>
