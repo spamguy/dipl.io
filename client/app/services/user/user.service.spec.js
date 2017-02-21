@@ -20,17 +20,19 @@ describe('User service', function() {
         });
     });
 
-    it('validates the user\'s expiration date', function() {
-        localStorage.theUser.ValidUntil = moment().add(-7, 'days').toISOString();
-        expect(userService.isAuthenticated()).to.be.false;
+    describe('Authentication', function() {
+        it('validates the user\'s authentication status', function() {
+            localStorage.theUser.ValidUntil = moment().add(-7, 'days').toISOString();
+            expect(userService.isAuthenticated()).to.be.false;
 
-        localStorage.theUser.ValidUntil = moment().add(7, 'days').toISOString();
-        expect(userService.isAuthenticated()).to.be.true;
-    });
+            localStorage.theUser.ValidUntil = moment().add(7, 'days').toISOString();
+            expect(userService.isAuthenticated()).to.be.true;
+        });
 
-    it('considers missing user data as unauthenticated', function() {
-        delete localStorage.theUser;
-        expect(userService.isAuthenticated()).to.be.false;
+        it('considers missing user data as unauthenticated', function() {
+            delete localStorage.theUser;
+            expect(userService.isAuthenticated()).to.be.false;
+        });
     });
 
     it('clears locally stored data when logging off', function() {

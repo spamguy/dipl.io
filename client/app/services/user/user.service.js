@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('userService', [])
-.factory('userService', ['$localStorage', '$state', 'Restangular', function($localStorage, $state, Restangular) {
+.factory('userService', ['$localStorage', 'Restangular', '$state', function($localStorage, Restangular, $state) {
     var service = {
         /**
          * Whether the user is authenticated with a valid and active token.
@@ -23,9 +23,10 @@ angular.module('userService', [])
         /**
          * Clean up persisted, user-specific data and escape to an unsecured location.
          */
-        logOff: function() {
+        logOff: function(state) {
+            state = state || $state;
             $localStorage.$reset();
-            $state.go('main.home');
+            return state.target('main.home');
         },
 
         getCurrentUserID: function() {
@@ -37,8 +38,7 @@ angular.module('userService', [])
          * @return {Promise} Object containing all user preferences.
          */
         getUserConfig: function() {
-            var userID = $localStorage.theUser.ID;
-            return Restangular.one('User', userID).getList('UserConfig');
+            return Restangular.one('User', this.getCurrentUserID()).one('UserConfig').get();
         },
 
         applyTokens: function(fcmToken) {

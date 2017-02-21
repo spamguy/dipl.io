@@ -62,7 +62,7 @@ angular.module('diplomacy', [
         RestangularProvider.setDefaultHeaders({ Accept: 'application/json' });
     }
 ])
-.run(['Restangular', '$rootScope', 'userService', function(Restangular, $rootScope, userService) {
+.run(['Restangular', '$rootScope', '$transitions', 'userService', function(Restangular, $rootScope, $transitions, userService) {
     Restangular.setErrorInterceptor(userService.apiErrorHandler);
     Restangular.addResponseInterceptor(stripMetadata);
 
@@ -107,8 +107,22 @@ angular.module('diplomacy', [
         });
     });
 
+    $transitions.onBefore({ to: isAuthenticationRequired }, authenticationHook);
+
     // Diplicity data has significant metadata, but it breaks Restangular. Focus on what's in the Properties property.
     function stripMetadata(data) {
         return data.Properties;
+    }
+
+    // Authenticate on every transition into a restricted state.
+    function authenticationHook($transition$) {
+        var state = $transition$.router.stateService;
+        if (!userService.isAuthenticated())
+            return userService.logOff(state);
+    }
+
+    // Check state data for restriction flag.
+    function isAuthenticationRequired($state) {
+        return $state.data && $state.data.authRequired;
     }
 }]);

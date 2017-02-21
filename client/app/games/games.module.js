@@ -19,46 +19,48 @@ angular.module('games', [
         url: '',
         controller: 'GameListController as vm',
         templateUrl: 'app/games/games.html',
+        data: {
+            authRequired: true
+        },
         resolve: {
             games: ['gameService', function(gameService) {
                 return gameService.getAllOpenGames();
             }]
-        }// ,
-        // onEnter: ['userService', '$state', function(userService, $state) {
-        //     if (!userService.isAuthenticated())
-        //         $state.go('main.home');
-        // }]
+        }
     })
     .state('games.archive', {
         url: '/archive',
         controller: 'GameArchiveController as vm',
         templateUrl: 'app/games/archive/archive.html',
+        data: {
+            authRequired: true
+        },
         resolve: {
             games: ['gameService', function(gameService) {
                 return gameService.getAllArchivedGames();
             }]
-        },
-        onEnter: ['userService', '$state', function(userService, $state) {
-            userService.blockUnauthenticated();
-        }]
+        }
     })
     .state('games.new', {
         url: '/new',
         controller: 'NewGameController as vm',
         templateUrl: 'app/games/new/new.html',
+        data: {
+            authRequired: true
+        },
         resolve: {
             variants: ['variantService', function(variantService) {
                 return variantService.getAllVariants();
             }]
-        },
-        onEnter: ['userService', '$state', function(userService, $state) {
-            userService.blockUnauthenticated();
-        }]
+        }
     })
     .state('games.view', {
         url: '/:id/{ordinal:int}',
         controller: 'ViewController as vm',
         templateUrl: 'app/games/view/view.html',
+        data: {
+            authRequired: true
+        },
         params: {
             ordinal: {
                 value: null,

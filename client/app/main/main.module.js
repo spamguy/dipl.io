@@ -18,12 +18,19 @@ angular.module('diplomacy.main', [
     .state('main.home', {
         url: '/home',
         templateUrl: 'app/main/home/home.html',
-        controller: 'HomeController as vm'
-    })
-    .state('main.signup', {
-        url: '/signup',
-        templateUrl: 'app/main/signup/signup.html',
-        controller: 'SignupController'
+        controller: 'HomeController as vm',
+
+        // If user logs in, waits X days, then hits main.home, credentials need to be invalidated.
+        onEnter: ['$transition$', function($transition$) {
+            var userService = $transition$.injector().get('userService'),
+                state = $transition$.router.stateService;
+            if (userService.isAuthenticated()) {
+                return userService.getUserConfig()
+                .catch(function(ex) {
+                    return userService.logOff(state);
+                });
+            }
+        }]
     })
     .state('main.login', {
         url: '/login?token&fake-id',
