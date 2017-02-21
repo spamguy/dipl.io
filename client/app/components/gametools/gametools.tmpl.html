@@ -24,24 +24,13 @@
             <md-tab-label>Press</md-tab-label>
             <md-tab-body>
                 <md-subheader>Compose New Press</md-subheader>
+                <md-sidenav class="md-sidenav-right" md-component-id="press-channel" md-whiteframe="0">
+                </md-sidenav>
+
                 <div layout="column" layout-padding>
-                    <div>
-                        <md-chips ng-model="$ctrl.selectedNations"
-                            removable="true"
-                            placeholder="To:"
-                            md-require-match="true"
-                            md-autocomplete-snap>
-                            <md-autocomplete md-selected-item="$ctrl.selectedNation"
-                                md-search-text="$ctrl.nationSearchText"
-                                md-items="nation in $ctrl.searchNations($ctrl.nationSearchText)"
-                                md-item-text="nation"
-                                placeholder="To:">
-                                <span md-highlight-text="$ctrl.nationSearchText">{{nation}}</span>
-                            </md-autocomplete>
-                        </md-chips>
-                    </div>
+                    <sg-press-channel-members members="$ctrl.channelMembers" variant="$ctrl.service.variant" locked="false" />
                     <div layout="row" layout-align="center center">
-                        <md-button class="md-accent md-raised" aria-label="Compose new press">Go</md-button>
+                        <md-button class="md-accent md-raised" aria-label="Compose new press" ng-click="$ctrl.openPressChannel()">Go</md-button>
                     </div>
                 </div>
 

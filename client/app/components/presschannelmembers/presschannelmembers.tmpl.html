@@ -1,0 +1,15 @@
+<div>
+    <md-chips ng-model="vm.nations"
+        removable="true"
+        placeholder="To:"
+        md-require-match="true"
+        md-autocomplete-snap>
+        <md-autocomplete md-selected-item="vm.selectedNation"
+            md-search-text="vm.nationSearchText"
+            md-items="nation in vm.searchNations($ctrl.nationSearchText)"
+            md-item-text="nation"
+            placeholder="To:">
+            <span md-highlight-text="vm.nationSearchText">{{nation}}</span>
+        </md-autocomplete>
+    </md-chips>
+</div>

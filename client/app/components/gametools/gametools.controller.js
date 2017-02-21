@@ -1,15 +1,13 @@
 angular.module('gametools.component')
-.controller('GameToolsController', ['gameService', '$scope', function(gameService, $scope) {
+.controller('GameToolsController', ['gameService', '$mdSidenav', '$scope', function(gameService, $mdSidenav, $scope) {
     var vm = this;
 
-    vm.selectedItem = null;
-    vm.nationSearchText = null;
-    vm.selectedNations = [];
+    vm.channelMembers = [];
 
     vm.gameService = gameService;
     vm.setPhaseState = setPhaseState;
     vm.refreshPress = refreshPress;
-    vm.searchNations = searchNations;
+    vm.openPressChannel = openPressChannel;
 
     function setPhaseState() {
         gameService.setPhaseState(vm.service.game, vm.service.getCurrentPhase(), vm.service.phaseState);
@@ -22,15 +20,7 @@ angular.module('gametools.component')
         });
     }
 
-    function searchNations(query) {
-        var n = 0,
-            results = [];
-
-        for (; n < vm.service.variant.Nations.length; n++) {
-            if (_.startsWith(vm.service.variant.Nations[n].toLowerCase(), query.toLowerCase()))
-                results.push(vm.service.variant.Nations[n]);
-        }
-
-        return results;
+    function openPressChannel(channel) {
+        $mdSidenav('press-channel').toggle();
     }
 }]);
