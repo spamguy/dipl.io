@@ -14,8 +14,8 @@ angular.module('gametools.component')
             results = [];
 
         for (; n < vm.variant.Nations.length; n++) {
-            if (_.startsWith(vm.service.variant.Nations[n].toLowerCase(), query.toLowerCase()))
-                results.push(vm.service.variant.Nations[n]);
+            if (_.startsWith(vm.variant.Nations[n].toLowerCase(), query.toLowerCase()))
+                results.push(vm.variant.Nations[n]);
         }
 
         return results;

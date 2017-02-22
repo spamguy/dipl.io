@@ -1,12 +1,12 @@
 <div>
-    <md-chips ng-model="vm.nations"
+    <md-chips ng-model="vm.members"
         removable="true"
         placeholder="To:"
         md-require-match="true"
         md-autocomplete-snap>
         <md-autocomplete md-selected-item="vm.selectedNation"
             md-search-text="vm.nationSearchText"
-            md-items="nation in vm.searchNations($ctrl.nationSearchText)"
+            md-items="nation in vm.searchNations(vm.nationSearchText)"
             md-item-text="nation"
             placeholder="To:">
             <span md-highlight-text="vm.nationSearchText">{{nation}}</span>

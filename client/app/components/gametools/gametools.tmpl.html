@@ -20,7 +20,7 @@
             </md-tab-body>
         </md-tab>
 
-        <md-tab md-on-select="$ctrl.refreshPress()">
+        <md-tab md-on-select="$ctrl.refreshPress()" ng-if="$ctrl.gameService.getCurrentUserInGame($ctrl.service.game)">
             <md-tab-label>Press</md-tab-label>
             <md-tab-body>
                 <md-subheader>Compose New Press</md-subheader>
@@ -28,7 +28,9 @@
                 </md-sidenav>
 
                 <div layout="column" layout-padding>
-                    <sg-press-channel-members members="$ctrl.channelMembers" variant="$ctrl.service.variant" locked="false" />
+                    <div>
+                        <sg-press-channel-members members="$ctrl.channelMembers" variant="$ctrl.service.variant" locked="false" />
+                    </div>
                     <div layout="row" layout-align="center center">
                         <md-button class="md-accent md-raised" aria-label="Compose new press" ng-click="$ctrl.openPressChannel()">Go</md-button>
                     </div>
