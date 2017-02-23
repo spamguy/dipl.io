@@ -119,9 +119,17 @@ angular.module('games', [
             svg: ['variantService', 'game', function(variantService, game) {
                 return variantService.getVariantSVG(game.Variant);
             }]
+        }
+    })
+    .state('games.view.presschannel', {
+        component: 'sgPressChannel',
+        resolve: {
+            members: ['$transition$', function($transition$) {
+                return $transition$.targetState().params().members;
+            }]
         },
-        onEnter: ['userService', '$state', function(userService, $state) {
-            userService.blockUnauthenticated();
+        onEnter: ['$mdSidenav', function($mdSidenav) {
+            $mdSidenav('press-channel').toggle();
         }]
     });
 }]);

@@ -25,6 +25,7 @@
             <md-tab-body>
                 <md-subheader>Compose New Press</md-subheader>
                 <md-sidenav class="md-sidenav-right" md-component-id="press-channel" md-whiteframe="0">
+                    <div ui-view></div>
                 </md-sidenav>
 
                 <div layout="column" layout-padding>
@@ -32,7 +33,7 @@
                         <sg-press-channel-members members="$ctrl.channelMembers" variant="$ctrl.service.variant" locked="false" />
                     </div>
                     <div layout="row" layout-align="center center">
-                        <md-button class="md-accent md-raised" aria-label="Compose new press" ng-click="$ctrl.openPressChannel()">Go</md-button>
+                        <md-button class="md-accent md-raised" aria-label="Compose new press" ui-sref="games.view.presschannel({ members: $ctrl.channelMembersAsParam() })">Go</md-button>
                     </div>
                 </div>
 

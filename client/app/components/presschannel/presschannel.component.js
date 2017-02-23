@@ -1,9 +1,9 @@
 angular.module('gametools.component')
 .component('sgPressChannel', {
+    templateUrl: 'app/components/presschannel/presschannel.tmpl.html',
     bindings: {
-        channel: '<'
+        members: '='
     },
     controller: 'PressChannelController',
-    controllerAs: 'vm',
-    templateUrl: 'app/components/presschannel/presschannel.tmpl.html'
+    controllerAs: 'vm'
 });
