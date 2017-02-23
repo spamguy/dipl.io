@@ -21,16 +21,6 @@ angular.module('gametools.component')
         });
     }
 
-    // function openPressChannel(channel) {
-    //     channel = channel || vm.channelMembers;
-    //
-    //     // Channel must contain player.
-    //     var currentPlayerNation = gameService.getCurrentUserInGame(vm.service.game).Nation;
-    //     if (channel.indexOf(currentPlayerNation) === -1)
-    //         channel.shift(currentPlayerNation);
-    //     $mdSidenav('press-channel').toggle();
-    // }
-
     function channelMembersAsParam() {
         return _.map(vm.channelMembers, function(m) { return m[0]; }).join('');
     }

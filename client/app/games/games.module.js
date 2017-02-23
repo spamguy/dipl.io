@@ -126,6 +126,12 @@ angular.module('games', [
         resolve: {
             members: ['$transition$', function($transition$) {
                 return $transition$.targetState().params().members;
+            }],
+            game: ['$transition$', function($transition$) {
+                return $transition$.targetState().params().game;
+            }],
+            variant: ['$transition$', function($transition$) {
+                return $transition$.targetState().params().variant;
             }]
         },
         onEnter: ['$mdSidenav', function($mdSidenav) {

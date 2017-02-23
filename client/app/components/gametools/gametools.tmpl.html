@@ -33,7 +33,11 @@
                         <sg-press-channel-members members="$ctrl.channelMembers" variant="$ctrl.service.variant" locked="false" />
                     </div>
                     <div layout="row" layout-align="center center">
-                        <md-button class="md-accent md-raised" aria-label="Compose new press" ui-sref="games.view.presschannel({ members: $ctrl.channelMembersAsParam() })">Go</md-button>
+                        <md-button class="md-accent md-raised"
+                            aria-label="Compose new press"
+                            ui-sref="games.view.presschannel({ members: $ctrl.channelMembersAsParam(), game: $ctrl.service.game, variant: $ctrl.service.variant })">
+                            Go
+                        </md-button>
                     </div>
                 </div>
 
