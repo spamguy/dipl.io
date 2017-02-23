@@ -12,7 +12,9 @@
                 <section ng-if="$ctrl.service.game.Started" ng-repeat="nation in $ctrl.service.variant.Nations" class="section-{{code}}">
                     <md-subheader>{{nation}}</md-subheader>
                     <md-list>
-                        <md-list-item id="{{province.Province.toUpperCase() + '-order'}}" ng-repeat="province in $ctrl.service.getCurrentPhase().Units" ng-if="province.Unit.Nation === nation">
+                        <md-list-item id="{{province.Province.toUpperCase() + '-order'}}"
+                            ng-repeat="province in $ctrl.service.getCurrentPhase().Units"
+                            ng-if="province.Unit.Nation === nation">
                             <sg-province-list-item province="province" service="$ctrl.service" />
                         </md-list-item>
                     </md-list>
@@ -44,7 +46,7 @@
                 <md-subheader>Current Channels</md-subheader>
                 <md-list>
                     <md-list-item ng-repeat="channel in $ctrl.channels" layout="row">
-                        <sg-press-channel channel="channel" layout="row" flex />
+                        <sg-press-channel-list-item channel="channel" service="$ctrl.service" layout="row" flex />
                     </md-list-item>
                 </md-list>
             </md-tab-body>

@@ -1,7 +1,8 @@
 angular.module('gametools.component')
 .component('sgPressChannelListItem', {
     bindings: {
-        channel: '<'
+        channel: '<',
+        service: '<'
     },
     controller: 'PressChannelListItemController',
     controllerAs: 'vm',

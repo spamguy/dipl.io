@@ -1,4 +1,7 @@
-<div layout="row" layout-align="space-between center" flex>
+<div layout="row"
+    layout-align="space-between center"
+    flex
+    ui-sref="games.view.presschannel({ members: vm.channelMembersAsParam(), game: vm.service.game, variant: vm.service.variant })">
     <div>{{vm.channel.Name}}</div>
     <div>
         <md-icon md-svg-icon="next" />

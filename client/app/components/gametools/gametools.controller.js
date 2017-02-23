@@ -21,6 +21,7 @@ angular.module('gametools.component')
         });
     }
 
+    // TODO: Refactor into service.
     function channelMembersAsParam() {
         return _.map(vm.channelMembers, function(m) { return m[0]; }).join('');
     }
