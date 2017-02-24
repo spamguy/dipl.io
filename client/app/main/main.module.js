@@ -19,17 +19,12 @@ angular.module('diplomacy.main', [
         url: '/home',
         templateUrl: 'app/main/home/home.html',
         controller: 'HomeController as vm',
-
-        // If user logs in, waits X days, then hits main.home, credentials need to be invalidated.
         onEnter: ['$transition$', function($transition$) {
-            var userService = $transition$.injector().get('userService'),
-                state = $transition$.router.stateService;
-            if (userService.isAuthenticated()) {
-                return userService.getUserConfig()
-                .catch(function(ex) {
-                    return userService.logOff(state);
-                });
-            }
+            var userService = $transition$.injector().get('userService');
+
+            // If user logs in, waits X days, then hits main.home, credentials need to be invalidated.
+            if (!userService.isAuthenticated() && userService.getCurrentUserID())
+                return userService.logOff();
         }]
     })
     .state('main.login', {

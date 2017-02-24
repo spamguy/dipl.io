@@ -11,6 +11,7 @@ describe('User service', function() {
         angular.mock.module('ngStorage');
         angular.mock.module('userService');
         user = {
+            Id: '123456q'
         };
 
         inject(function(_$localStorage_, _userService_) {
@@ -48,5 +49,12 @@ describe('User service', function() {
 
         expect(errorHandled).to.be.false;
         expect(localStorage.token).to.be.undefined;
+    });
+
+    it('gets the current user ID', function() {
+        expect(userService.getCurrentUserID()).to.equal('123456q');
+
+        delete localStorage.theUser;
+        expect(userService.getCurrentUserID()).to.be.null;
     });
 });

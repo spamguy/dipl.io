@@ -30,7 +30,7 @@ angular.module('userService', [])
         },
 
         getCurrentUserID: function() {
-            return $localStorage.theUser.Id;
+            return $localStorage.theUser ? $localStorage.theUser.Id : null;
         },
 
         /**
