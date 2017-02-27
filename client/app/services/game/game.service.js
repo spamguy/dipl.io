@@ -1,7 +1,7 @@
 /**
  * @ngdoc service
  * @name gameService
- * @description Interacts with game, variant, and move data.
+ * @description Interacts with the API to manipulate game data.
  */
 angular.module('gameService', ['userService'])
 .factory('gameService', ['$http', 'userService', 'Restangular', '$q', function($http, userService, Restangular, $q) {
@@ -114,10 +114,6 @@ angular.module('gameService', ['userService'])
             .then(function() {
                 return order;
             });
-        },
-
-        getPressChannels: function(game) {
-            return Restangular.one('Game', game.ID).customGET('Channels');
         },
 
         getCurrentUserInGame: function(game) {

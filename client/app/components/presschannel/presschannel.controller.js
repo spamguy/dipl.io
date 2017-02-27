@@ -1,21 +1,13 @@
 angular.module('gametools.component')
-.controller('PressChannelController', ['gameService', function(gameService) {
-    var vm = this,
-        currentPlayerNation;
+.controller('PressChannelController', ['pressService', function(PressService) {
+    var vm = this;
+    vm.service = new PressService(vm.game);
+    vm.service.setChannel(vm.channel);
 
-    if (!vm.game || !vm.variant)
-        return;
+    vm.generatePressHistoryHeader = generatePressHistoryHeader;
 
-    currentPlayerNation = gameService.getCurrentUserInGame(vm.game).Nation;
-
-    // Hydrate nation initials into full names.
-    vm.members = _.map(vm.members.split(''), function(m) {
-        return _.find(vm.variant.Nations, function(n) {
-            return m === n[0];
-        });
-    });
-
-    // List must contain player.
-    if (vm.members.indexOf(currentPlayerNation) === -1)
-        vm.members.unshift(currentPlayerNation);
+    function generatePressHistoryHeader() {
+        var nMessages = vm.service.getChannel().NMessages;
+        return 'Press History (' + nMessages + ' ' + pluralize('message', nMessages) + ')';
+    }
 }]);

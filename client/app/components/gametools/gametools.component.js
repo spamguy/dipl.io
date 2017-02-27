@@ -1,4 +1,4 @@
-angular.module('gametools.component', ['userService', 'gameService'])
+angular.module('gametools.component', ['userService', 'gameService', 'pressService'])
 .component('sgGameTools', {
     templateUrl: 'app/components/gametools/gametools.tmpl.html',
     bindings: {

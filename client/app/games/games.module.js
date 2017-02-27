@@ -124,14 +124,25 @@ angular.module('games', [
     .state('games.view.presschannel', {
         component: 'sgPressChannel',
         resolve: {
-            members: ['$transition$', function($transition$) {
-                return $transition$.targetState().params().members;
+            channel: ['$transition$', function($transition$) {
+                return $transition$.targetState().params().channel.Properties;
             }],
+            // members: ['game', 'pressService', '$transition$', 'variant', function(game, PressService, $transition$, variant) {
+            //     var members = $transition$.targetState().params().members,
+            //         service = new PressService(game);
+            //     service.setChannelMembersFromParam(members, variant);
+            //     return service.getChannelMembers();
+            // }],
             game: ['$transition$', function($transition$) {
                 return $transition$.targetState().params().game;
             }],
             variant: ['$transition$', function($transition$) {
                 return $transition$.targetState().params().variant;
+            }],
+            press: ['game', 'channel', 'pressService', 'variant', function(game, channel, PressService, variant) {
+                var service = new PressService(game);
+                service.setChannel(channel);
+                return service.getPressInChannel();
             }]
         },
         onEnter: ['$mdSidenav', function($mdSidenav) {

@@ -1,3 +1,6 @@
-<div layout="column" layout-margin>
-    <md-chips readonly="true" ng-model="vm.members"></md-chips>
+<div>
+    <md-subheader>Recipients</md-subheader>
+    <md-chips readonly="true" ng-model="vm.service.getChannel().Members"></md-chips>
+
+    <md-subheader>{{vm.generatePressHistoryHeader()}}</md-subheader>
 </div>
