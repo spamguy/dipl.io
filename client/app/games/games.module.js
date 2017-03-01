@@ -127,12 +127,6 @@ angular.module('games', [
             channel: ['$transition$', function($transition$) {
                 return $transition$.targetState().params().channel.Properties;
             }],
-            // members: ['game', 'pressService', '$transition$', 'variant', function(game, PressService, $transition$, variant) {
-            //     var members = $transition$.targetState().params().members,
-            //         service = new PressService(game);
-            //     service.setChannelMembersFromParam(members, variant);
-            //     return service.getChannelMembers();
-            // }],
             game: ['$transition$', function($transition$) {
                 return $transition$.targetState().params().game;
             }],
