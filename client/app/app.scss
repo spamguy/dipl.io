@@ -1,5 +1,3 @@
-$am-light-blue-grey: #ECEFF1;
-
 @import 'games/games.scss';
 @import 'games/view/view.scss';
 @import 'main/main.scss';
@@ -26,6 +24,47 @@ html, body
     height: 100%;
     color: #000;
     font-family: 'Lato', sans-serif;
+    font-weight: 300;
+
+    font-size: 14px;
+    @media (min-width: 800px)
+    {
+        font-size: 18px;
+    }
+    @media (min-width: 1200px)
+    {
+        font-size: 16px;
+    }
+}
+
+h1
+{
+    font-size: 4.946em;
+    font-weight: 300;
+}
+h2
+{
+    font-size: 3.498em;
+    font-weight: 300;
+}
+h3
+{
+    font-size: 2.474em;
+    font-weight: 300;
+}
+h4
+{
+    font-size: 1.75em;
+    font-weight: 300;
+}
+h5
+{
+    font-size: 1.237em;
+    font-weight: 300;
+}
+h6
+{
+    font-size: 4.946em;
     font-weight: 300;
 }
 
@@ -54,10 +93,9 @@ span.logo
     color: #000;
 }
 
-h1.typewriter
+.typewriter
 {
     font-family: 'Kingthings Trypewriter';
-    // Do not change the line-height. Angular Material will get angry. >:(
 }
 
 md-toolbar h1

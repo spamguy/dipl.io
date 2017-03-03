@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('diplomacy')
-.controller('AppController', ['$rootScope', 'userService', '$localStorage', function($rootScope, userService, $localStorage) {
+.controller('AppController', ['$localStorage', '$rootScope', '$state', 'userService', function($localStorage, $rootScope, $state, userService) {
     $rootScope.$storage = $localStorage;
-    $rootScope.logOff = userService.logOff;
+    $rootScope.logOff = function() {
+        userService.logOff();
+        $state.go('main.home');
+    };
 }]);

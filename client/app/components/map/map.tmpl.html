@@ -1,13 +1,13 @@
 <div class="md-whiteframe-2dp">
     <md-toolbar class="md-toolbar-tools" id="mapToolbar" ng-if="$ctrl.header">
         <div layout="column" layout-align="center center">
-            <div class="md-title">{{$ctrl.service.getCurrentPhase().Season + ' ' + $ctrl.service.getCurrentPhase().Type + ' ' + $ctrl.service.getCurrentPhase().Year}}</div>
+            <span>{{$ctrl.service.getCurrentPhase().Season + ' ' + $ctrl.service.getCurrentPhase().Type + ' ' + $ctrl.service.getCurrentPhase().Year}}</span>
             <div class="md-caption">{{$ctrl.service.getReadableDeadline()}}</div>
         </div>
         <span flex></span>
         <div ng-if="!$ctrl.readonly && $ctrl.service.isUserInputExpected()">
             <md-button class="md-icon-button" aria-label="Change action" hide-gt-sm ng-click="$ctrl.showOrderSheet()">
-                <md-icon md-svg-icon="{{$ctrl.service.getCurrentAction().toLowerCase()}}"></md-icon>
+                <md-icon class="active" md-svg-icon="{{$ctrl.service.getCurrentAction().toLowerCase()}}"></md-icon>
                 <md-tooltip>Change action</md-tooltip>
             </md-button>
             <md-button ng-if="$ctrl.service.userCanPerformAction('Movement')" ng-click="$ctrl.service.setCurrentAction('Hold')" class="md-icon-button" aria-label="Hold" hide-sm hide-xs>

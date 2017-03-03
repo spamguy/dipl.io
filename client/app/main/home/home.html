@@ -1,12 +1,10 @@
-<div layout="column" layout-align="center stretch" layout-margin flex>
-    <h1 id="frontLogo" typewrite type-delay="250" text="typewrite.text" cursor="  ">dipl<span class="stab">.</span>io</h1>
-    <div id="frontDescription" flex>
-        dipl.io is the next online generation of the board game Diplomacy.<br />
-        It's free, fun, and open source!
-    </div>
+<div id="frontPage" layout="column" layout-align="center center" layout-padding>
+    <h1 class="typewriter">dipl<span class="stab">.</span>io</h1>
+    <h3>The next online generation of <a href="https://en.wikipedia.org/wiki/Diplomacy_(game)">Diplomacy</a>.</h3>
+    <h3>It's free, fun, and open source!</h3>
     <div layout="row" layout-align="center center" layout-margin>
         <form name="loginForm" ng-submit="vm.user.login()">
-            <md-button type="submit" id="loginButton" class="md-raised md-primary" flex><h3>Log In</h3></md-button>
+            <md-button type="submit" id="loginButton" class="md-raised md-primary" flex>Log In</md-button>
         </form>
     </div>
 </div>

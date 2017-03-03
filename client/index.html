@@ -30,52 +30,54 @@
     <!-- @endif -->
 </head>
 <body ng-controller="AppController">
-    <md-toolbar style="background-color:transparent;" ng-if="$storage.theUser">
-        <div class="md-toolbar-tools">
-            <span class="md-primary logo"><a ui-sref="main.home">dipl<span class="stab">.</span>io</a></span>
-            <span flex></span>
-            <div class="info" layout="row">
-                <span class="email" hide-sm hide-xs>{{$storage.theUser.Email}}</span>
-
-                <md-menu md-position-mode="target-right target">
-                    <md-icon md-menu-origin md-svg-icon="account" ng-click="$mdMenu.open($event)" class="svg48px"></md-icon>
-                    <md-menu-content>
-                        <md-menu-item>
-                            <md-button ui-sref="profile.games">
-                                <span md-menu-align-target>My games</span>
-                            </md-button>
-                        </md-menu-item>
-                        <md-menu-item>
-                            <md-button ui-sref="games.list">
-                                <span md-menu-align-target>Join a game</span>
-                            </md-button>
-                        </md-menu-item>
-                        <md-menu-item>
-                            <md-button ui-sref="games.new">
-                                <span md-menu-align-target>Start a new game</span>
-                            </md-button>
-                        </md-menu-item>
-                        <md-menu-item>
-                            <md-button ui-sref="games.archive">
-                                <span md-menu-align-target>View old/active games</span>
-                            </md-button>
-                        </md-menu-item>
-                        <md-divider></md-divider>
-                        <md-menu-item>
-                            <md-button ng-click="logOff()">
-                                <div layout="row">
-                                    <md-icon md-menu-align-target md-svg-icon="eject"></md-icon>
-                                    <p flex>Log out</p>
-                                </div>
-                            </md-button>
-                        </md-menu-item>
-                    </md-menu-content>
-                </md-menu>
-            </div>
-        </div>
-    </md-toolbar>
-
     <div layout="column">
+        <div>
+            <md-toolbar style="background-color:transparent;" ng-if="$storage.theUser">
+                <div class="md-toolbar-tools">
+                    <span class="md-primary logo"><a ui-sref="main.home">dipl<span class="stab">.</span>io</a></span>
+                    <span flex></span>
+                    <div class="info" layout="row">
+                        <span class="email" hide-sm hide-xs>{{$storage.theUser.Email}}</span>
+
+                        <md-menu md-position-mode="target-right target">
+                            <md-icon md-menu-origin md-svg-icon="account" ng-click="$mdMenu.open($event)" class="svg48px"></md-icon>
+                            <md-menu-content>
+                                <md-menu-item>
+                                    <md-button ui-sref="profile.games">
+                                        <span md-menu-align-target>My games</span>
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button ui-sref="games.list">
+                                        <span md-menu-align-target>Join a game</span>
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button ui-sref="games.new">
+                                        <span md-menu-align-target>Start a new game</span>
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button ui-sref="games.archive">
+                                        <span md-menu-align-target>View old/active games</span>
+                                    </md-button>
+                                </md-menu-item>
+                                <md-divider></md-divider>
+                                <md-menu-item>
+                                    <md-button ng-click="logOff()">
+                                        <div layout="row">
+                                            <md-icon md-menu-align-target md-svg-icon="eject"></md-icon>
+                                            <p flex>Log out</p>
+                                        </div>
+                                    </md-button>
+                                </md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
+                    </div>
+                </div>
+            </md-toolbar>
+        </div>
+
         <div><ui-view /></div>
 
         <div>

@@ -1,18 +1,9 @@
-h1#frontLogo
-{
-    font-family: 'Kingthings Trypewriter';
-    font-size: 84pt;
-    text-align: center;
-    margin: 40px auto;
-}
-
-#frontDescription
+#frontPage
 {
     text-align: center;
-    font-size: 24pt;
-}
-
-#newsProgressIndicator
-{
-    text-align: center;
+    line-height: 0px;
+    a
+    {
+        text-decoration: none;
+    }
 }
