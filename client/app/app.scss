@@ -4,6 +4,7 @@
 @import 'profile/profile.scss';
 @import 'components/map/map.scss';
 @import 'components/gamelistitem/gamelistitem.scss';
+@import 'components/gametools/gametools.scss';
 @import 'components/gametoolsprovincelistitem/gametoolsprovincelistitem.scss';
 
 @font-face
@@ -126,4 +127,20 @@ md-icon.svg48px
     height: 48px;
     width: 48px;
     cursor: pointer;
+}
+
+// Angular Material's chips are crazy big.
+md-chip
+{
+    font-size: 12px;
+    line-height: 20px;
+    height: 24px;
+
+    md-icon
+    {
+        height: 14px;
+        width: 14px;
+        min-height: 14px;
+        min-width: 14px;
+    }
 }

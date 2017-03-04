@@ -44,7 +44,7 @@
                 </div>
 
                 <md-subheader>Current Channels</md-subheader>
-                <md-list>
+                <md-list id="channelList">
                     <md-list-item ng-repeat="channel in $ctrl.channels" layout="row">
                         <sg-press-channel-list-item channel="channel" service="$ctrl.service" layout="row" flex />
                     </md-list-item>

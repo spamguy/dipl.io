@@ -85,14 +85,16 @@ angular.module('map.component')
         }
 
         function inputOrder(id) {
-            vm.service.inputOrder(id)
+            // Replace dashes with slashes.
+            var idWithSlashes = id.replace('-', '/');
+            vm.service.inputOrder(idWithSlashes)
             .then(function(order) {
                 if (!order)
                     return;
                 vm.service.applyOrderLocally(order);
 
                 // Apply/remote flash CSS.
-                var provinceToAnimate = order[0].toUpperCase(),
+                var provinceToAnimate = id.toUpperCase(),
                     el = angular.element(document.querySelector('#' + provinceToAnimate + '-order'));
                 $animate.addClass(el, 'submit success')
                 .then(function() {
