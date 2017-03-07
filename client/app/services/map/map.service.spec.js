@@ -11,7 +11,8 @@ describe('Map service', function() {
         mockVariantService,
         MapService,
         ms,
-        location;
+        location,
+        data;
 
     beforeEach(function() {
         mockGameService = {
@@ -50,14 +51,17 @@ describe('Map service', function() {
                 PhaseOrdinal: 1,
                 Season: 'Spring',
                 Type: 'Movement',
-                Year: 1901
+                Year: 1901,
+                Resolved: true,
+                DeadlineAt: moment().add({ years: -3 })
             }
         }, {
             Properties: {
                 PhaseOrdinal: 2,
                 Season: 'Summer',
                 Type: 'Retreat',
-                Year: 1901
+                Year: 1901,
+                Resolved: true
             }
         }, {
             Properties: {
@@ -86,18 +90,19 @@ describe('Map service', function() {
                 Parts: ['den', 'Hold']
             }
         }];
+        data = {
+            variant: variant,
+            game: game,
+            phases: phases,
+            orders: orders,
+            phaseState: currentState,
+            options: options
+        };
 
         inject(function(_mapService_, _$location_) {
             location = _$location_;
             MapService = _mapService_;
-            ms = new MapService({
-                variant: variant,
-                game: game,
-                phases: phases,
-                orders: orders,
-                phaseState: currentState,
-                options: options
-            });
+            ms = new MapService(data);
         });
     });
 
@@ -120,15 +125,8 @@ describe('Map service', function() {
     it('returns the appropriate phase by its ordinal', function() {
         expect(ms.getCurrentPhase().Season).to.equal('Fall');
 
-        ms = new MapService({
-            variant: variant,
-            game: game,
-            phases: phases,
-            orders: orders,
-            phaseState: currentState,
-            options: options,
-            ordinal: 2
-        });
+        data.ordinal = 2;
+        ms = new MapService(data);
         expect(ms.getCurrentPhase().Season).to.equal('Summer');
     });
 
@@ -155,6 +153,12 @@ describe('Map service', function() {
     describe('Readable deadline', function() {
         it('rounds off seconds in deadline', function() {
             expect(ms.getReadableDeadline()).to.equal('3 minutes');
+        });
+
+        it('gives resolution dates of old phases', function() {
+            data.ordinal = 2;
+            ms = new MapService(data);
+            expect(ms.getReadableDeadline()).to.contain('Resolved ');
         });
     });
 

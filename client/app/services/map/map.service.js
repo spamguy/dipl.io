@@ -297,12 +297,17 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
             timeUntilDeadline;
         if (!this.game.Finished) {
             if (this.game.Started && currentPhase) {
-                timeUntilDeadline = new Date(currentPhase.DeadlineAt).getTime() - new Date().getTime();
-                return humanizeDuration(timeUntilDeadline, {
-                    largest: 2,
-                    round: true,
-                    units: ['mo', 'w', 'd', 'h', 'm']
-                });
+                if (currentPhase.Resolved) {
+                    return 'Resolved ' + moment(currentPhase.DeadlineAt).format('l, LT');
+                }
+                else {
+                    timeUntilDeadline = new Date(currentPhase.DeadlineAt).getTime() - new Date().getTime();
+                    return humanizeDuration(timeUntilDeadline, {
+                        largest: 2,
+                        round: true,
+                        units: ['mo', 'w', 'd', 'h', 'm']
+                    });
+                }
             }
 
             // TODO: Handle paused states.

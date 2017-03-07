@@ -20,8 +20,8 @@ angular.module('games')
         // When the ordinal changes, get new data corresponding to the phase.
         this.uiOnParamsChanged = function(params) {
             Promise.all([
-                gameService.getPhaseState(vm.service.game.ID, vm.service.getCurrentPhase().Properties),
-                gameService.getPhaseOrders(vm.service.game.ID, vm.service.getCurrentPhase().Properties)
+                gameService.getPhaseState(vm.service.game.ID, vm.service.getCurrentPhase()),
+                gameService.getPhaseOrders(vm.service.game.ID, vm.service.getCurrentPhase())
             ])
             .spread(function(state, orders) {
                 vm.service.currentState = state;
