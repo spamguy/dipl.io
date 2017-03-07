@@ -276,12 +276,32 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         return orderResolution && orderResolution.Resolution !== 'OK';
     }
 
-    function userCanPerformAction(phaseType) {
+    function userCanPerformAction(phaseType, action, unitType) {
         if (!this.game.Started || this.game.Finished)
             return false;
 
-        var phase = this.getCurrentPhase();
-        return phase && gameService.isPlayer(this.game) && phase.Type === phaseType;
+        var phase = this.getCurrentPhase(),
+            isPlayer = gameService.isPlayer(this.game),
+            actionIsPhaseAppropriate = phase.Type === phaseType,
+            k,
+            next,
+            actionIsPermitted = false;
+
+        // Only adjustment phases have to consider legality of builds/disbands.
+        if (action) {
+            for (k in _options) {
+                next = _options[k].Next;
+                if (next && next[action] && next[action].Next && (!unitType || next[action].Next[unitType])) {
+                    actionIsPermitted = true;
+                    break;
+                }
+            }
+        }
+        else {
+            actionIsPermitted = true;
+        }
+
+        return phase && isPlayer && actionIsPhaseAppropriate && actionIsPermitted;
     }
 
     function getCurrentAction() {

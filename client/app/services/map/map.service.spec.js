@@ -130,9 +130,37 @@ describe('Map service', function() {
         expect(ms.getCurrentPhase().Season).to.equal('Summer');
     });
 
-    it('determines if the user can submit phase-appropriate orders', function() {
+    it('determines if the user can submit movement orders', function() {
         expect(ms.userCanPerformAction('Movement')).to.be.true;
-        expect(ms.userCanPerformAction('Retreat')).to.be.false;
+        expect(ms.userCanPerformAction('Adjustment', 'Build', 'Fleet')).to.be.false;
+    });
+
+    it('determines if the user can submit adjustment orders', function() {
+        data.phases.push({
+            Properties: {
+                Type: 'Adjustment',
+                PhaseOrdinal: 4,
+                Season: 'Winter',
+                Year: 1901
+            }
+        });
+        data.options = {
+            lon: {
+                Next: {
+                    Build: {
+                        Next: {
+                            Army: { },
+                            Fleet: { }
+                        }
+                    }
+                }
+            }
+        };
+        ms = new MapService(data);
+        expect(ms.userCanPerformAction('Movement')).to.be.false;
+        expect(ms.userCanPerformAction('Adjustment', 'Build', 'Army')).to.be.true;
+        expect(ms.userCanPerformAction('Adjustment', 'Build', 'Fleet')).to.be.true;
+        expect(ms.userCanPerformAction('Adjustment', 'Disband')).to.be.false;
     });
 
     it('indicates if input is expected from the user', function() {

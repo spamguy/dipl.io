@@ -26,11 +26,15 @@
                 <md-icon md-svg-icon="convoy" ng-class="{'active': $ctrl.service.getCurrentAction() === 'Convoy' }"></md-icon>
                 <md-tooltip>Convoy</md-tooltip>
             </md-button>
-            <md-button ng-if="$ctrl.service.userCanPerformAction('Adjustment')" ng-click="$ctrl.service.setCurrentAction('Build')" class="md-icon-button" aria-label="Build" hide-sm hide-xs>
+            <md-button ng-if="$ctrl.service.userCanPerformAction('Adjustment', 'Build', 'Army')" ng-click="$ctrl.service.setCurrentAction('Build-Army')" class="md-icon-button" aria-label="Build" hide-sm hide-xs>
                 <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.getCurrentAction() === 'Build' }"></md-icon>
-                <md-tooltip>Build</md-tooltip>
+                <md-tooltip>Build Army</md-tooltip>
             </md-button>
-            <md-button ng-if="$ctrl.service.userCanPerformAction('Adjustment') || $ctrl.service.userCanPerformAction('Retreat')" ng-click="$ctrl.service.setCurrentAction('disband')" class="md-icon-button" aria-label="Disband" hide-sm hide-xs>
+            <md-button ng-if="$ctrl.service.userCanPerformAction('Adjustment', 'Build', 'Fleet')" ng-click="$ctrl.service.setCurrentAction('Build-Fleet')" class="md-icon-button" aria-label="Build" hide-sm hide-xs>
+                <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.getCurrentAction() === 'Build' }"></md-icon>
+                <md-tooltip>Build Fleet</md-tooltip>
+            </md-button>
+            <md-button ng-if="$ctrl.service.userCanPerformAction('Adjustment', 'Disband') || $ctrl.service.userCanPerformAction('Retreat')" ng-click="$ctrl.service.setCurrentAction('Disband')" class="md-icon-button" aria-label="Disband" hide-sm hide-xs>
                 <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.getCurrentAction() === 'Disband' }"></md-icon>
                 <md-tooltip>Disband</md-tooltip>
             </md-button>
