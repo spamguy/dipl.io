@@ -33,10 +33,12 @@ angular.module('map.component')
 
         function goToOrdinal(ordinal) {
             // Keep phase ordinal inside countable number of phases.
-            if (ordinal <= 0)
-                ordinal = 1;
-            else if (ordinal > vm.service.phases.length)
-                ordinal = null;
+            if (ordinal) {
+                if (ordinal <= 0)
+                    ordinal = 1;
+                else if (ordinal > vm.service.phases.length)
+                    ordinal = null;
+            }
 
             goToState(ordinal);
         }

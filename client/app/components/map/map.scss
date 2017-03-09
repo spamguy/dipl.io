@@ -8,9 +8,17 @@
     fill: yellow;
 }
 
-#mapNavToolbar svg
+#mapNavToolbar
 {
-    fill: #fff;
+    svg
+    {
+        fill: #fff;
+    }
+
+    md-icon
+    {
+        outline: none;
+    }
 }
 
 .mapContainer

@@ -309,7 +309,7 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
     }
 
     function isInPendingCommand(id) {
-        return _clickedProvinces.indexOf(id.toLowerCase()) >= 0;
+        return _clickedProvinces.indexOf(id.toLowerCase().replace('-', '/')) >= 0;
     }
 
     function getReadableDeadline() {
