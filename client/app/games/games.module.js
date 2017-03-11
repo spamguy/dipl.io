@@ -141,6 +141,9 @@ angular.module('games', [
         },
         onEnter: ['$mdSidenav', function($mdSidenav) {
             $mdSidenav('press-channel').toggle();
+        }],
+        onExit: ['$mdSidenav', function($mdSidenav) {
+            $mdSidenav('press-channel').toggle();
         }]
     });
 }]);

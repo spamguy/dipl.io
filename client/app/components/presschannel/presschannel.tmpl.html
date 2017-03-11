@@ -1,15 +1,32 @@
-<div>
-    <md-subheader>Recipients</md-subheader>
-    <div layout="row" layout-margin>
-        <md-chips readonly="true" ng-model="vm.service.getChannel().Members" id="recipientChips"></md-chips>
+<div style="height: 100%;" layout="column" layout-align="space-between">
+    <div>
+        <md-subheader>Recipients</md-subheader>
+        <div layout="row" layout-margin>
+            <md-chips readonly="true" ng-model="vm.service.getChannel().Members" id="recipientChips"></md-chips>
+        </div>
+
+        <md-subheader>{{vm.generatePressHistoryHeader()}}</md-subheader>
+
+        <md-list-item class="md-2-line md-long-text press" ng-repeat="p in vm.press">
+            <div class="md-list-item-text">
+                <h3 class="typewriter">{{p.Properties.Sender}}</h3>
+                <p>{{p.Properties.Body}}</p>
+                <p class="timestamp">@ {{vm.generatePressTime(p.Properties.CreatedAt)}}</p>
+            </div>
+        </md-list-item>
     </div>
 
-    <md-subheader>{{vm.generatePressHistoryHeader()}}</md-subheader>
+    <div id="newPressContainer" layout="column">
+        <md-divider></md-divider>
 
-    <md-list-item class="md-2-line md-long-text" ng-repeat="p in vm.press">
-        <div class="md-list-item-text">
-            <h3>{{p.Properties.Sender}}</h3>
-            <p>{{p.Properties.Body}}</p>
+        <md-input-container class="md-block">
+            <label>New press</label>
+            <textarea ng-model="vm.newpress.text" rows="1" md-select-on-focus></textarea>
+        </md-input-container>
+
+        <div layout="row" layout-align="center center">
+            <md-button class="md-raised" ng-click="vm.exitChannel()">Back</md-button>
+            <md-button class="md-accent md-raised" ng-click="vm.sendPress()">Submit</md-button>
         </div>
-    </md-list-item>
+    </div>
 </div>

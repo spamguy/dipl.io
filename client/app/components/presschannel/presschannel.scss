@@ -1,0 +1,21 @@
+sg-press-channel
+{
+    .press
+    {
+        p.timestamp
+        {
+            color: #999;
+            font-size: 10px !important;
+        }
+    }
+
+    #newPressContainer
+    {
+        padding: 10px 0;
+
+        md-input-container
+        {
+            margin: 15px 10px 0 10px !important;
+        }
+    }
+}
