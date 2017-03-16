@@ -43,10 +43,16 @@ angular.module('gameService', ['userService'])
             return Restangular.one('Game', gameID).all('Phases').getList();
         },
 
-        getPhaseState: function(gameID, phase) {
-            return phase
-                ? Restangular.one('Game', gameID).one('Phase', phase.PhaseOrdinal).all('PhaseStates').getList()
-                : Promise.resolve(null);
+        getPhaseState: function(game, phase) {
+            if (phase) {
+                // The current phase can skip a DB call, courtesy of Users[].NewestGamePhase.
+                return phase.Resolved
+                    ? Restangular.one('Game', game.ID).one('Phase', phase.PhaseOrdinal).all('PhaseStates').getList()
+                    : Promise.resolve(this.getCurrentUserInGame(game).NewestGamePhase);
+            }
+            else {
+                return Promise.resolve(null);
+            }
         },
 
         setPhaseState: function(game, phase, phaseState) {

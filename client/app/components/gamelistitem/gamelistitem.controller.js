@@ -24,7 +24,7 @@ angular.module('gamelistitem.component')
             return Promise.all([
                 Promise.resolve(variant),
                 Promise.resolve(currentPhase),
-                gameService.getPhaseState(vm.game.ID, currentPhase),
+                gameService.getPhaseState(vm.game, currentPhase),
                 gameService.getPhaseOrders(vm.game.ID, currentPhase)
             ])
             .spread(applyData);

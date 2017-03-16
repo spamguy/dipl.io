@@ -3,7 +3,7 @@
         <md-tab>
             <md-tab-label>Orders</md-tab-label>
             <md-tab-body>
-                <div layout="row" layout-align="center" ng-if="$ctrl.service.game.Started && $ctrl.gameService.isPlayer($ctrl.service.game)">
+                <div layout="row" layout-align="center" ng-if="$ctrl.service.game.Started && !$ctrl.service.getCurrentPhase().Resolved && $ctrl.gameService.isPlayer($ctrl.service.game)">
                     <md-switch ng-model="$ctrl.service.phaseState.ReadyToResolve" ng-change="$ctrl.setPhaseState()">
                         <span class="md-title">{{$ctrl.service.phaseState.ReadyToResolve ? 'Ready!' : 'Not ready'}}</span>
                     </md-switch>

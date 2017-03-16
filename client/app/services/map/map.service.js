@@ -7,7 +7,7 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         _clickedProvinces = [],
         _ordinal = 1,
         _options = { },
-        service = function(data) { // variant, game, phases, orders, phaseState, options, ordinal) {
+        service = function(data) {
             var powerOfCurrentPlayer = gameService.getCurrentUserInGame(data.game);
 
             this.variant = data.variant;

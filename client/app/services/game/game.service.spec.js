@@ -5,7 +5,8 @@ describe('Game service', function() {
         mockUserService,
         user,
         localStorage,
-        httpBackend;
+        httpBackend,
+        rootScope;
 
     beforeEach(function() {
         mockUserService = {
@@ -28,6 +29,7 @@ describe('Game service', function() {
             localStorage = _$localStorage_;
             localStorage.theUser = user;
             httpBackend = _$httpBackend_;
+            rootScope = $rootScope;
         });
     });
 
@@ -162,13 +164,34 @@ describe('Game service', function() {
         httpBackend.flush();
     });
 
-    it('gets a phase\'s state', function() {
+    it('gets a phase\'s state from the DB for old phases', function() {
+        var game = { ID: 123 };
+
         httpBackend.expectGET(/Game\/.+?\/Phase\/\d+\/PhaseStates/).respond(200);
 
-        gameService.getPhaseState('123', { id: '456', PhaseOrdinal: 455 })
+        gameService.getPhaseState(game, { id: '456', PhaseOrdinal: 455, Resolved: true })
         .then(function(o) {
         });
         httpBackend.flush();
+    });
+
+    // Inspiration for this test courtesy of http://stackoverflow.com/a/25764025/260460.
+    it('does NOT gets a phase\'s state from the DB in the active phase', function() {
+        var callWasMade = false,
+            game = { ID: 123, Members: [{ User: { Id: '789' }, NewestGamePhase: { } }] };
+
+        httpBackend.when(/Game\/.+?\/Phase\/\d+\/PhaseStates/)
+        .respond(function() {
+            callWasMade = true;
+            return [400, ''];
+        });
+
+        gameService.getPhaseState(game, { id: '456', PhaseOrdinal: 0, Resolved: false })
+        .then(function(o) {
+            expect(callWasMade).to.be.false;
+        });
+
+        rootScope.$digest();
     });
 
     it('gets a phase\'s orders', function() {

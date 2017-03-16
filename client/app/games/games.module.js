@@ -86,7 +86,7 @@ angular.module('games', [
 
                 // No phase? No phase state.
                 if (phase)
-                    return gameService.getPhaseState($stateParams.id, phase);
+                    return gameService.getPhaseState(game, phase);
                 else
                     return null;
             }],
