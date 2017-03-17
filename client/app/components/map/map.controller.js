@@ -18,7 +18,7 @@ angular.module('map.component')
 
         hotkeys = bindHotkeys(hotkeys);
 
-        vm.getFormattedDeadline = gameService.getFormattedDeadline;
+        vm.getReadableDeadline = gameService.getReadableDeadline;
         vm.goToOrdinal = goToOrdinal;
         vm.addToOrdinal = addToOrdinal;
         vm.buildOrders = filterBuildOrders;

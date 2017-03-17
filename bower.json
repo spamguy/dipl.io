@@ -39,6 +39,7 @@
   },
   "resolutions": {
     "humanize-duration": "^3.9.0",
-    "moment": "^2.14.0"
+    "moment": "^2.14.0",
+    "angular": "1.5.8"
   }
 }

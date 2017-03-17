@@ -4,3 +4,14 @@ md-tab-content md-list, div md-list
     padding-top: 0;
     padding-bottom: 0;
 }
+
+md-list.playing
+{
+    md-list-item
+    {
+        &.ok
+        {
+            border-left: 6px solid limegreen;
+        }
+    }
+}

@@ -1,7 +1,7 @@
 <md-tabs class="md-whiteframe-2dp" md-dynamic-height md-border-bottom style="margin: auto 20px">
     <md-tab label="Playing">
-        <md-list>
-            <md-list-item ng-repeat="game in vm.playing" class="gameItem">
+        <md-list class="playing">
+            <md-list-item ng-repeat="game in vm.playing" class="gameItem" ng-class="vm.getActiveGameClass(game)">
                 <sg-game-list-item game="game.Properties" joinable="false" />
             </md-list-item>
         </md-list>

@@ -1,3 +1,5 @@
+/* global humanizeDuration */
+
 /**
  * @ngdoc service
  * @name gameService
@@ -128,6 +130,47 @@ angular.module('gameService', ['userService'])
 
         isPlayer: function(game) {
             return !!this.getCurrentUserInGame(game);
+        },
+
+        getStatusDescription: function(variant, game, phase) {
+            var playersNeeded;
+
+            if (!game.Finished) {
+                if (!game.Started && variant) {
+                    playersNeeded = variant.Nations.length - game.Members.length;
+                    return 'Not started: waiting on ' + playersNeeded + ' more ' + pluralize('player', playersNeeded);
+                }
+                else if (game.Started && phase) {
+                    return phase.Season + ' ' + phase.Type + ' ' + phase.Year;
+                }
+            }
+            else {
+                return 'Finished';
+            }
+        },
+
+        getReadableDeadline: function(game, phase) {
+            var timeUntilDeadline;
+            if (!game.Finished) {
+                if (game.Started && phase) {
+                    if (phase.Resolved) {
+                        return 'Resolved ' + moment(phase.DeadlineAt).format('l, LT');
+                    }
+                    else {
+                        timeUntilDeadline = new Date(phase.DeadlineAt).getTime() - new Date().getTime();
+                        return humanizeDuration(timeUntilDeadline, {
+                            largest: 2,
+                            round: true,
+                            units: ['mo', 'w', 'd', 'h', 'm']
+                        });
+                    }
+                }
+
+                // TODO: Handle paused states.
+            }
+            else {
+                return '';
+            }
         }
     };
 }]);

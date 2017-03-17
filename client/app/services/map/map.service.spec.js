@@ -178,18 +178,6 @@ describe('Map service', function() {
         });
     });
 
-    describe('Readable deadline', function() {
-        it('rounds off seconds in deadline', function() {
-            expect(ms.getReadableDeadline()).to.equal('3 minutes');
-        });
-
-        it('gives resolution dates of old phases', function() {
-            data.ordinal = 2;
-            ms = new MapService(data);
-            expect(ms.getReadableDeadline()).to.contain('Resolved ');
-        });
-    });
-
     describe('Order management', function() {
         xit('returns a null promise when no order is submittable', function() {
             return expect(ms.inputOrder('mun')).to.eventually.equal(null);

@@ -211,4 +211,27 @@ describe('Game service', function() {
         });
         httpBackend.flush();
     });
+
+    describe('Readable deadline', function() {
+        it('rounds off seconds in deadline', function() {
+            expect(gameService.getReadableDeadline({ Started: true, ID: 123 }, {
+                PhaseOrdinal: 1,
+                Season: 'Spring',
+                Type: 'Movement',
+                Year: 1901,
+                DeadlineAt: moment().add({ minutes: 3, seconds: 12, milliseconds: 144 }).toISOString(),
+                Units: [
+                    { Properties: { Unit: { Nation: 'Germany' } } }
+                ],
+                Resolutions: [
+                    { Province: 'mun', Resolution: 'OK' },
+                    { Province: 'den', Resolution: 'Aw Hell naw' }
+                ]
+            })).to.equal('3 minutes');
+        });
+
+        it('gives resolution dates of old phases', function() {
+            expect(gameService.getReadableDeadline({ Finished: false, Started: true }, { DeadlineAt: new Date(), Resolved: true })).to.contain('Resolved ');
+        });
+    });
 });

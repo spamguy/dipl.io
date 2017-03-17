@@ -10,7 +10,12 @@
 
     .gameDetails
     {
-        color: #999;
+        span
+        {
+            color: #999;
+            padding-left: 8px;
+            padding-bottom: 16px;
+        }
     }
 }
 

@@ -1,4 +1,3 @@
-/* global humanizeDuration */
 angular.module('mapService', ['gameService', 'userService', 'variantService'])
 .service('mapService', ['gameService', '$location', 'variantService', function(gameService, $location, variantService) {
     'use strict';
@@ -27,7 +26,6 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         };
 
     service.prototype.getCurrentPhase = getCurrentPhase;
-    service.prototype.getReadableDeadline = getReadableDeadline;
     service.prototype.getAllSCs = getAllSCs;
     service.prototype.getSCTransform = getSCTransform;
     service.prototype.getSCPath = getSCPath;
@@ -310,31 +308,6 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
 
     function isInPendingCommand(id) {
         return _clickedProvinces.indexOf(id.toLowerCase().replace('-', '/')) >= 0;
-    }
-
-    function getReadableDeadline() {
-        var currentPhase = this.getCurrentPhase(),
-            timeUntilDeadline;
-        if (!this.game.Finished) {
-            if (this.game.Started && currentPhase) {
-                if (currentPhase.Resolved) {
-                    return 'Resolved ' + moment(currentPhase.DeadlineAt).format('l, LT');
-                }
-                else {
-                    timeUntilDeadline = new Date(currentPhase.DeadlineAt).getTime() - new Date().getTime();
-                    return humanizeDuration(timeUntilDeadline, {
-                        largest: 2,
-                        round: true,
-                        units: ['mo', 'w', 'd', 'h', 'm']
-                    });
-                }
-            }
-
-            // TODO: Handle paused states.
-        }
-        else {
-            return '';
-        }
     }
 
     function isUserInputExpected() {

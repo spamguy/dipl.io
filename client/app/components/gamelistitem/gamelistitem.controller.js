@@ -4,7 +4,7 @@ angular.module('gamelistitem.component')
         var vm = this;
 
         vm.reasonForNoJoin = reasonForNoJoin;
-        vm.getStatusDescription = getStatusDescription;
+        vm.service = gameService;
         vm.showJoinDialog = showJoinDialog;
         vm.goToGame = goToGame;
         vm.showDetailsDialog = showDetailsDialog;
@@ -41,23 +41,6 @@ angular.module('gamelistitem.component')
             vm.phaseState = phaseState;
             vm.orders = orders;
             vm.variant = variant;
-        }
-
-        function getStatusDescription() {
-            var playersNeeded;
-
-            if (!vm.game.Finished) {
-                if (!vm.game.Started && vm.variant) {
-                    playersNeeded = vm.variant.Nations.length - vm.game.Members.length;
-                    return 'Not started: waiting on ' + playersNeeded + ' more ' + pluralize('player', playersNeeded);
-                }
-                else if (vm.game.Started && vm.currentPhase) {
-                    return vm.currentPhase.Season + ' ' + vm.currentPhase.Type + ' ' + vm.currentPhase.Year;
-                }
-            }
-            else {
-                return 'Finished';
-            }
         }
 
         function reasonForNoJoin() {

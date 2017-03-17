@@ -7,4 +7,10 @@ angular.module('profile')
     vm.waiting = waiting;
     vm.finished = finished;
     vm.service = gameService;
+
+    vm.getActiveGameClass = getActiveGameClass;
+
+    function getActiveGameClass(game) {
+        return 'ok';
+    }
 }]);
