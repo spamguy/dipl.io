@@ -2,7 +2,11 @@
 
 sg-game-tools
 {
-    min-height: 600px;
+    min-height: 800px;
+    @media (min-width: 800px)
+    {
+        min-height: inherit;
+    }
     md-sidenav
     {
         width: 100%;

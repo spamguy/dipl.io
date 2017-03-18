@@ -24,5 +24,13 @@ angular.module('gametools.component')
     }
 
     function sendPress() {
+        this.service.sendPress(this.newpress.text)
+        .then(this.service.getPressInChannel)
+        .then(function(press) {
+            vm.press = press;
+
+            // Clear input.
+            vm.newpress.text = '';
+        });
     }
 }]);

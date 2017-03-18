@@ -19,6 +19,7 @@ angular.module('pressService', ['gameService'])
     service.prototype.getChannelMembersAsString = getChannelMembersAsString;
     service.prototype.getChannels = getChannels;
     service.prototype.getPressInChannel = getPressInChannel;
+    service.prototype.sendPress = sendPress;
 
     return service;
 
@@ -61,5 +62,12 @@ angular.module('pressService', ['gameService'])
     function getPressInChannel() {
         var channelMembers = _channel.Members.join(',');
         return Restangular.one('Game', _game.ID).one('Channel', channelMembers).all('Messages').getList();
+    }
+
+    function sendPress(press) {
+        return Restangular.one('Game', _game.ID).all('Messages').post({
+            Body: press,
+            ChannelMembers: _channel.Members
+        });
     }
 }]);
