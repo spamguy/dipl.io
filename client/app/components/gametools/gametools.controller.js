@@ -3,6 +3,17 @@ angular.module('gametools.component')
     var vm = this,
         ps = new PressService(vm.service.game);
 
+    // Refresh channel list when sidenav closes.
+    Promise.all([
+        $mdSidenav('press-channel', true),
+        Promise.resolve(vm)
+    ])
+    .spread(function(sidenav, vm) {
+        sidenav.onClose(function() {
+            vm.refreshChannelList();
+        });
+    });
+
     vm.channelMembers = [];
 
     vm.gameService = gameService;

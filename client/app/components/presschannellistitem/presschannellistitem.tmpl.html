@@ -2,8 +2,8 @@
     layout-align="space-between center"
     flex
     ui-sref="games.view.presschannel({ channel: vm.channel, game: vm.service.game, variant: vm.service.variant })"
-    ng-attr-title="{{vm.channel.Name}}">
-    <div>{{vm.channel.Name | characters:30}}</div>
+    ng-attr-title="{{vm.renderChannelMembers()}}">
+    <div>{{vm.renderChannelMembers() | characters:30}}</div>
     <div>
         <md-icon md-svg-icon="next" />
     </div>
