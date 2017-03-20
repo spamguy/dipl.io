@@ -17,7 +17,7 @@
             <v-pane>
                 <v-pane-header class="md-headline">Deadlines</v-pane-header>
                 <v-pane-content>
-                    <div layout="row" layout-xs="column" layout-margin>
+                    <div layout="row" layout-xs="column">
                         <div layout="column">
                             <span flex>Movement Phases</span>
                             <div layout="row">
@@ -35,63 +35,30 @@
                                 </md-input-container>
                             </div>
                         </div>
-
-                        <!-- Retreat -->
-                        <div layout="column">
-                            <span flex>Retreat Phases</span>
-                            <div layout="row">
-                                <md-input-container class="md-block" flex>
-                                    <label>Days</label>
-                                    <input type="number" ng-model="vm.retreat.days" min="0">
-                                </md-input-container>
-                                <md-input-container class="md-block" flex>
-                                    <label>Hours</label>
-                                    <input type="number" ng-model="vm.retreat.hours" min="0">
-                                </md-input-container>
-                                <md-input-container class="md-block" flex>
-                                    <label>Minutes</label>
-                                    <input type="number" ng-model="vm.retreat.minutes" min="0">
-                                </md-input-container>
-                            </div>
-                        </div>
-
-                        <!-- Adjustment -->
-                        <div layout="column">
-                            <span flex>Adjustment Phases</span>
-                            <div layout="row">
-                                <md-input-container class="md-block" flex>
-                                    <label>Days</label>
-                                    <input type="number" ng-model="vm.adjust.days" min="0">
-                                </md-input-container>
-                                <md-input-container class="md-block" flex>
-                                    <label>Hours</label>
-                                    <input type="number" ng-model="vm.adjust.hours" min="0">
-                                </md-input-container>
-                                <md-input-container class="md-block" flex>
-                                    <label>Minutes</label>
-                                    <input type="number" ng-model="vm.adjust.minutes" min="0">
-                                </md-input-container>
-                            </div>
-                        </div>
                     </div>
                 </v-pane-content>
             </v-pane>
 
             <v-pane>
-                <v-pane-header class="md-headline">Visibility</v-pane-header>
+                <v-pane-header class="md-headline">Restrictions</v-pane-header>
                 <v-pane-content>
-                </v-pane-content>
-            </v-pane>
+                    <div layout="column">
+                        <div layout="row" layout-margin>
+                            <md-checkbox ng-model="vm.restrictions.minimum.enabled">Minimum rating</md-checkbox>
+                            <md-slider-container flex>
+                                <!-- TODO: Set max to current user's rating. -->
+                                <md-slider ng-model="vm.restrictions.minimum.rating" ng-disabled="!vm.restrictions.minimum.enabled" step="25" md-discrete min="0" max="2500" aria-label="Minimum rating" flex></md-slider>
+                            </md-slider-container>
+                        </div>
 
-            <v-pane>
-                <v-pane-header class="md-headline">Press</v-pane-header>
-                <v-pane-content>
-                </v-pane-content>
-            </v-pane>
-
-            <v-pane>
-                <v-pane-header class="md-headline">Everything Else</v-pane-header>
-                <v-pane-content>
+                        <div layout="row" layout-margin>
+                            <md-checkbox ng-model="vm.restrictions.maximum.enabled">Maximum rating</md-checkbox>
+                            <md-slider-container flex>
+                                <!-- TODO: Set max to current user's rating. -->
+                                <md-slider ng-model="vm.restrictions.maximum.rating" ng-disabled="!vm.restrictions.maximum.enabled" step="25" md-discrete min="0" max="2500" aria-label="Maximum rating" flex></md-slider>
+                            </md-slider-container>
+                        </div>
+                    </div>
                 </v-pane-content>
             </v-pane>
 
