@@ -13,7 +13,7 @@ angular.module('games')
             phases: phases,
             orders: orders,
             phaseState: phaseState,
-            options: options.plain(),
+            options: options ? options.plain() : { },
             ordinal: $stateParams.ordinal
         });
 

@@ -61,7 +61,10 @@ angular.module('pressService', ['gameService'])
 
     function getPressInChannel() {
         var channelMembers = _channel.Members.join(',');
-        return Restangular.one('Game', _game.ID).one('Channel', channelMembers).all('Messages').getList();
+        return Restangular.one('Game', _game.ID).one('Channel', channelMembers).all('Messages').getList()
+        .then(function(press) {
+            return _.orderBy(press, ['Properties.Age'], ['desc']);
+        });
     }
 
     function sendPress(press) {

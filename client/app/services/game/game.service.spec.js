@@ -203,13 +203,31 @@ describe('Game service', function() {
         httpBackend.flush();
     });
 
-    it('gets a phase\'s order options for the user', function() {
+    it('gets a phase\'s order options for the user if it is a player', function() {
         httpBackend.expectGET(/Game\/.+?\/Phase\/\d+\/Options/).respond(200);
 
-        gameService.getUserOptionsForPhase({ ID: 123 }, { PhaseOrdinal: 241 })
+        gameService.getUserOptionsForPhase({ ID: 123, Members: [{ User: { Id: '789' } }] }, { PhaseOrdinal: 241 })
         .then(function(o) {
         });
         httpBackend.flush();
+    });
+
+    // Inspiration for this test courtesy of http://stackoverflow.com/a/25764025/260460.
+    it('does NOT get options from the DB if the user is not playing', function() {
+        var callWasMade = false;
+
+        httpBackend.when(/Game\/.+?\/Phase\/\d+\/Options/)
+        .respond(function() {
+            callWasMade = true;
+            return [400, ''];
+        });
+
+        gameService.getUserOptionsForPhase({ ID: 123, Members: [{ User: { Id: 'qqq' } }] }, { PhaseOrdinal: 241 })
+        .then(function(o) {
+            expect(callWasMade).to.be.false;
+        });
+
+        rootScope.$digest();
     });
 
     describe('Readable deadline', function() {

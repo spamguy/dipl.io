@@ -9,7 +9,7 @@
             </div>
             <div class="gameDetails" layout="row" layout-xs="column">
                 <span>{{vm.service.getStatusDescription(vm.variant, vm.game, vm.currentPhase)}}</span>
-                <span hide-xs>•</span>
+                <span ng-if="vm.currentPhase && !vm.game.Finished" hide-xs>•</span>
                 <span>{{vm.service.getReadableDeadline(vm.game, vm.currentPhase)}}</span>
             </div>
         </div>

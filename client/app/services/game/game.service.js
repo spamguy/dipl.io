@@ -72,9 +72,17 @@ angular.module('gameService', ['userService'])
          * @return {Promise}       A deeply nested object representing a decision tree, or { } if there are no legal moves.
          */
         getUserOptionsForPhase: function(game, phase) {
-            return phase
-                ? Restangular.one('Game', game.ID).one('Phase', phase.PhaseOrdinal).one('Options').get()
-                : Promise.resolve(null);
+            var player = this.getCurrentUserInGame(game);
+
+            // Non-players do not have options.
+            if (player) {
+                return phase
+                    ? Restangular.one('Game', game.ID).one('Phase', phase.PhaseOrdinal).one('Options').get()
+                    : Promise.resolve(null);
+            }
+            else {
+                return Promise.resolve(null);
+            }
         },
 
         getPhaseOrders: function(gameID, phase) {
