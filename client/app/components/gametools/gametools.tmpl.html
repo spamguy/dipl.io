@@ -22,7 +22,7 @@
             </md-tab-body>
         </md-tab>
 
-        <md-tab md-on-select="$ctrl.refreshChannelList()" ng-if="$ctrl.gameService.getCurrentUserInGame($ctrl.service.game)">
+        <md-tab md-on-select="$ctrl.refreshChannelList()" ng-if="$ctrl.gameService.getCurrentUserInGame($ctrl.service.game) && $ctrl.service.game.Started">
             <md-tab-label>Press</md-tab-label>
             <md-tab-body>
                 <md-subheader>Compose New Press</md-subheader>

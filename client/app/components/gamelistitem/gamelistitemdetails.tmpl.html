@@ -20,6 +20,16 @@
                     <span class="md-body-2">Variant:</span>
                     <span class="md-body-2">{{dg.service.game.Variant}}</span>
                 </div>
+
+                <div layout="row" class="mapDescription">
+                    <span class="md-body-2">Minimum Rating:</span>
+                    <span class="md-body-2">{{dg.service.game.MinRating}}</span>
+                </div>
+
+                <div layout="row" class="mapDescription">
+                    <span class="md-body-2">Max Rating:</span>
+                    <span class="md-body-2">{{dg.service.game.MaxRating || '(none)'}}</span>
+                </div>
             </div>
         </div>
     </md-dialog-content>
