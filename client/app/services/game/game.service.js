@@ -1,5 +1,3 @@
-/* global humanizeDuration */
-
 /**
  * @ngdoc service
  * @name gameService

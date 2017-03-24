@@ -10,7 +10,8 @@
         "Promise": true,
         "pluralize": true,
         "Modernizr": true,
-        "moment": true
+        "moment": true,
+        "humanizeDuration": true
     },
     "extends": "semistandard",
     "env": {
