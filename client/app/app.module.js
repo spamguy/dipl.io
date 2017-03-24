@@ -96,16 +96,16 @@ angular.module('diplomacy', [
         .catch(function(ex) {
             console.error(ex);
         });
+
+        messaging.onMessage(function(payload) {
+            userService.getMessageConfig()
+            .then(function(config) {
+                console.log('Message received: ' + payload.toString());
+            });
+        });
     }
 
     userService.applyTokens(fcmToken);
-
-    messaging.onMessage(function(payload) {
-        userService.getMessageConfig()
-        .then(function(config) {
-            console.log('Message received: ' + payload.toString());
-        });
-    });
 
     $transitions.onBefore({ to: isAuthenticationRequired }, authenticationHook);
 
