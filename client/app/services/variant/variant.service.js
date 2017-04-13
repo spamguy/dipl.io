@@ -77,18 +77,7 @@ angular.module('variantService', [])
         },
 
         getProvinceInVariant: function(variant, id) {
-            return variant.Graph.Nodes[getProvinceComponent(id).toUpperCase()];
+            return variant.Graph.Nodes[id.toUpperCase()];
         }
     };
-
-    // PRIVATE FUNCTIONS
-
-    function getSubprovinceComponent(id) { // eslint-disable-line no-unused-vars
-        var idComponents = id.split('/');
-        return idComponents[1] ? idComponents[1] : '';
-    }
-
-    function getProvinceComponent(id) {
-        return id.split('/')[0];
-    }
 }]);

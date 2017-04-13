@@ -3,9 +3,16 @@
     font-size: 1em;
 }
 
-#mapToolbar md-icon.active svg
+#mapToolbar
 {
-    fill: yellow;
+    .active
+    {
+        color: yellow;
+        md-icon.active svg
+        {
+            fill: yellow;
+        }
+    }
 }
 
 #mapNavToolbar
@@ -90,12 +97,12 @@ g.orderLayer
  * SVG 1.x lameness: CSS must be defined on a per-marker basis. See http://stackoverflow.com/a/16665510/260460.
  * Supposedly made easier by SVG 2, but browser support is low to nil.
  */
-marker#move, marker#support, marker#convoy
+marker#move, marker#moveviaconvoy, marker#support, marker#convoy
 {
     fill: #000;
 }
 
-marker#failedmove, marker#failedsupport, marker#failedconvoy
+marker#failedmove, marker#failedmoveviaconvoy, marker#failedsupport, marker#failedconvoy
 {
     fill: #f00;
 }

@@ -191,12 +191,12 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
             currentPlayerNation = gameService.getCurrentUserInGame(this.game);
 
         /*
-         * Users who try to control units that don't exist or don't own?
+         * Users who try to move units that don't exist or they don't own?
          * We have ways of shutting the whole thing down.
          * The first click in a queue indicates the unit receiving the order.
-         * No unit or ownership at that click = stop.
+         * No unit or ownership at that click = stop. (Unless it's a build phase, in which case click = go.)
          */
-        if (!_clickedProvinces.length && !findUnitOwnedByUserAtProvince(this.getCurrentPhase().Units))
+        if (this.getCurrentPhase().Type === 'Movement' && !_clickedProvinces.length && !findUnitOwnedByUserAtProvince(this.getCurrentPhase().Units))
             return emptyOrder;
 
         // Resolved phases don't receive orders at all.
@@ -219,8 +219,9 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         case 'Convoy':
             order = buildConvoyOrder();
             break;
-        case 'Build':
-            order = buildBuildOrder();
+        case 'Build-Army':
+        case 'Build-Fleet':
+            order = buildBuildOrder(_clickedProvinces.pop());
             break;
         case 'Disband':
             order = buildDisbandOrder();
@@ -247,9 +248,29 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
     }
 
     function applyOrderLocally(order) {
+        var currentPlayerNation = gameService.getCurrentUserInGame(this.game).Nation,
+            currentPhase = this.getCurrentPhase();
+
         // Purge old order (if any) for this province before adding new one.
         this.orders = _.reject(this.orders, function(o) { return o.Properties.Parts[0] === order[0]; });
-        this.orders.push({ Properties: { Parts: order } });
+        this.orders.push({
+            Properties: {
+                Nation: currentPlayerNation,
+                Parts: order
+            }
+        });
+
+        // Tinker with unit placement if this is an adjustment phase.
+        if (currentPhase.Type === 'Adjustment') {
+            currentPhase.Units = _.reject(currentPhase.Units, function(u) { return u.Province === order[0]; });
+            currentPhase.Units.push({
+                Province: order[0],
+                Unit: {
+                    Type: order[2],
+                    Nation: currentPlayerNation
+                }
+            });
+        }
     }
 
     function getOrderForProvince(p) {
@@ -386,7 +407,9 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         return [source, 'Convoy', target, targetOfTarget];
     }
 
-    function buildBuildOrder() {
+    function buildBuildOrder(province) {
+        var buildParts = getCurrentAction().split('-');
+        return [province, 'Build', buildParts[1]];
     }
 
     function buildDisbandOrder() {

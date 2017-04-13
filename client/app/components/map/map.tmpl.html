@@ -26,17 +26,14 @@
                 <md-icon md-svg-icon="convoy" ng-class="{'active': $ctrl.service.getCurrentAction() === 'Convoy' }"></md-icon>
                 <md-tooltip>Convoy</md-tooltip>
             </md-button>
-            <md-button ng-if="$ctrl.service.userCanPerformAction('Adjustment', 'Build', 'Army')" ng-click="$ctrl.service.setCurrentAction('Build-Army')" class="md-icon-button" aria-label="Build" hide-sm hide-xs>
-                <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.getCurrentAction() === 'Build' }"></md-icon>
-                <md-tooltip>Build Army</md-tooltip>
+            <md-button ng-if="$ctrl.service.userCanPerformAction('Adjustment', 'Build', 'Army')" ng-click="$ctrl.service.setCurrentAction('Build-Army')" aria-label="Build Army" hide-sm hide-xs>
+                +1 Army
             </md-button>
-            <md-button ng-if="$ctrl.service.userCanPerformAction('Adjustment', 'Build', 'Fleet')" ng-click="$ctrl.service.setCurrentAction('Build-Fleet')" class="md-icon-button" aria-label="Build" hide-sm hide-xs>
-                <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.getCurrentAction() === 'Build' }"></md-icon>
-                <md-tooltip>Build Fleet</md-tooltip>
+            <md-button ng-if="$ctrl.service.userCanPerformAction('Adjustment', 'Build', 'Fleet')" ng-click="$ctrl.service.setCurrentAction('Build-Fleet')" aria-label="Build Fleet" hide-sm hide-xs>
+                +1 Fleet
             </md-button>
-            <md-button ng-if="$ctrl.service.userCanPerformAction('Adjustment', 'Disband') || $ctrl.service.userCanPerformAction('Retreat')" ng-click="$ctrl.service.setCurrentAction('Disband')" class="md-icon-button" aria-label="Disband" hide-sm hide-xs>
-                <md-icon md-svg-icon="join" ng-class="{'active': $ctrl.service.getCurrentAction() === 'Disband' }"></md-icon>
-                <md-tooltip>Disband</md-tooltip>
+            <md-button ng-if="$ctrl.service.userCanPerformAction('Adjustment', 'Disband') || $ctrl.service.userCanPerformAction('Retreat')" ng-click="$ctrl.service.setCurrentAction('Disband')" aria-label="Disband" hide-sm hide-xs>
+                Disband
             </md-button>
         </div>
     </md-toolbar>
@@ -47,7 +44,13 @@
                 <marker id="move" viewBox="0 -5 10 10" markerWidth="5" markerHeight="5" orient="auto">
                     <path d="M0,-5L10,0L0,5"></path>
                 </marker>
+                <marker id="moveviaconvoy" viewBox="0 -5 10 10" markerWidth="5" markerHeight="5" orient="auto">
+                    <path d="M0,-5L10,0L0,5"></path>
+                </marker>
                 <marker id="failedmove" viewBox="0 -5 10 10" markerWidth="5" markerHeight="5" orient="auto">
+                    <path d="M0,-5L10,0L0,5"></path>
+                </marker>
+                <marker id="failedmoveviaconvoy" viewBox="0 -5 10 10" markerWidth="5" markerHeight="5" orient="auto">
                     <path d="M0,-5L10,0L0,5"></path>
                 </marker>
                 <marker id="support" viewBox="-6 -6 12 12" markerWidth="5" markerHeight="5" orient="auto">
@@ -149,7 +152,7 @@
                 <!-- MOVE -->
                 <path ng-repeat-start="order in $ctrl.service.orders"
                     id="{{order.Properties.Parts[0].toUpperCase() + '-order'}}"
-                    ng-if="order.Properties.Parts[1] === 'Move'"
+                    ng-if="order.Properties.Parts[1].indexOf('Move') > -1"
                     class="move"
                     ng-class="{'failed': $ctrl.service.orderDidFail(order.Properties.Parts[0])}"
                     ng-attr-d="{{$ctrl.service.generateArc(order.Properties.Parts[0], order.Properties.Parts[2])}}"

@@ -135,6 +135,7 @@ angular.module('map.component')
             case 'ErrIllegalConvoyPath': return 'The convoy is invalid.';
             case 'ErrMissignConvoyPath': return 'The unit can\'t reach that province.';
             case 'ErrMissingSupportUnit': return 'No unit to support at that province.';
+            case 'ErrMissingSupplyCenter': return 'You can only build on supply centres.';
             default: return error;
             }
         }
