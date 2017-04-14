@@ -7,7 +7,9 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         _ordinal = 1,
         _options = { },
         service = function(data) {
-            var powerOfCurrentPlayer = gameService.getCurrentUserInGame(data.game);
+            var powerOfCurrentPlayer = gameService.getCurrentUserInGame(data.game),
+                currentPhase,
+                o = 0;
 
             this.variant = data.variant;
             this.game = data.game;
@@ -23,6 +25,22 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
             powerOfCurrentPlayer = powerOfCurrentPlayer.Nation;
             _.pull(this.variant.Nations, powerOfCurrentPlayer);
             this.variant.Nations.unshift(powerOfCurrentPlayer);
+
+            // Build commands need to create dummy units in order for them to show up as orders.
+            currentPhase = this.getCurrentPhase();
+            if (currentPhase && !currentPhase.Resolved && currentPhase.Type === 'Adjustment') {
+                for (; o < this.orders.length; o++) {
+                    if (this.orders[o].Properties.Parts[1] === 'Build') {
+                        currentPhase.Units.push({
+                            Province: this.orders[o].Properties.Parts[0],
+                            Unit: {
+                                Type: this.orders[o].Properties.Parts[2],
+                                Nation: this.orders[o].Properties.Nation
+                            }
+                        });
+                    }
+                }
+            }
         };
 
     service.prototype.getCurrentPhase = getCurrentPhase;
@@ -134,7 +152,7 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
     function generateArc(source, target) {
         var sourceProvince = variantService.getProvinceInVariant(this.variant, source),
             targetProvince = variantService.getProvinceInVariant(this.variant, target),
-            LINK_UNIT_PADDING = 16,
+            LINK_UNIT_PADDING = 19,
             dx = targetProvince.x - sourceProvince.x,
             dy = targetProvince.y - sourceProvince.y,
             dr = Math.sqrt(dx * dx + dy * dy),
@@ -224,7 +242,7 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
             order = buildBuildOrder(_clickedProvinces.pop());
             break;
         case 'Disband':
-            order = buildDisbandOrder();
+            order = buildDisbandOrder(_clickedProvinces.pop());
             break;
         default:
             console.warn('Order type \'' + getCurrentAction() + '\' not recognised');
@@ -355,15 +373,17 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
             return null;
 
         var source = _clickedProvinces.shift(),
+            sourceComponents = source.split('/'),
             target = _clickedProvinces.shift(),
-            sourceProvince = variantService.getProvinceInVariant(variant, source);
+            sourceProvince = variantService.getProvinceInVariant(variant, sourceComponents[0]),
+            subprovince = sourceComponents[1] || '';
 
         // Source can't move to itself. Treat as hold.
-        if (source === target)
+        if (sourceComponents[0] === target)
             return buildDefaultOrder(source);
 
         // Discern between Move and MoveViaConvoy by examining graph edges.
-        if (!sourceProvince.Subs[''].Edges[target])
+        if (!sourceProvince.Subs[subprovince].Edges[target])
             return [source, 'MoveViaConvoy', target];
 
         return [source, 'Move', target];
@@ -412,6 +432,7 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         return [province, 'Build', buildParts[1]];
     }
 
-    function buildDisbandOrder() {
+    function buildDisbandOrder(id) {
+        return [id, 'Disband'];
     }
 }]);

@@ -26,15 +26,26 @@
                 <md-icon md-svg-icon="convoy" ng-class="{'active': $ctrl.service.getCurrentAction() === 'Convoy' }"></md-icon>
                 <md-tooltip>Convoy</md-tooltip>
             </md-button>
-            <md-button ng-if="$ctrl.service.userCanPerformAction('Adjustment', 'Build', 'Army')" ng-click="$ctrl.service.setCurrentAction('Build-Army')" aria-label="Build Army" hide-sm hide-xs>
-                +1 Army
-            </md-button>
-            <md-button ng-if="$ctrl.service.userCanPerformAction('Adjustment', 'Build', 'Fleet')" ng-click="$ctrl.service.setCurrentAction('Build-Fleet')" aria-label="Build Fleet" hide-sm hide-xs>
-                +1 Fleet
-            </md-button>
-            <md-button ng-if="$ctrl.service.userCanPerformAction('Adjustment', 'Disband') || $ctrl.service.userCanPerformAction('Retreat')" ng-click="$ctrl.service.setCurrentAction('Disband')" aria-label="Disband" hide-sm hide-xs>
-                Disband
-            </md-button>
+            <md-button
+                ng-class="{'active': $ctrl.service.getCurrentAction() === 'Build-Army' }"
+                ng-if="$ctrl.service.userCanPerformAction('Adjustment', 'Build', 'Army')"
+                ng-click="$ctrl.service.setCurrentAction('Build-Army')"
+                aria-label="Build Army"
+                hide-sm
+                hide-xs>+1 Army</md-button>
+            <md-button
+                ng-class="{'active': $ctrl.service.getCurrentAction() === 'Build-Fleet' }"
+                ng-if="$ctrl.service.userCanPerformAction('Adjustment', 'Build', 'Fleet')"
+                ng-click="$ctrl.service.setCurrentAction('Build-Fleet')"
+                aria-label="Build Fleet"
+                hide-sm
+                hide-xs>+1 Fleet</md-button>
+            <md-button
+                ng-class="{'active': $ctrl.service.getCurrentAction() === 'Disband' }"
+                ng-if="$ctrl.service.userCanPerformAction('Adjustment', 'Disband') || $ctrl.service.userCanPerformAction('Retreat')"
+                ng-click="$ctrl.service.setCurrentAction('Disband')"
+                aria-label="Disband"
+                hide-sm hide-xs>Disband</md-button>
         </div>
     </md-toolbar>
 

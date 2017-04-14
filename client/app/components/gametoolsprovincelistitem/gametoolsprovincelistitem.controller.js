@@ -34,12 +34,17 @@ angular.module('gametoolsprovincelistitem.component')
         case 'Hold': return 'holds';
         case 'Convoy': return 'convoys';
         case 'Disband': return 'disbands';
+        case 'Build':
+            if (order[2] === 'Army')
+                return 'builds an army';
+            else
+                return 'builds a fleet';
         default: return '';
         }
     }
 
     function renderOrderTarget() {
-        if (!order || order.length < 3)
+        if (!order || order.length < 3 || order[1] === 'Build')
             return '';
         return order[2].toUpperCase();
     }
