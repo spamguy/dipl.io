@@ -268,6 +268,13 @@ module.exports = function(grunt) {
                     src: ['CHANGELOG.md']
                 }
             }
+        },
+        release: {
+            changelog: false,
+            github: {
+                repo: 'spamguy/dipl.io'
+            },
+            additionalFiles: ['bower.json']
         }
     });
 
@@ -330,10 +337,11 @@ module.exports = function(grunt) {
         'sauce-connect',
         'protractor:travis'
     ]);
-    grunt.registerTask('release', [
+    grunt.registerTask('deploy', [
         'git_changelog',
         'gitadd:build',
         'gitcommit:build',
+        'release',
         'build'
     ]);
 };
