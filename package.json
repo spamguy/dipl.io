@@ -1,6 +1,6 @@
 {
   "name": "dipl.io",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The modern, responsive Droidippy frontend for Diplomacy games",
   "main": "index.html",
   "devDependencies": {
@@ -33,6 +33,7 @@
     "grunt-ng-constant": "2.0.1",
     "grunt-open": "~0.2.3",
     "grunt-preprocess": "5.1.0",
+    "grunt-release": "0.14.0",
     "grunt-rev": "~0.1.0",
     "grunt-ssh": "git+https://github.com/israelroldan/grunt-ssh.git",
     "grunt-text-replace": "0.4.0",
