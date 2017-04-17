@@ -9,12 +9,6 @@ module.exports = function(grunt) {
         replace: 'grunt-text-replace'
     });
 
-    // For smarter date formatting.
-    var moment = require('moment'),
-        formatDate = function() {
-            return moment().format('YYYYMMDD');
-        };
-
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
@@ -188,9 +182,6 @@ module.exports = function(grunt) {
                 replacements: [{
                     from: '{{VERSION}}',
                     to: '<%= pkg.version %>'
-                }, {
-                    from: '{{TIMESTAMP}}',
-                    to: formatDate()
                 }]
             }
         },
