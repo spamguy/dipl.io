@@ -9,6 +9,7 @@ module.exports = function(grunt) {
         replace: 'grunt-text-replace'
     });
     grunt.loadNpmTasks('git-changelog');
+    grunt.loadNpmTasks('grunt-git');
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -246,7 +247,25 @@ module.exports = function(grunt) {
                 options: {
                     app_name: 'dipl.io',
                     tag: '1.0.0',
-                    debug: true
+                    debug: false
+                }
+            }
+        },
+        gitadd: {
+            build: {
+                files: {
+                    src: ['CHANGELOG.md']
+                }
+            }
+        },
+        gitcommit: {
+            build: {
+                options: {
+                    verbose: true,
+                    message: 'build(CHANGELOG): Generated changelog for release'
+                },
+                files: {
+                    src: ['CHANGELOG.md']
                 }
             }
         }
@@ -283,8 +302,7 @@ module.exports = function(grunt) {
         'cssmin',
         'replace:footer',
         'uglify',
-        'clean:after',
-        'git_changelog'
+        'clean:after'
     ]);
 
     /*
@@ -297,7 +315,6 @@ module.exports = function(grunt) {
         'eslint',
         'ngconstant:dev',
         'test',
-        'git_changelog',
         'open',
         'watch'
     ]);
@@ -312,5 +329,11 @@ module.exports = function(grunt) {
         'karma',
         'sauce-connect',
         'protractor:travis'
+    ]);
+    grunt.registerTask('release', [
+        'git_changelog',
+        'gitadd:build',
+        'gitcommit:build',
+        'build'
     ]);
 };
