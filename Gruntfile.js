@@ -8,6 +8,7 @@ module.exports = function(grunt) {
         ngtemplates: 'grunt-angular-templates',
         replace: 'grunt-text-replace'
     });
+    grunt.loadNpmTasks('git-changelog');
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -239,6 +240,15 @@ module.exports = function(grunt) {
             unit: {
                 configFile: 'karma.conf.js'
             }
+        },
+        git_changelog: {
+            minimal: {
+                options: {
+                    app_name: 'dipl.io',
+                    tag: '1.0.0',
+                    debug: true
+                }
+            }
         }
     });
 
@@ -273,7 +283,8 @@ module.exports = function(grunt) {
         'cssmin',
         'replace:footer',
         'uglify',
-        'clean:after'
+        'clean:after',
+        'git_changelog'
     ]);
 
     /*
@@ -286,6 +297,7 @@ module.exports = function(grunt) {
         'eslint',
         'ngconstant:dev',
         'test',
+        'git_changelog',
         'open',
         'watch'
     ]);
