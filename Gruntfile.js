@@ -8,8 +8,11 @@ module.exports = function(grunt) {
         ngtemplates: 'grunt-angular-templates',
         replace: 'grunt-text-replace'
     });
+    grunt.loadNpmTasks('git-changelog');
+    grunt.loadNpmTasks('grunt-git');
 
     grunt.initConfig({
+        seekrits: grunt.file.readJSON('seekrits.json'),
         pkg: grunt.file.readJSON('package.json'),
 
         open: {
@@ -239,6 +242,51 @@ module.exports = function(grunt) {
             unit: {
                 configFile: 'karma.conf.js'
             }
+        },
+        git_changelog: {
+            minimal: {
+                options: {
+                    app_name: 'dipl.io',
+                    tag: '1.0.0',
+                    debug: false
+                }
+            }
+        },
+        gitadd: {
+            build: {
+                files: {
+                    src: ['CHANGELOG.md']
+                }
+            }
+        },
+        gitcommit: {
+            build: {
+                options: {
+                    verbose: true,
+                    message: 'build(CHANGELOG): Generated changelog for release'
+                },
+                files: {
+                    src: ['CHANGELOG.md']
+                }
+            }
+        },
+        release: {
+            changelog: false,
+            github: {
+                repo: 'spamguy/dipl.io'
+            },
+            additionalFiles: ['bower.json']
+        },
+        rsync: {
+            dist: {
+                options: {
+                    src: '<%= seekrits.sourcePath %>',
+                    dest: '<%= seekrits.destPath %>',
+                    host: '<%= seekrits.host %>',
+                    recursive: true,
+                    args: ['-av']
+                }
+            }
         }
     });
 
@@ -300,5 +348,13 @@ module.exports = function(grunt) {
         'karma',
         'sauce-connect',
         'protractor:travis'
+    ]);
+    grunt.registerTask('deploy', [
+        'git_changelog',
+        'gitadd:build',
+        'gitcommit:build',
+        'release',
+        'build',
+        'rsync:dist'
     ]);
 };
