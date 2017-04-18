@@ -35,7 +35,7 @@
     "grunt-preprocess": "5.1.0",
     "grunt-release": "0.14.0",
     "grunt-rev": "~0.1.0",
-    "grunt-ssh": "git+https://github.com/israelroldan/grunt-ssh.git",
+    "grunt-rsync": "2.0.1",
     "grunt-text-replace": "0.4.0",
     "grunt-usemin": "3.1.1",
     "grunt-wiredep": "3.0.1",

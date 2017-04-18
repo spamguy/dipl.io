@@ -12,6 +12,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-git');
 
     grunt.initConfig({
+        seekrits: grunt.file.readJSON('seekrits.json'),
         pkg: grunt.file.readJSON('package.json'),
 
         open: {
@@ -275,6 +276,17 @@ module.exports = function(grunt) {
                 repo: 'spamguy/dipl.io'
             },
             additionalFiles: ['bower.json']
+        },
+        rsync: {
+            dist: {
+                options: {
+                    src: '<%= seekrits.sourcePath %>',
+                    dest: '<%= seekrits.destPath %>',
+                    host: '<%= seekrits.host %>',
+                    recursive: true,
+                    args: ['-av']
+                }
+            }
         }
     });
 
@@ -342,6 +354,7 @@ module.exports = function(grunt) {
         'gitadd:build',
         'gitcommit:build',
         'release',
-        'build'
+        'build',
+        'rsync:dist'
     ]);
 };
