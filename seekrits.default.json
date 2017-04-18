@@ -1,0 +1,5 @@
+{
+    "sourcePath": "/path/to/local",
+    "destPath": "/path/on/server",
+    "host": "youruser@yourhost.com"
+}

@@ -12,7 +12,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-git');
 
     grunt.initConfig({
-        seekrits: grunt.file.readJSON('seekrits.json'),
+        seekrits: grunt.file.exists('seekrits.json')
+            ? grunt.file.readJSON('seekrits.json')
+            : grunt.file.readJSON('seekrits.default.json'),
         pkg: grunt.file.readJSON('package.json'),
 
         open: {
