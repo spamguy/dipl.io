@@ -91,7 +91,13 @@
 
     <!-- build:js vendor.min.js -->
     <!-- bower:js -->
+    <!-- @if NODE_ENV='development' -->
     <script src="../bower_components/lodash/lodash.js"></script>
+    <!-- @endif -->
+    <!-- @if NODE_ENV='production' -->
+    <script src="../temp/lodash.dist.js"></script>
+    <!-- @endif -->
+
     <script src="../bower_components/notify/notification.js"></script>
     <script src="../bower_components/bluebird/js/browser/bluebird.js"></script>
     <script src="../bower_components/pluralize/pluralize.js"></script>

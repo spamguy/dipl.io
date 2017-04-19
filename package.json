@@ -28,6 +28,7 @@
     "grunt-eslint": "19.0.0",
     "grunt-git": "1.0.3",
     "grunt-karma": "2.0.0",
+    "grunt-lodash-autobuild": "0.3.0",
     "grunt-modernizr": "1.0.2",
     "grunt-ng-annotate": "2.0.2",
     "grunt-ng-constant": "2.0.1",

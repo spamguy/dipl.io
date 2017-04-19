@@ -17,6 +17,24 @@ module.exports = function(grunt) {
             : grunt.file.readJSON('seekrits.default.json'),
         pkg: grunt.file.readJSON('package.json'),
 
+        lodash: {
+            dist: {
+                dest: 'client/temp/lodash.dist.js',
+                options: {
+                    exports: ['amd']
+                }
+            }
+        },
+        lodashAutobuild: {
+            app: {
+                src: ['client/app/**/*.js'],
+                options: {
+                    lodashConfigPath: 'lodash.dist.options.include',
+                    lodashObjects: ['_'],
+                    lodashTargets: ['dist']
+                }
+            }
+        },
         open: {
             server: {
                 url: 'https://localhost/main/home'
@@ -69,7 +87,7 @@ module.exports = function(grunt) {
         },
         preprocess: {
             prod: {
-                src: ['dist/client/index.html'],
+                src: 'dist/client/index.html',
                 options: {
                     inline: true,
                     context: {
@@ -112,8 +130,7 @@ module.exports = function(grunt) {
                         steps: {
                             js: ['concat', 'uglifyjs'],
                             css: ['cssmin']
-                        },
-                        post: {}
+                        }
                     }
                 }
             }
@@ -196,7 +213,7 @@ module.exports = function(grunt) {
                     expand: true,
                     cwd: 'client',
                     dest: 'dist/client',
-                    src: ['index.html', 'package.json', 'robots.txt', 'assets/**']
+                    src: ['index.html', 'assets/**']
                 }, {
                     expand: true,
                     dest: 'dist/',
@@ -308,16 +325,17 @@ module.exports = function(grunt) {
     grunt.registerTask('build', [
         'eslint',
         'test',
+        'lodashAutobuild',
         'ngconstant:prod',
         'clean:before',
+        'copy:dist',
+        'preprocess:prod',
         'useminPrepare',
         'ngtemplates',
         'concat:generated',
         'concat:templates',
         'ngAnnotate',
-        'copy:dist',
         'sass',
-        'preprocess:prod',
         'usemin',
         'htmlmin',
         'cssmin',
