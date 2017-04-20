@@ -60,6 +60,9 @@
     "sinon-stub-promise": "4.0.0",
     "watchify": "3.7.0"
   },
+  "peerDependencies": {
+      "grunt": ">= 0.4.1"
+  },
   "scripts": {
     "test": "grunt test"
   },
