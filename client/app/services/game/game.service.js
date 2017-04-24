@@ -48,18 +48,25 @@ angular.module('gameService', ['userService'])
                 // The current phase can skip a DB call, courtesy of Users[].NewestGamePhase.
                 return phase.Resolved
                     ? Restangular.one('Game', game.ID).one('Phase', phase.PhaseOrdinal).all('PhaseStates').getList()
-                    : Promise.resolve(this.getCurrentUserInGame(game).NewestGamePhase);
+                    : Promise.resolve(this.getCurrentUserInGame(game).NewestPhaseState);
             }
             else {
                 return Promise.resolve(null);
             }
         },
 
+        /**
+         * Sets player options (a.k.a., state) for this phase.
+         * @param  {Object} game       The game.
+         * @param  {Object} phase      The phase.
+         * @param  {Object} phaseState The phase state.
+         * @return {Promise}           The modified phase state, or null if the user is not a player.
+         */
         setPhaseState: function(game, phase, phaseState) {
             var player = this.getCurrentUserInGame(game),
                 nationOfPlayer = player ? player.Nation : null;
             return phase
-                ? Restangular.one('Game', game.ID).one('Phase', phase.PhaseOrdinal).all('PhaseState').one(nationOfPlayer).put(phaseState)
+                ? Restangular.one('Game', game.ID).one('Phase', phase.PhaseOrdinal).all('PhaseState').customPUT(phaseState, nationOfPlayer)
                 : Promise.resolve(null);
         },
 
@@ -171,8 +178,6 @@ angular.module('gameService', ['userService'])
                         });
                     }
                 }
-
-                // TODO: Handle paused states.
             }
             else {
                 return '';

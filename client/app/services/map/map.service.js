@@ -14,7 +14,7 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
             this.variant = data.variant;
             this.game = data.game;
             this.phases = data.phases;
-            this.phaseState = data.phaseState ? data.phaseState[0].Properties : null;
+            this.phaseState = data.phaseState;
             this.orders = data.orders;
             _options = data.options;
             _ordinal = data.ordinal || this.phases.length;
@@ -67,6 +67,7 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
     service.prototype.userCanPerformAction = userCanPerformAction;
     service.prototype.isUserInputExpected = isUserInputExpected;
     service.prototype.addToOrdinal = addToOrdinal;
+    service.prototype.setOrdinal = setOrdinal;
 
     return service;
 
@@ -361,6 +362,10 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
             _ordinal = 1;
         else if (_ordinal > this.phases.length)
             _ordinal = this.phases.length;
+    }
+
+    function setOrdinal(ordinal) {
+        _ordinal = ordinal || this.phases.length;
     }
 
     function buildDefaultOrder(id) {

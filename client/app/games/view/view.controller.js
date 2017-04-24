@@ -26,6 +26,7 @@ angular.module('games')
             .spread(function(state, orders) {
                 vm.service.currentState = state;
                 vm.service.orders = orders;
+                vm.service.setOrdinal(params.ordinal);
             });
         };
 
