@@ -50,7 +50,6 @@ module.exports = function(config) {
             'client/app/**/*.module.js',
             'client/app/**/*.filter.js',
             'client/app/**/*.controller.js',
-            'client/app/**/*.html',
             'client/app/**/*.spec.js',
 
             // CSS.

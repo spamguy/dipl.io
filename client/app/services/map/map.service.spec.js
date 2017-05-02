@@ -130,38 +130,61 @@ describe('Map service', function() {
         expect(ms.getCurrentPhase().Season).to.equal('Summer');
     });
 
-    it('determines if the user can submit movement orders', function() {
-        expect(ms.userCanPerformAction('Movement')).to.be.true;
-        expect(ms.userCanPerformAction('Adjustment', 'Build', 'Fleet')).to.be.false;
+    describe('Action selection', function() {
+        it('permits nothing when the game hasn\'t started', function() {
+            data.game.Started = false;
+            data.options = {};
+            ms = new MapService(data);
+            expect(ms.getAvailableActions()).to.be.empty;
+        });
+
+        it('permits nothing when the phase is resolved already', function() {
+            _.last(data.phases).Properties.Resolved = true;
+            data.options = {};
+            ms = new MapService(data);
+            expect(ms.getAvailableActions()).to.be.empty;
+        });
+
+        it('has four options in movement phases', function() {
+
+        });
+
+        it('has two options in retreat phases', function() {
+
+        });
+
+        it('has two options in build phases in which a fleet is permitted', function() {
+
+        });
     });
 
-    it('determines if the user can submit adjustment orders', function() {
-        data.phases.push({
-            Properties: {
-                Type: 'Adjustment',
-                PhaseOrdinal: 4,
-                Season: 'Winter',
-                Year: 1901
-            }
-        });
-        data.options = {
-            lon: {
-                Next: {
-                    Build: {
-                        Next: {
-                            Army: { },
-                            Fleet: { }
-                        }
-                    }
-                }
-            }
-        };
-        ms = new MapService(data);
-        expect(ms.userCanPerformAction('Movement')).to.be.false;
-        expect(ms.userCanPerformAction('Adjustment', 'Build', 'Army')).to.be.true;
-        expect(ms.userCanPerformAction('Adjustment', 'Build', 'Fleet')).to.be.true;
-        expect(ms.userCanPerformAction('Adjustment', 'Disband')).to.be.false;
-    });
+    // it('determines if the user can submit adjustment orders', function() {
+    //     data.phases.push({
+    //         Properties: {
+    //             Type: 'Adjustment',
+    //             PhaseOrdinal: 4,
+    //             Season: 'Winter',
+    //             Year: 1901
+    //         }
+    //     });
+    //     data.options = {
+    //         lon: {
+    //             Next: {
+    //                 Build: {
+    //                     Next: {
+    //                         Army: { },
+    //                         Fleet: { }
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     };
+    //     ms = new MapService(data);
+    //     expect(ms.userCanPerformAction('Movement')).to.be.false;
+    //     expect(ms.userCanPerformAction('Adjustment', 'Build', 'Army')).to.be.true;
+    //     expect(ms.userCanPerformAction('Adjustment', 'Build', 'Fleet')).to.be.true;
+    //     expect(ms.userCanPerformAction('Adjustment', 'Disband')).to.be.false;
+    // });
 
     it('indicates if input is expected from the user', function() {
         expect(ms.isUserInputExpected()).to.be.true;
@@ -184,8 +207,8 @@ describe('Map service', function() {
         });
 
         it('sets and gets the current action', function() {
-            ms.setCurrentAction('Move');
-            expect(ms.getCurrentAction()).to.equal('Move');
+            ms.setCurrentAction(3);
+            expect(ms.getCurrentAction()).to.equal(3);
         });
 
         it('gets a province\'s order', function() {
