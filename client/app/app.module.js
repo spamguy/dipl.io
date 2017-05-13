@@ -91,7 +91,7 @@ angular.module('diplomacy', [
         })
         .then(function(token) {
             console.log('FCM token = ' + token);
-            fcmToken = token;
+            userService.applyTokens(fcmToken);
         })
         .catch(function(ex) {
             console.error(ex);
@@ -104,8 +104,9 @@ angular.module('diplomacy', [
             });
         });
     }
-
-    userService.applyTokens(fcmToken);
+    else {
+        userService.applyTokens();
+    }
 
     $transitions.onBefore({ to: isAuthenticationRequired }, authenticationHook);
 
