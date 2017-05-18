@@ -28,7 +28,7 @@
     "ngstorage": "^0.3.11",
     "restangular": "1.6.0",
     "pluralize": "3.0.0",
-    "firebase": "~3.6.6",
+    "firebase": "3.9.0",
     "bluebird": "3.4.6",
     "notify": "0.0.1",
     "angular-ellipses": "0.1.3"

@@ -44,8 +44,8 @@ module.exports = function(grunt) {
             options: {
                 livereload: {
                     host: 'localhost',
-                    cert: grunt.file.read('dev_certs/server/my-server.crt.pem'),
-                    key: grunt.file.read('dev_certs/server/my-server.key.pem')
+                    cert: grunt.file.read('dev_certs/server/server.crt'),
+                    key: grunt.file.read('dev_certs/server/server.key')
                 }
             },
             css: {

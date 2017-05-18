@@ -47,9 +47,10 @@ angular.module('diplomacy', [
         .icon('last', '/assets/icons/ic_last_page_black_48px.svg', 48)
         .icon('info', '/assets/icons/ic_help_black_48px.svg', 48)
         .icon('move', '/assets/icons/ic_trending_flat_white_48px.svg', 48)
-        .icon('x', '/assets/icons/ic_clear_black_48px.svg', 48)
+        .icon('x', '/assets/icons/ic_clear_white_48px.svg', 48)
         .icon('convoy', '/assets/icons/ic_directions_boat_white_48px.svg', 48)
-        .icon('hold', '/assets/icons/ic_pan_tool_white_48px.svg', 48);
+        .icon('hold', '/assets/icons/ic_pan_tool_white_48px.svg', 48)
+        .icon('build', '/assets/icons/ic_build_white_48px.svg', 48);
 
         // Local storage setup.
         $localStorageProvider.setKeyPrefix('diplomacy');

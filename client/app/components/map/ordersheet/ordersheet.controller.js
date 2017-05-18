@@ -4,6 +4,7 @@ angular.module('map.component')
     vm.service = service;
 
     vm.setCurrentActionInSheet = function(action) {
+        vm.service.setCurrentAction(action);
         $mdBottomSheet.hide(action);
     };
 }]);

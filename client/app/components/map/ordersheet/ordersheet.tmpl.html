@@ -1,40 +1,15 @@
 <md-bottom-sheet class="md-grid">
     <md-list flex layout="row" layout-align="center center">
-        <div layout="column" ng-if="vm.service.userCanPerformAction('Movement')" layout-align="center center">
-            <md-button ng-click="vm.setCurrentActionInSheet('Hold')" class="md-fab md-primary" aria-label="Hold">
-                <md-icon md-svg-icon="hold" ng-class="{'active': vm.service.getCurrentAction() === 'Hold' }"></md-icon>
+        <div layout="column" ng-repeat="action in vm.service.getAvailableActions()" layout-align="center center">
+            <md-button
+                class="md-fab md-primary"
+                ng-click="vm.setCurrentActionInSheet($index)"
+                aria-label="{{action.label}}">
+                <md-icon
+                    md-svg-icon="{{action.icon}}"
+                    ng-class="{ 'active': vm.service.getCurrentAction() === $index }"></md-icon>
             </md-button>
-            <span class="md-body-2">Hold</span>
-        </div>
-        <div layout="column" ng-if="vm.service.userCanPerformAction('Movement')" layout-align="center center">
-            <md-button ng-if="vm.service.userCanPerformAction('Movement') || vm.service.userCanPerformAction('Retreat')" ng-click="vm.setCurrentActionInSheet('Move')" class="md-fab md-primary" aria-label="Move">
-                <md-icon md-svg-icon="move" ng-class="{'active': vm.service.getCurrentAction() === 'Move' }"></md-icon>
-            </md-button>
-            <span class="md-body-2">Move</span>
-        </div>
-        <div layout="column" ng-if="vm.service.userCanPerformAction('Movement')" layout-align="center center">
-            <md-button ng-click="vm.setCurrentActionInSheet('Support')" class="md-fab md-primary" aria-label="Support">
-                <md-icon md-svg-icon="join" ng-class="{'active': vm.service.getCurrentAction() === 'Support' }"></md-icon>
-            </md-button>
-            <span class="md-body-2">Support</span>
-        </div>
-        <div layout="column" ng-if="vm.service.userCanPerformAction('Movement')" layout-align="center center">
-            <md-button ng-click="vm.setCurrentActionInSheet('Convoy')" class="md-fab md-primary" aria-label="Convoy">
-                <md-icon md-svg-icon="convoy" ng-class="{'active': vm.service.getCurrentAction() === 'Convoy' }"></md-icon>
-            </md-button>
-            <span class="md-body-2">Convoy</span>
-        </div>
-        <div layout="column" ng-if="vm.service.userCanPerformAction('Adjustment')" layout-align="center center">
-            <md-button ng-if="vm.service.userCanPerformAction('Adjustment')" ng-click="vm.setCurrentActionInSheet('Build')" class="md-fab md-primary" aria-label="Build">
-                <md-icon md-svg-icon="join" ng-class="{'active': vm.service.getCurrentAction() === 'Build' }"></md-icon>
-            </md-button>
-            <span class="md-body-2">Build</span>
-        </div>
-        <div layout="column" ng-if="vm.service.userCanPerformAction('Adjustment') || vm.service.userCanPerformAction('Retreat')" layout-align="center center">
-            <md-button ng-click="vm.setCurrentActionInSheet('Disband')" class="md-fab md-primary" aria-label="Disband">
-                <md-icon md-svg-icon="join" ng-class="{'active': vm.service.getCurrentAction() === 'Disband' }"></md-icon>
-            </md-button>
-            <span class="md-body-2">Disband</span>
+            <span class="md-body-2">{{action.label}}</span>
         </div>
     </md-list>
 </md-bottom-sheet>

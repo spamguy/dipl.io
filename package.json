@@ -58,7 +58,7 @@
     "sinon": "1.17.6",
     "sinon-chai": "2.8.0",
     "sinon-stub-promise": "4.0.0",
-    "watchify": "3.7.0"
+    "watchify": "^3.9.0"
   },
   "scripts": {
     "test": "grunt test"

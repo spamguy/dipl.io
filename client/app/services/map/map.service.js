@@ -2,7 +2,8 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
 .service('mapService', ['gameService', '$location', 'variantService', function(gameService, $location, variantService) {
     'use strict';
 
-    var _currentAction = 'Hold',
+    var _currentAction = 0,
+        _availableActions = [],
         _clickedProvinces = [],
         _ordinal = 1,
         _options = { },
@@ -28,18 +29,22 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
 
             // Build commands need to create dummy units in order for them to show up as orders.
             currentPhase = this.getCurrentPhase();
-            if (currentPhase && !currentPhase.Resolved && currentPhase.Type === 'Adjustment') {
-                for (; o < this.orders.length; o++) {
-                    if (this.orders[o].Properties.Parts[1] === 'Build') {
-                        currentPhase.Units.push({
-                            Province: this.orders[o].Properties.Parts[0],
-                            Unit: {
-                                Type: this.orders[o].Properties.Parts[2],
-                                Nation: this.orders[o].Properties.Nation
-                            }
-                        });
+            if (currentPhase) {
+                if (!currentPhase.Resolved && currentPhase.Type === 'Adjustment') {
+                    for (; o < this.orders.length; o++) {
+                        if (this.orders[o].Properties.Parts[1] === 'Build') {
+                            currentPhase.Units.push({
+                                Province: this.orders[o].Properties.Parts[0],
+                                Unit: {
+                                    Type: this.orders[o].Properties.Parts[2],
+                                    Nation: this.orders[o].Properties.Nation
+                                }
+                            });
+                        }
                     }
                 }
+
+                this.setAvailableActions();
             }
         };
 
@@ -64,10 +69,11 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
     service.prototype.getOrderForProvince = getOrderForProvince;
     service.prototype.orderDidFail = orderDidFail;
     service.prototype.orderIsDisband = orderIsDisband;
-    service.prototype.userCanPerformAction = userCanPerformAction;
     service.prototype.isUserInputExpected = isUserInputExpected;
     service.prototype.addToOrdinal = addToOrdinal;
     service.prototype.setOrdinal = setOrdinal;
+    service.prototype.setAvailableActions = setAvailableActions;
+    service.prototype.getAvailableActions = getAvailableActions;
 
     return service;
 
@@ -192,8 +198,8 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         return 'M' + sourceProvince.x + ',' + sourceProvince.y + 'L' + shiftedTargetX + ',' + shiftedTargetY;
     }
 
-    function setCurrentAction(action) {
-        _currentAction = action;
+    function setCurrentAction(index) {
+        _currentAction = index;
 
         // Reset any half-made orders.
         clearPendingOrder();
@@ -207,6 +213,7 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         id = id.toLowerCase();
         var emptyOrder = Promise.resolve(null),
             order = emptyOrder,
+            currentAction,
             currentPlayerNation = gameService.getCurrentUserInGame(this.game);
 
         /*
@@ -224,7 +231,9 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
 
         _clickedProvinces.push(id);
 
-        switch (getCurrentAction()) {
+        currentAction = this.getAvailableActions()[getCurrentAction()].label;
+
+        switch (currentAction) {
         case 'Hold':
             // Don't bother retaining clicks. Just continue on to send the command.
             order = buildDefaultOrder(_clickedProvinces.pop());
@@ -238,15 +247,15 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         case 'Convoy':
             order = buildConvoyOrder();
             break;
-        case 'Build-Army':
-        case 'Build-Fleet':
-            order = buildBuildOrder(_clickedProvinces.pop());
+        case 'Build Army':
+        case 'Build Fleet':
+            order = buildBuildOrder(_clickedProvinces.pop(), this.getAvailableActions()[this.getCurrentAction()].label);
             break;
         case 'Disband':
             order = buildDisbandOrder(_clickedProvinces.pop());
             break;
         default:
-            console.warn('Order type \'' + getCurrentAction() + '\' not recognised');
+            console.warn('Order type \'' + currentAction + '\' not recognised');
             break;
         }
 
@@ -314,34 +323,6 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         return orderResolution && orderResolution.Resolution !== 'OK';
     }
 
-    function userCanPerformAction(phaseType, action, unitType) {
-        if (!this.game.Started || this.game.Finished)
-            return false;
-
-        var phase = this.getCurrentPhase(),
-            isPlayer = gameService.isPlayer(this.game),
-            actionIsPhaseAppropriate = phase.Type === phaseType,
-            k,
-            next,
-            actionIsPermitted = false;
-
-        // Only adjustment phases have to consider legality of builds/disbands.
-        if (action) {
-            for (k in _options) {
-                next = _options[k].Next;
-                if (next && next[action] && next[action].Next && (!unitType || next[action].Next[unitType])) {
-                    actionIsPermitted = true;
-                    break;
-                }
-            }
-        }
-        else {
-            actionIsPermitted = true;
-        }
-
-        return phase && isPlayer && actionIsPhaseAppropriate && actionIsPermitted;
-    }
-
     function getCurrentAction() {
         return _currentAction;
     }
@@ -351,7 +332,10 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
     }
 
     function isUserInputExpected() {
-        return _.keys(_options).length !== 0;
+        var currentPhase = this.getCurrentPhase();
+        return this.game.Started &&
+            currentPhase &&
+            _.keys(_options).length !== 0;
     }
 
     function addToOrdinal(delta) {
@@ -366,6 +350,67 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
 
     function setOrdinal(ordinal) {
         _ordinal = ordinal || this.phases.length;
+    }
+
+    function setAvailableActions() {
+        var currentPhase = this.getCurrentPhase();
+        // Reset array.
+        _availableActions.length = 0;
+
+        if (!this.isUserInputExpected())
+            return _availableActions;
+
+        switch (currentPhase.Type) {
+        case 'Movement':
+            Array.prototype.push.apply(_availableActions, [{
+                label: 'Hold',
+                icon: 'hold',
+                key: 'k'
+            }, {
+                label: 'Move',
+                icon: 'move',
+                key: 'm'
+            }, {
+                label: 'Support',
+                icon: 'join',
+                key: 's'
+            }, {
+                label: 'Convoy',
+                icon: 'convoy',
+                key: 'c'
+            }]);
+            break;
+        case 'Retreat':
+            Array.prototype.push.apply(_availableActions, [{
+                label: 'Disband',
+                icon: 'x',
+                key: 'x'
+            }, {
+                label: 'Move',
+                icon: 'move',
+                key: 'm'
+            }]);
+            break;
+        case 'Adjustment':
+            Array.prototype.push.apply(_availableActions, [{
+                label: 'Build Army',
+                icon: 'build',
+                key: 'a'
+            }, {
+                label: 'Build Fleet',
+                icon: 'build',
+                key: 'f'
+            }, {
+                label: 'Disband',
+                icon: 'x',
+                key: 'x'
+            }]);
+            break;
+        }
+    }
+
+    function getAvailableActions() {
+        return _availableActions;
     }
 
     function buildDefaultOrder(id) {
@@ -432,8 +477,8 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         return [source, 'Convoy', target, targetOfTarget];
     }
 
-    function buildBuildOrder(province) {
-        var buildParts = getCurrentAction().split('-');
+    function buildBuildOrder(province, currentAction) {
+        var buildParts = currentAction.split(' ');
         return [province, 'Build', buildParts[1]];
     }
 
