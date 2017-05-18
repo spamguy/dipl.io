@@ -146,45 +146,28 @@ describe('Map service', function() {
         });
 
         it('has four options in movement phases', function() {
-
+            expect(ms.getAvailableActions()).to.be.lengthOf(4);
         });
 
         it('has two options in retreat phases', function() {
-
+            data.phases.pop();
+            ms = new MapService(data);
+            expect(ms.getAvailableActions()).to.be.lengthOf(2);
         });
 
-        it('has two options in build phases in which a fleet is permitted', function() {
-
+        it('has three options in build phases', function() {
+            data.phases.push({
+                Properties: {
+                    PhaseOrdinal: 3,
+                    Season: 'Winter',
+                    Type: 'Adjustment',
+                    Year: 1901
+                }
+            });
+            ms = new MapService(data);
+            expect(ms.getAvailableActions()).to.be.lengthOf(3);
         });
     });
-
-    // it('determines if the user can submit adjustment orders', function() {
-    //     data.phases.push({
-    //         Properties: {
-    //             Type: 'Adjustment',
-    //             PhaseOrdinal: 4,
-    //             Season: 'Winter',
-    //             Year: 1901
-    //         }
-    //     });
-    //     data.options = {
-    //         lon: {
-    //             Next: {
-    //                 Build: {
-    //                     Next: {
-    //                         Army: { },
-    //                         Fleet: { }
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     };
-    //     ms = new MapService(data);
-    //     expect(ms.userCanPerformAction('Movement')).to.be.false;
-    //     expect(ms.userCanPerformAction('Adjustment', 'Build', 'Army')).to.be.true;
-    //     expect(ms.userCanPerformAction('Adjustment', 'Build', 'Fleet')).to.be.true;
-    //     expect(ms.userCanPerformAction('Adjustment', 'Disband')).to.be.false;
-    // });
 
     it('indicates if input is expected from the user', function() {
         expect(ms.isUserInputExpected()).to.be.true;

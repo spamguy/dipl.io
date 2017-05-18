@@ -231,7 +231,7 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
 
         _clickedProvinces.push(id);
 
-        currentAction = getAvailableActions()[getCurrentAction()].label;
+        currentAction = this.getAvailableActions()[getCurrentAction()].label;
 
         switch (currentAction) {
         case 'Hold':
@@ -247,9 +247,9 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         case 'Convoy':
             order = buildConvoyOrder();
             break;
-        case 'Build-Army':
-        case 'Build-Fleet':
-            order = buildBuildOrder(_clickedProvinces.pop());
+        case 'Build Army':
+        case 'Build Fleet':
+            order = buildBuildOrder(_clickedProvinces.pop(), this.getAvailableActions()[this.getCurrentAction()].label);
             break;
         case 'Disband':
             order = buildDisbandOrder(_clickedProvinces.pop());
@@ -362,10 +362,49 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
 
         switch (currentPhase.Type) {
         case 'Movement':
-            _availableActions.push({
+            Array.prototype.push.apply(_availableActions, [{
                 label: 'Hold',
-                icon: 'hold'
-            });
+                icon: 'hold',
+                key: 'k'
+            }, {
+                label: 'Move',
+                icon: 'move',
+                key: 'm'
+            }, {
+                label: 'Support',
+                icon: 'join',
+                key: 's'
+            }, {
+                label: 'Convoy',
+                icon: 'convoy',
+                key: 'c'
+            }]);
+            break;
+        case 'Retreat':
+            Array.prototype.push.apply(_availableActions, [{
+                label: 'Disband',
+                icon: 'x',
+                key: 'x'
+            }, {
+                label: 'Move',
+                icon: 'move',
+                key: 'm'
+            }]);
+            break;
+        case 'Adjustment':
+            Array.prototype.push.apply(_availableActions, [{
+                label: 'Build Army',
+                icon: 'build',
+                key: 'a'
+            }, {
+                label: 'Build Fleet',
+                icon: 'build',
+                key: 'f'
+            }, {
+                label: 'Disband',
+                icon: 'x',
+                key: 'x'
+            }]);
             break;
         }
     }
@@ -438,8 +477,8 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         return [source, 'Convoy', target, targetOfTarget];
     }
 
-    function buildBuildOrder(province) {
-        var buildParts = getAvailableActions()[getCurrentAction()].label.split('-');
+    function buildBuildOrder(province, currentAction) {
+        var buildParts = currentAction.split(' ');
         return [province, 'Build', buildParts[1]];
     }
 

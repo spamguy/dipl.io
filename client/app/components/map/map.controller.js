@@ -56,34 +56,18 @@ angular.module('map.component')
         }
 
         function bindHotkeys(hotkeys) {
-            hotkeys.add({
-                combo: 'h',
-                description: 'Change to \'hold\' action',
-                callback: function() {
-                    vm.service.setCurrentAction('Hold');
-                }
-            });
-            hotkeys.add({
-                combo: 'm',
-                description: 'Change to \'move\' action',
-                callback: function() {
-                    vm.service.setCurrentAction('Move');
-                }
-            });
-            hotkeys.add({
-                combo: 's',
-                description: 'Change to \'support\' action',
-                callback: function() {
-                    vm.service.setCurrentAction('Support');
-                }
-            });
-            hotkeys.add({
-                combo: 'c',
-                description: 'Change to \'convoy\' action',
-                callback: function() {
-                    vm.service.setCurrentAction('Convoy');
-                }
-            });
+            var i = 0,
+                availableActions = vm.service.getAvailableActions();
+
+            for (; i < availableActions.length; i++) {
+                hotkeys.add({
+                    combo: availableActions[i].key, // First char in label.
+                    description: 'Change to \'' + availableActions[i].label.toLowerCase() + '\' action',
+                    callback: function() {
+                        vm.service.setCurrentAction(i);
+                    }
+                });
+            }
         }
 
         function inputOrder(id) {
