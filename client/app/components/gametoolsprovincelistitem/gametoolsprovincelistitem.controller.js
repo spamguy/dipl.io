@@ -1,27 +1,31 @@
 angular.module('gametoolsprovincelistitem.component')
 .controller('GameToolsProvinceListItemController', ['$scope', function($scope) {
     var vm = this,
+        order;
+
+    vm.$onInit = function() {
+        vm.renderOrderSymbol = renderOrderSymbol;
+        vm.renderOrderTarget = renderOrderTarget;
+        vm.renderActionOfTarget = renderActionOfTarget;
+        vm.renderOrderTargetOfTarget = renderOrderTargetOfTarget;
+        vm.renderResolution = renderResolution;
+        vm.renderExtraInfo = renderExtraInfo;
+
         order = vm.service.getOrderForProvince(vm.province.Province);
 
-    vm.renderOrderSymbol = renderOrderSymbol;
-    vm.renderOrderTarget = renderOrderTarget;
-    vm.renderActionOfTarget = renderActionOfTarget;
-    vm.renderOrderTargetOfTarget = renderOrderTargetOfTarget;
-    vm.renderResolution = renderResolution;
-    vm.renderExtraInfo = renderExtraInfo;
+        // Process only unstripped orders.
+        if (order)
+            order = order.Properties.Parts;
 
-    // Process only unstripped orders.
-    if (order)
-        order = order.Properties.Parts;
-
-    // Keep an eye out for changes to this province's orders.
-    $scope.$watchCollection(function() {
-        var orderTest = vm.service.getOrderForProvince(vm.province.Province);
-        return _.isUndefined(orderTest) ? undefined : orderTest.Properties.Parts;
-    }, function(newOrder) {
-        if (newOrder)
-            order = newOrder;
-    });
+        // Keep an eye out for changes to this province's orders.
+        $scope.$watchCollection(function() {
+            var orderTest = vm.service.getOrderForProvince(vm.province.Province);
+            return _.isUndefined(orderTest) ? undefined : orderTest.Properties.Parts;
+        }, function(newOrder) {
+            if (newOrder)
+                order = newOrder;
+        });
+    };
 
     function renderOrderSymbol() {
         if (!order)

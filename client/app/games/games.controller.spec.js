@@ -29,9 +29,12 @@ describe('Open game list controller', function() {
 
         inject(function($controller, $rootScope) {
             createController = function(theGames) {
-                return $controller('GameListController', {
+                var controller = $controller('GameListController', {
                     games: theGames
                 });
+                if (controller.$onInit)
+                    controller.$onInit();
+                return controller;
             };
         });
     });

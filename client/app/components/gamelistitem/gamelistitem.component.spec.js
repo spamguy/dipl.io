@@ -6,7 +6,6 @@ describe('Game list item directive', function() {
         scope,
         mockVariantService,
         mockGameService,
-        httpBackend,
         provide;
 
     beforeEach(function() {
@@ -33,6 +32,11 @@ describe('Game list item directive', function() {
             provide = $provide;
             provide.value('gameService', mockGameService);
             provide.value('variantService', mockVariantService);
+
+            // Stuff icon errors: see http://stackoverflow.com/a/31302690/260460.
+            provide.factory('mdIconDirective', function() {
+                return angular.noop;
+            });
         });
     });
 
@@ -40,10 +44,6 @@ describe('Game list item directive', function() {
         inject(function($injector, $compile, $rootScope, $httpBackend) {
             scope = $rootScope;
             compile = $compile;
-            httpBackend = $httpBackend;
-
-            // Icon fetches are to be expected.
-            httpBackend.whenGET(/\/icons\//).respond(200);
 
             scope.game = {
                 Desc: 'Test Game',

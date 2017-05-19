@@ -1,29 +1,32 @@
 angular.module('map.component')
 .controller('MapController', ['$animate', 'gameService', 'hotkeys', '$mdBottomSheet', '$mdToast', '$state', 'variantService',
     function($animate, gameService, hotkeys, $mdBottomSheet, $mdToast, $state, variantService) {
-        var vm = this,
-            normalisedVariantName = variantService.getNormalisedVariantName(vm.service.game.Variant),
-            paths = vm.svg.getElementsByTagName('path'),
-            p;
+        var vm = this;
 
-        // Fill out province paths only if the vm.service.phase is active.
-        vm.paths = { };
-        if (!vm.readonly) {
-            for (p = 0; p < paths.length; p++)
-                vm.paths[paths[p].id.toUpperCase()] = paths[p].getAttribute('d');
-        }
+        vm.$onInit = function() {
+            vm.getReadableDeadline = gameService.getReadableDeadline;
+            vm.goToOrdinal = goToOrdinal;
+            vm.addToOrdinal = addToOrdinal;
+            vm.buildOrders = filterBuildOrders;
+            vm.inputOrder = inputOrder;
+            vm.showOrderSheet = showOrderSheet;
 
-        vm.imagePath = 'variants/' + normalisedVariantName + '/' + normalisedVariantName + '.png';
-        vm.viewBox = '0 0 ' + getSVGAttribute('width') + ' ' + getSVGAttribute('height');
+            var normalisedVariantName = variantService.getNormalisedVariantName(vm.service.game.Variant),
+                paths = vm.svg.getElementsByTagName('path'),
+                p;
 
-        hotkeys = bindHotkeys(hotkeys);
+            // Fill out province paths only if the vm.service.phase is active.
+            vm.paths = { };
+            if (!vm.readonly) {
+                for (p = 0; p < paths.length; p++)
+                    vm.paths[paths[p].id.toUpperCase()] = paths[p].getAttribute('d');
+            }
 
-        vm.getReadableDeadline = gameService.getReadableDeadline;
-        vm.goToOrdinal = goToOrdinal;
-        vm.addToOrdinal = addToOrdinal;
-        vm.buildOrders = filterBuildOrders;
-        vm.inputOrder = inputOrder;
-        vm.showOrderSheet = showOrderSheet;
+            vm.imagePath = 'variants/' + normalisedVariantName + '/' + normalisedVariantName + '.png';
+            vm.viewBox = '0 0 ' + getSVGAttribute('width') + ' ' + getSVGAttribute('height');
+
+            hotkeys = bindHotkeys(hotkeys);
+        };
 
         // PRIVATE FUNCTIONS
 

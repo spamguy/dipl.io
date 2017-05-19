@@ -42,11 +42,14 @@ describe('User games controller', function() {
 
         inject(function($controller, $rootScope) {
             createController = function(theGames, theWaitingGames, theFinishedGames) {
-                return $controller('UserGamesController', {
+                var controller = $controller('UserGamesController', {
                     finished: theFinishedGames,
                     games: theGames,
                     waiting: theWaitingGames
                 });
+                if (controller.$onInit)
+                    controller.$onInit();
+                return controller;
             };
         });
     });

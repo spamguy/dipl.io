@@ -2,10 +2,12 @@ angular.module('gametools.component')
 .controller('PressChannelMembersController', [function() {
     var vm = this;
 
-    vm.selectedItem = null;
-    vm.nationSearchText = null;
+    vm.$onInit = function() {
+        vm.searchNations = searchNations;
 
-    vm.searchNations = searchNations;
+        vm.selectedItem = null;
+        vm.nationSearchText = null;
+    };
 
     // PRIVATE FUNCTIONS
 

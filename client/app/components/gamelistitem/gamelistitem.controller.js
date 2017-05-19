@@ -3,32 +3,34 @@ angular.module('gamelistitem.component')
     function(gameService, MapService, $mdDialog, $mdPanel, $state, variantService) {
         var vm = this;
 
-        vm.reasonForNoJoin = reasonForNoJoin;
-        vm.service = gameService;
-        vm.showJoinDialog = showJoinDialog;
-        vm.goToGame = goToGame;
-        vm.showDetailsDialog = showDetailsDialog;
+        vm.$onInit = function() {
+            vm.reasonForNoJoin = reasonForNoJoin;
+            vm.service = gameService;
+            vm.showJoinDialog = showJoinDialog;
+            vm.goToGame = goToGame;
+            vm.showDetailsDialog = showDetailsDialog;
 
-        // Fetch remaining data.
-        Promise.all([
-            variantService.getVariant(vm.game.Variant),
-            gameService.getPhases(vm.game.ID)
-        ])
-        .spread(function(variant, phases) {
-            // Do not use a MapService, no matter how reasonable that sounds. See below.
-            vm.phases = phases;
-            var currentPhase = _.last(vm.phases);
-
-            if (currentPhase)
-                currentPhase = currentPhase.Properties;
-            return Promise.all([
-                Promise.resolve(variant),
-                Promise.resolve(currentPhase),
-                gameService.getPhaseState(vm.game, currentPhase),
-                gameService.getPhaseOrders(vm.game.ID, currentPhase)
+            // Fetch remaining data.
+            Promise.all([
+                variantService.getVariant(vm.game.Variant),
+                gameService.getPhases(vm.game.ID)
             ])
-            .spread(applyData);
-        });
+            .spread(function(variant, phases) {
+                // Do not use a MapService, no matter how reasonable that sounds. See below.
+                vm.phases = phases;
+                var currentPhase = _.last(vm.phases);
+
+                if (currentPhase)
+                    currentPhase = currentPhase.Properties;
+                return Promise.all([
+                    Promise.resolve(variant),
+                    Promise.resolve(currentPhase),
+                    gameService.getPhaseState(vm.game, currentPhase),
+                    gameService.getPhaseOrders(vm.game.ID, currentPhase)
+                ])
+                .spread(applyData);
+            });
+        };
 
         // PRIVATE FUNCTIONS
 

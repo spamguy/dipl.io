@@ -2,8 +2,10 @@ angular.module('gametools.component')
 .controller('PressChannelListItemController', [function() {
     var vm = this;
 
-    vm.channelMembersAsParam = channelMembersAsParam;
-    vm.renderChannelMembers = renderChannelMembers;
+    vm.$onInit = function() {
+        vm.channelMembersAsParam = channelMembersAsParam;
+        vm.renderChannelMembers = renderChannelMembers;
+    };
 
     function channelMembersAsParam() {
         return _.map(vm.channel.Properties.Members, function(m) { return m[0]; }).join('');

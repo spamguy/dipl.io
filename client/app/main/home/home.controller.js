@@ -9,12 +9,14 @@ angular.module('diplomacy.main')
 
     var vm = this;
 
-    angular.extend(vm, {
-        user: {
-            login: function() {
-                $window.location = CONST.diplicityEndpoint + '/Auth/Login?redirect-to=' +
-                encodeURIComponent(CONST.domain + '/main/login');
+    vm.$onInit = function() {
+        angular.extend(vm, {
+            user: {
+                login: function() {
+                    $window.location = CONST.diplicityEndpoint + '/Auth/Login?redirect-to=' +
+                    encodeURIComponent(CONST.domain + '/main/login');
+                }
             }
-        }
-    });
+        });
+    };
 }]);
