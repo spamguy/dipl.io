@@ -10,9 +10,9 @@ module.exports = function(config) {
         preprocessors: {
             'karma-setup.js': ['browserify'],
             'client/temp/constants.js': ['browserify'],
-            'client/app/**/*.spec.js': ['browserify'],
+            'client/test/unit/*.spec.js': ['browserify'],
             'client/app/**/*.tmpl.html': ['ng-html2js'],
-            'client/app/**/!(*.spec).js': ['coverage']
+            'client/app/**/*.js': ['coverage']
         },
         frameworks: ['browserify', 'mocha', 'jquery-2.1.0', 'sinon-chai'],
         files: [
@@ -49,7 +49,7 @@ module.exports = function(config) {
             'client/app/**/*.module.js',
             'client/app/**/*.filter.js',
             'client/app/**/*.controller.js',
-            'client/app/**/*.spec.js',
+            'client/test/unit/**/*.spec.js',
 
             // CSS.
             'client/temp/app.css',
