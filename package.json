@@ -34,6 +34,7 @@
     "grunt-ng-constant": "2.0.1",
     "grunt-open": "~0.2.3",
     "grunt-preprocess": "5.1.0",
+    "grunt-protractor-runner": "5.0.0",
     "grunt-release": "0.14.0",
     "grunt-rev": "~0.1.0",
     "grunt-rsync": "2.0.1",

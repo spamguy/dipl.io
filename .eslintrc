@@ -17,7 +17,8 @@
     "env": {
         "mocha": true,
         "browser": true,
-        "es6": false
+        "es6": false,
+        "protractor": true
     },
     "rules": {
         "indent": ["error", 4, { "MemberExpression": 0 }],

@@ -6,7 +6,8 @@ module.exports = function(grunt) {
         ngconstant: 'grunt-ng-constant',
         useminPrepare: 'grunt-usemin',
         ngtemplates: 'grunt-angular-templates',
-        replace: 'grunt-text-replace'
+        replace: 'grunt-text-replace',
+        protractor: 'grunt-protractor-runner'
     });
     grunt.loadNpmTasks('git-changelog');
     grunt.loadNpmTasks('grunt-git');
@@ -291,6 +292,7 @@ module.exports = function(grunt) {
         },
         release: {
             changelog: false,
+            npm: false,
             github: {
                 repo: 'spamguy/dipl.io'
             },
@@ -306,6 +308,13 @@ module.exports = function(grunt) {
                     args: ['-av']
                 }
             }
+        },
+        protractor: {
+            options: {
+                configFile: 'client/test/e2e/protractor.conf.js',
+                keepAlive: false
+            },
+            all: { } // At least one target required.
         }
     });
 
@@ -361,7 +370,8 @@ module.exports = function(grunt) {
         'ngconstant:dev',
         'modernizr:prod',
         'sass',
-        'karma'
+        'karma',
+        'protractor'
     ]);
     grunt.registerTask('test:protractor-travis', [
         'ngconstant:mock',
