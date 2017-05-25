@@ -52,7 +52,7 @@ describe('Variant service', function() {
 
     // FIXME: WHY WON'T THIS TEST WORK?!
     xit('fetches an individual variant with power and coordinate data', function(done) {
-        httpBackend.expectGET('/Variants').respond('[{ "Name": "Classical", "Graph": { "Nodes": { "mun": { "Subs": { } } } } }]');
+        httpBackend.expectGET('/Variants').respond('[{ "Name": "France vs Austria", "Graph": { "Nodes": { "mun": { "Subs": { } } } } }, { "Name": "Classical", "Graph": { "Nodes": { "mun": { "Subs": { } } } } }]');
         httpBackend.expectGET('variants/classical/classical.json').respond('{ "provinces": { "mun": { "x": 10, "y": 20 } }, "powers": { "A": { } } }');
 
         variantService.getVariant('Classical')

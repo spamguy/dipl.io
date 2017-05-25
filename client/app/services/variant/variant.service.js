@@ -19,7 +19,7 @@ angular.module('variantService', [])
             else {
                 return this.getAllVariants()
                 .then(function(variants) {
-                    variant = _.find(variants, 'Properties.Name', variantName).Properties;
+                    variant = _.find(variants, ['Name', variantName]).Properties;
                     return $http.get('variants/' + normalisedVariantName + '/' + normalisedVariantName + '.json');
                 })
                 .then(function(variantCoordinates) {
