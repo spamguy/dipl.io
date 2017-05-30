@@ -373,6 +373,12 @@ module.exports = function(grunt) {
         'karma',
         'protractor'
     ]);
+    grunt.registerTask('test:protractor', [
+        'ngconstant:dev',
+        'modernizr:prod',
+        'sass',
+        'protractor'
+    ]);
     grunt.registerTask('test:protractor-travis', [
         'ngconstant:mock',
         'karma',
