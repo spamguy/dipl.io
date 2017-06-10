@@ -66,9 +66,7 @@ angular.module('map.component')
                 hotkeys.add({
                     combo: availableActions[i].key, // First char in label.
                     description: 'Change to \'' + availableActions[i].label.toLowerCase() + '\' action',
-                    callback: function() {
-                        vm.service.setCurrentAction(i);
-                    }
+                    callback: hotkeyCallback(i)
                 });
             }
         }
@@ -125,6 +123,10 @@ angular.module('map.component')
             case 'ErrMissingSupplyCenter': return 'You can only build on supply centres.';
             default: return error;
             }
+        }
+
+        function hotkeyCallback(i) {
+            return function() { vm.service.setCurrentAction(i); };
         }
     }
 ])

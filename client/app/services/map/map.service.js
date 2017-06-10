@@ -365,7 +365,7 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
             Array.prototype.push.apply(_availableActions, [{
                 label: 'Hold',
                 icon: 'hold',
-                key: 'k'
+                key: 'h'
             }, {
                 label: 'Move',
                 icon: 'move',
