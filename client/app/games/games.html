@@ -1,7 +1,7 @@
 <div layout="row" layout-margin>
     <md-list class="md-whiteframe-2dp" flex>
-        <md-list-item ng-repeat="game in vm.games" class="gameItem">
-            <sg-game-list-item game="game.Properties" joinable="true" flex />
+        <md-list-item ng-repeat="game in vm.games" class="hover">
+            <sg-game-list-item game="game.Properties" joinable="true" />
         </md-list-item>
     </md-list>
     <div layout="row" layout-align="center center" layout-margin ng-if="!vm.games.length">

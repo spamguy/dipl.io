@@ -34,6 +34,7 @@ describe('Game list item details controller', function() {
                     game: game,
                     phases: phases
                 }),
+                joinable: true,
                 svg: { }
             });
         });

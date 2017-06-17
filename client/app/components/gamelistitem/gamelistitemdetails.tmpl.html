@@ -37,8 +37,13 @@
                 </div>
             </div>
         </div>
-    </md-dialog-content>
 
-    <md-dialog-actions layout="row">
-      <md-button md-autofocus ng-click="dg.closeDialog()">Close</md-button>
+        <div layout="column" layout-align="center center" layout-margin>
+            <div layout="row">
+                <md-button id="joinButton" ng-if="!dg.service.game.Started" class="md-raised md-primary" ng-disabled="dg.reasonForNoJoin()" ng-click="dg.joinGame()">Join</md-button>
+                <md-button md-autofocus ng-click="dg.closeDialog()">Close</md-button>
+            </div>
+            <span class="noJoin" ng-if="!dg.service.game.Started && dg.reasonForNoJoin()">{{dg.reasonForNoJoin()}}</span>
+        </div>
+    </md-dialog-content>
 </md-dialog>
