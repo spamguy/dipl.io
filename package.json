@@ -1,6 +1,6 @@
 {
   "name": "dipl.io",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "The modern, responsive Droidippy frontend for Diplomacy games",
   "main": "index.html",
   "devDependencies": {
