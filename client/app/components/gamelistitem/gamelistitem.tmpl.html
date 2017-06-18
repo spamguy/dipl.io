@@ -1,9 +1,6 @@
-<div layout="column">
-    <div layout="column">
-        <div layout="row" layout-align="start center">
-            <md-button style="padding: 0px;" class="md-icon-button md-accent" aria-label="Game details" ng-click="vm.showDetailsDialog()">
-                <md-icon style="width: 36px; height: 36px;" md-svg-icon="info"></md-icon>
-            </md-button>
+<div layout="column" flex>
+    <div layout="column" flex>
+        <div layout="row" layout-align="space-between center" flex>
             <div flex ui-sref="games.view({ id: '{{vm.game.ID}}' })">
                 <div>
                     <h1 class="md-title typewriter">{{vm.game.Desc}}</h1>
@@ -14,14 +11,10 @@
                     <span>{{vm.service.getReadableDeadline(vm.game, vm.currentPhase)}}</span>
                 </div>
             </div>
-            <div layout="column" layout-align="center center" ng-if="vm.joinable" hide-xs>
-                <!-- HACK: Tooltip does not work on disabled buttons. -->
-                <md-tooltip ng-if="vm.joinable && vm.reasonForNoJoin()">{{vm.reasonForNoJoin()}}</md-tooltip>
-                <md-button id="joinButton" class="md-raised md-primary" ng-if="vm.joinable" ng-disabled="vm.reasonForNoJoin()" ng-click="vm.showJoinDialog()">Join</md-button>
-            </div>
+            <md-button id="infoButton" class="md-raised md-primary" ng-click="vm.showDetailsDialog()">Info</md-button>
         </div>
-        <div ng-if="vm.joinable" hide-gt-xs layout="row" layout-align="center center">
-            <md-button id="joinButtonMobile" class="md-raised md-primary" ng-if="vm.joinable" ng-disabled="vm.reasonForNoJoin()" ng-click="vm.showJoinDialog()">Join</md-button>
+        <div hide-gt-xs layout="row" layout-align="center center">
+            <md-button id="infoButtonMobile" class="md-raised md-primary" ng-click="vm.showDetailsDialog()">Info</md-button>
         </div>
     </div>
 

@@ -4,9 +4,7 @@ angular.module('gamelistitem.component')
         var vm = this;
 
         vm.$onInit = function() {
-            vm.reasonForNoJoin = reasonForNoJoin;
             vm.service = gameService;
-            vm.showJoinDialog = showJoinDialog;
             vm.goToGame = goToGame;
             vm.showDetailsDialog = showDetailsDialog;
 
@@ -45,36 +43,8 @@ angular.module('gamelistitem.component')
             vm.variant = variant;
         }
 
-        function reasonForNoJoin() {
-            // Breaking this down into individual rules to avoid one monstrous if() statement.
-
-            // User belongs to game already, whether as GM or user.
-            if (gameService.isPlayer(vm.game))
-                return 'You already are a player in this game.';
-
-            return null;
-        }
-
         function goToGame() {
             $state.go('games.view', { id: vm.game.ID });
-        }
-
-        function showJoinDialog(event) {
-            var confirm = $mdDialog.confirm()
-                .title('Really join?')
-                .textContent('Are you sure you want to join this game? By clicking OK you are agreeing to participate to the best of your ability. See the FAQ and Community Guidelines for details.')
-                .ariaLabel('Really join game?')
-                .targetEvent(event)
-                .ok('Join')
-                .cancel('Cancel');
-
-            $mdDialog.show(confirm)
-            .then(function() {
-                return gameService.joinGame(vm.game, { });
-            })
-            .then(function() {
-                return $state.go('profile.games');
-            });
         }
 
         function showDetailsDialog(event) {
@@ -94,6 +64,7 @@ angular.module('gamelistitem.component')
                         orders: vm.orders,
                         phaseState: vm.currentState
                     }),
+                    joinable: vm.joinable,
                     svg: variantService.getVariantSVG(vm.game.Variant),
                     status: vm.phaseDescription
                 }

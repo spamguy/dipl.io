@@ -1,7 +1,7 @@
 <md-tabs class="md-whiteframe-2dp" md-dynamic-height md-border-bottom style="margin: auto 20px">
     <md-tab label="Playing">
         <md-list class="playing">
-            <md-list-item ng-repeat="game in vm.playing" class="gameItem" ng-class="vm.getActiveGameClass(game)">
+            <md-list-item ng-repeat="game in vm.playing" class="hover" ng-class="vm.getActiveGameClass(game)">
                 <sg-game-list-item game="game.Properties" joinable="false" />
             </md-list-item>
         </md-list>
@@ -11,7 +11,7 @@
     </md-tab>
     <md-tab label="Waiting">
         <md-list>
-            <md-list-item ng-repeat="game in vm.waiting" class="gameItem">
+            <md-list-item ng-repeat="game in vm.waiting" class="hover">
                 <sg-game-list-item game="game.Properties" joinable="false" />
             </md-list-item>
         </md-list>
@@ -21,7 +21,7 @@
     </md-tab>
     <md-tab label="Finished">
         <md-list>
-            <md-list-item ng-repeat="game in vm.finished" class="gameItem">
+            <md-list-item ng-repeat="game in vm.finished" class="hover">
                 <sg-game-list-item game="game.Properties" joinable="false" />
             </md-list-item>
         </md-list>
