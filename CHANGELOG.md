@@ -1,6 +1,6 @@
 # dipl.io
 
-## 1.0.0 ( Fri Jun 09 2017 14:37:13 GMT-0500 (CDT) )
+## 1.0.0 ( Sun Jun 18 2017 00:15:53 GMT-0500 (CDT) )
 
 
 ## Bug Fixes
@@ -12,6 +12,11 @@
   - **grunt**
     - Create default JSON seekrits file to allow testing to work
   ([b4d281b4](git@github.com:spamguy/dipl.io/commit/b4d281b4a529622efd0623629890f4d75d01ea44))
+
+  - **hotkeys**
+    - Fix presentation of hotkey callback. Change 'Hold' hotkey to 'h' (!). Closes #26
+  ([5a2c30ae](git@github.com:spamguy/dipl.io/commit/5a2c30ae1a462e4173620d360e46ab0da59c9f9f),
+   [#26](git@github.com:spamguy/dipl.io/issues/26))
 
   - **map**
     - Correctly fetch and modify user's phase state. Closes #16
@@ -32,7 +37,15 @@
 
 ## Features
 
+  - **game info**
+    - Move 'Join' button into Info window. Closes #23
+  ([1a51d538](git@github.com:spamguy/dipl.io/commit/1a51d53876bf25e7e7daf836a9b969883e0fde2a),
+   [#23](git@github.com:spamguy/dipl.io/issues/23))
+
   - **map**
+    - Alert user if order involves unit not owned. Closes #24
+  ([6468c636](git@github.com:spamguy/dipl.io/commit/6468c636b116a9d7d0c78d05db928125a5a97713),
+   [#24](git@github.com:spamguy/dipl.io/issues/24))
     - Completed dynamic order type menu bar. Closes #11
   ([a8ee7cb6](git@github.com:spamguy/dipl.io/commit/a8ee7cb688e041f968f760a8c7098eea3817161a),
    [#11](git@github.com:spamguy/dipl.io/issues/11))
