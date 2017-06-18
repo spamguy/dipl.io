@@ -223,7 +223,7 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
          * No unit or ownership at that click = stop. (Unless it's a build phase, in which case click = go.)
          */
         if (this.getCurrentPhase().Type === 'Movement' && !_clickedProvinces.length && !findUnitOwnedByUserAtProvince(this.getCurrentPhase().Units))
-            return emptyOrder;
+            return Promise.reject(new Error('You don\'t own a unit here!'));
 
         // Resolved phases don't receive orders at all.
         if (this.getCurrentPhase().Resolved)

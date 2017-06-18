@@ -91,7 +91,7 @@ angular.module('map.component')
             .catch(function(ex) {
                 return $mdToast.show(
                     $mdToast.simple()
-                    .textContent(id.toUpperCase() + ' order failed: ' + processOrderError(ex.data))
+                    .textContent(id.toUpperCase() + ' order failed: ' + processOrderError(ex.data || ex.message))
                     .hideDelay(3000)
                     .parent(document.querySelector('#mapContainer'))
                 );
