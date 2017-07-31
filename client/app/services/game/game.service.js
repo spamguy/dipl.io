@@ -44,11 +44,12 @@ angular.module('gameService', ['userService'])
         },
 
         getPhaseState: function(game, phase) {
+            var currentPlayer = this.getCurrentUserInGame(game);
             if (phase) {
-                // The current phase can skip a DB call, courtesy of Users[].NewestGamePhase.
-                return phase.Resolved
+                // For participants, the current phase can skip a DB call, courtesy of Users[].NewestGamePhase.
+                return phase.Resolved || !currentPlayer
                     ? Restangular.one('Game', game.ID).one('Phase', phase.PhaseOrdinal).all('PhaseStates').getList()
-                    : Promise.resolve(this.getCurrentUserInGame(game).NewestPhaseState);
+                    : Promise.resolve(currentPlayer.NewestPhaseState);
             }
             else {
                 return Promise.resolve(null);

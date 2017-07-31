@@ -18,7 +18,7 @@
     "angular-hotkeys": "chieffancypants/angular-hotkeys#1.7.0",
     "angular-material": "1.1.4",
     "angular-messages": "1.6.4",
-    "angular-ui-router": "1.0.0-rc.1",
+    "angular-ui-router": "1.0.5",
     "humanize-duration": "3.10.0",
     "lodash": "4.17.3",
     "moment": "^2.14.0",

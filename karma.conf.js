@@ -64,7 +64,7 @@ module.exports = function(config) {
         reporters: ['mocha', 'coverage'],
         autoWatch: false,
         singleRun: true,
-        browsers: ['PhantomJS'],
+        browsers: ['ChromeHeadless'],
         ngHtml2JsPreprocessor: {
             stripPrefix: 'client/',
             moduleName: 'templates'

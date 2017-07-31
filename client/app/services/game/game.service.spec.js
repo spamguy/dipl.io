@@ -175,6 +175,17 @@ describe('Game service', function() {
         httpBackend.flush();
     });
 
+    it('gets a phase\'s state from the DB for non-players', function() {
+        var game = { ID: 123, Members: [] };
+
+        httpBackend.expectGET(/Game\/.+?\/Phase\/\d+\/PhaseStates/).respond(200);
+
+        gameService.getPhaseState(game, { id: '456', PhaseOrdinal: 455, Resolved: false })
+        .then(function(o) {
+        });
+        httpBackend.flush();
+    });
+
     // Inspiration for this test courtesy of http://stackoverflow.com/a/25764025/260460.
     it('does NOT gets a phase\'s state from the DB in the active phase', function() {
         var callWasMade = false,
