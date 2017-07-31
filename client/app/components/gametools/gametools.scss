@@ -13,6 +13,11 @@ sg-game-tools
         max-width: 100%;
     }
 
+    #channelList md-list-item
+    {
+        cursor: pointer;
+    }
+
     #recipientChips
     {
         *
