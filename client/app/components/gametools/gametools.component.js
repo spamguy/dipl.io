@@ -1,4 +1,4 @@
-angular.module('gametools.component', ['angular-ellipses', 'userService', 'gameService', 'pressService'])
+angular.module('gametools.component', ['angular-ellipses', 'diplomacy.directives', 'userService', 'gameService', 'pressService'])
 .component('sgGameTools', {
     templateUrl: 'app/components/gametools/gametools.tmpl.html',
     bindings: {

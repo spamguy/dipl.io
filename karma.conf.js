@@ -44,6 +44,7 @@ module.exports = function(config) {
             'client/temp/constants.js',
             'client/app/app.module.js',
             'client/app/app.controller.js',
+            'client/app/**/*.directive.js',
             'client/app/**/*.service.js',
             'client/app/**/*.component.js',
             'client/app/**/*.module.js',
