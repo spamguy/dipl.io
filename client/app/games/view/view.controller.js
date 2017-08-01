@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('games')
-.controller('ViewController', ['game', 'gameService', 'mapService', '$mdDialog', 'options', 'orders', 'phases', 'phaseState', '$state', '$stateParams', 'svg', 'userService', 'variant',
-    function(game, gameService, MapService, $mdDialog, options, orders, phases, phaseState, $state, $stateParams, svg, userService, variant) {
+.controller('ViewController', ['game', 'gameService', 'mapService', '$mdDialog', 'options', 'orders', 'phases', 'phaseState', '$state', '$stateParams', 'svg', 'userService', 'variant', '$window',
+    function(game, gameService, MapService, $mdDialog, options, orders, phases, phaseState, $state, $stateParams, svg, userService, variant, $window) {
         var vm = this;
 
         vm.$onInit = function() {
@@ -55,6 +55,9 @@ angular.module('games')
                     .ariaLabel('Game finished')
                 );
             }
+
+            // Focus window so keydown shortcuts work.
+            $window.document.body.focus();
         };
     }
 ]);

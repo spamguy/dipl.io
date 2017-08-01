@@ -363,45 +363,45 @@ angular.module('mapService', ['gameService', 'userService', 'variantService'])
         switch (currentPhase.Type) {
         case 'Movement':
             Array.prototype.push.apply(_availableActions, [{
-                label: 'Hold',
+                label: 'Hold [H]',
                 icon: 'hold',
                 key: 'h'
             }, {
-                label: 'Move',
+                label: 'Move [M]',
                 icon: 'move',
                 key: 'm'
             }, {
-                label: 'Support',
+                label: 'Support [S]',
                 icon: 'join',
                 key: 's'
             }, {
-                label: 'Convoy',
+                label: 'Convoy [C]',
                 icon: 'convoy',
                 key: 'c'
             }]);
             break;
         case 'Retreat':
             Array.prototype.push.apply(_availableActions, [{
-                label: 'Disband',
+                label: 'Disband [X]',
                 icon: 'x',
                 key: 'x'
             }, {
-                label: 'Move',
+                label: 'Move [M]',
                 icon: 'move',
                 key: 'm'
             }]);
             break;
         case 'Adjustment':
             Array.prototype.push.apply(_availableActions, [{
-                label: 'Build Army',
+                label: 'Build Army [A]',
                 icon: 'build',
                 key: 'a'
             }, {
-                label: 'Build Fleet',
+                label: 'Build Fleet [F]',
                 icon: 'build',
                 key: 'f'
             }, {
-                label: 'Disband',
+                label: 'Disband [F]',
                 icon: 'x',
                 key: 'x'
             }]);
