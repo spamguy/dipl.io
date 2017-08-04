@@ -37,7 +37,8 @@
                     <div layout="row" layout-align="center center">
                         <md-button class="md-accent md-raised"
                             aria-label="Compose new press"
-                            ui-sref="games.view.presschannel({ channel: { Properties: { NMessages: 0, Members: $ctrl.channelMembers } }, game: $ctrl.service.game, variant: $ctrl.service.variant })">
+                            ui-sref="games.view.presschannel({ channel: { Properties: { NMessages: 0, Members: $ctrl.channelMembers } }, game: $ctrl.service.game, variant: $ctrl.service.variant })"
+                            ng-disabled="$ctrl.channelMembers.length === 0">
                             Go
                         </md-button>
                     </div>

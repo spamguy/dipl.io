@@ -133,10 +133,22 @@ angular.module('games', [
             variant: ['$transition$', function($transition$) {
                 return $transition$.targetState().params().variant;
             }],
-            press: ['game', 'channel', 'pressService', 'variant', function(game, channel, PressService, variant) {
+            press: ['game', 'channel', '$mdDialog', 'pressService', 'variant', function(game, channel, $mdDialog, PressService, variant) {
                 var service = new PressService(game);
                 service.setChannel(channel);
-                return service.getPressInChannel();
+                return service.getPressInChannel()
+                .catch(function(ex) {
+                    $mdDialog.show(
+                        $mdDialog.alert()
+                        .parent(angular.element(document.body))
+                        .clickOutsideToClose(true)
+                        .title('Invalid channel')
+                        .ok('OK')
+                        .textContent('A channel requires at least two people.')
+                        .ariaLabel('Invalid channel')
+                    );
+                    return Promise.reject(new Error('Invalid channel'));
+                });
             }]
         },
         onEnter: ['$mdSidenav', function($mdSidenav) {

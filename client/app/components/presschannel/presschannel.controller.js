@@ -10,7 +10,7 @@ angular.module('gametools.component')
 
         vm.newpress = { text: '' };
         vm.service = new PressService(vm.game);
-        vm.service.setChannel(vm.channel);
+        vm.service.setChannel(vm.channel, vm.press.length);
     };
 
     function generatePressHistoryHeader() {

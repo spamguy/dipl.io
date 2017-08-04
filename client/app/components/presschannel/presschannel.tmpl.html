@@ -9,18 +9,16 @@
     </div>
 
     <div id="pressHistory" sg-scroll-to-bottom="vm.press">
-        <!-- <md-list> -->
-            <md-list-item class="md-2-line md-long-text press" ng-repeat="p in vm.press">
-                <div class="md-list-item-text">
-                    <h3 class="typewriter">{{p.Properties.Sender}}</h3>
-                    <p>{{p.Properties.Body}}</p>
-                    <p class="timestamp">@ {{vm.generatePressTime(p.Properties.CreatedAt)}}</p>
-                </div>
-            </md-list-item>
-        <!-- </md-list> -->
+        <md-list-item class="md-2-line md-long-text press" ng-repeat="p in vm.press">
+            <div class="md-list-item-text">
+                <h3 class="typewriter">{{p.Properties.Sender}}</h3>
+                <p>{{p.Properties.Body}}</p>
+                <p class="timestamp">@ {{vm.generatePressTime(p.Properties.CreatedAt)}}</p>
+            </div>
+        </md-list-item>
     </div>
 
-    <div id="newPressContainer" layout="column" style="height:20%">
+    <div id="newPressContainer" layout="column" ng-if="vm.service.isInChannel()">
         <md-divider></md-divider>
 
         <md-input-container class="md-block">

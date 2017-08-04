@@ -20,17 +20,22 @@ angular.module('pressService', ['gameService'])
     service.prototype.getChannels = getChannels;
     service.prototype.getPressInChannel = getPressInChannel;
     service.prototype.sendPress = sendPress;
+    service.prototype.isInChannel = isInChannel;
 
     return service;
 
     // PRIVATE FUNCTIONS
 
-    function setChannel(channel) {
-        // Force current user into channel if not already present.
+    function setChannel(channel, nMessages) {
+        // For active games, force current user into channel if not already present.
         var currentPlayerNation = gameService.getCurrentUserInGame(_game).Nation;
-        if (channel.Members.indexOf(currentPlayerNation) === -1)
+        if (channel.Members.indexOf(currentPlayerNation) === -1 &&
+            (!_game.Finished || channel.NMessages === 0))
             channel.Members.unshift(currentPlayerNation);
         _channel = channel;
+
+        if (nMessages)
+            _channel.NMessages = nMessages;
     }
 
     function setChannelMembersFromParam(param, variant) {
@@ -72,5 +77,10 @@ angular.module('pressService', ['gameService'])
             Body: press,
             ChannelMembers: _channel.Members
         });
+    }
+
+    function isInChannel() {
+        var user = gameService.getCurrentUserInGame(_game);
+        return user && _channel.Members.indexOf(user.Nation) > -1;
     }
 }]);
