@@ -8,7 +8,6 @@ module.exports = function(grunt) {
         ngtemplates: 'grunt-angular-templates',
         replace: 'grunt-text-replace'
     });
-    grunt.loadNpmTasks('git-changelog');
     grunt.loadNpmTasks('grunt-git');
 
     grunt.initConfig({
@@ -262,33 +261,6 @@ module.exports = function(grunt) {
                 configFile: 'karma.conf.js'
             }
         },
-        git_changelog: {
-            minimal: {
-                options: {
-                    app_name: 'dipl.io',
-                    tag: '1.0.0',
-                    debug: false
-                }
-            }
-        },
-        gitadd: {
-            build: {
-                files: {
-                    src: ['CHANGELOG.md']
-                }
-            }
-        },
-        gitcommit: {
-            build: {
-                options: {
-                    verbose: true,
-                    message: 'build(CHANGELOG): Generated changelog for release'
-                },
-                files: {
-                    src: ['CHANGELOG.md']
-                }
-            }
-        },
         release: {
             changelog: false,
             github: {
@@ -370,9 +342,6 @@ module.exports = function(grunt) {
         'protractor:travis'
     ]);
     grunt.registerTask('deploy', [
-        'git_changelog',
-        'gitadd:build',
-        'gitcommit:build',
         'release',
         'build',
         'rsync:dist'
