@@ -21,7 +21,7 @@
             <md-icon
                 md-svg-icon="{{action.icon}}"
                 ng-class="{ 'active': $ctrl.service.getCurrentAction() === $index }"></md-icon>
-            <md-tooltip>{{action.label}}</md-tooltip>
+            <md-tooltip>{{action.label + ' [' + action.key.toUpperCase() + ']'}}</md-tooltip>
         </md-button>
     </md-toolbar>
 
